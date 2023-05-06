@@ -1,0 +1,7 @@
+width,height,webaudio,browser,browser_version,mobile,os,fullscreen,vsync_rate,webcam,microphone,trial_type,time_elapsed,bonus,view_history,rt,response,question_order,load_time,stimulus,success,key_strokes,final_text,accuracy,wid
+,,,,,,,,,,,survey-multi-choice,10150,.25,,4642.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,w5a3f683
+,,,,,,,,,,,survey-multi-choice,13503,.25,,6463.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,w669f226
+,,,,,,,,,,,survey-multi-choice,12878,.25,,6103.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,wc81b066
+,,,,,,,,,,,survey-multi-choice,14279,.25,,8877.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,w9e4935e
+,,,,,,,,,,,survey-multi-choice,13425,.25,,6767.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,w958edfc
+,,,,,,,,,,,survey-multi-choice,7906,.50,,5059.0,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}","[0, 1]",,,,,,,w08c798a

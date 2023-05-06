@@ -1,0 +1,8 @@
+width,height,webaudio,browser,browser_version,mobile,os,fullscreen,vsync_rate,webcam,microphone,trial_type,time_elapsed,bonus,view_history,rt,response,question_order,load_time,stimulus,success,key_strokes,final_text,accuracy,wid
+1536.0,754.0,True,chrome,112.0.0,False,Windows 10,True,61.67,True,True,browser-check,986,.25,,,,,,,,,,,w5a3f683
+1352.0,794.0,True,chrome,112.0.0,False,Mac OS,True,60.37,True,True,browser-check,999,.25,,,,,,,,,,,w669f226
+2048.0,1010.0,True,chrome,112.0.0,False,Windows 10,True,166.2,True,True,browser-check,365,.25,,,,,,,,,,,wc81b066
+1600.0,775.0,True,firefox,112.0.0,False,Windows 10,True,60.73,True,True,browser-check,994,.25,,,,,,,,,,,w7528955
+1536.0,746.0,True,chrome,112.0.0,False,Windows 10,True,61.12,True,True,browser-check,985,.25,,,,,,,,,,,w9e4935e
+1406.0,1062.0,True,chrome,112.0.0,False,Windows 10,True,59.99,True,True,browser-check,1015,.25,,,,,,,,,,,w958edfc
+1440.0,789.0,True,chrome,112.0.0,False,Mac OS,True,59.68,True,True,browser-check,1013,.50,,,,,,,,,,,w08c798a

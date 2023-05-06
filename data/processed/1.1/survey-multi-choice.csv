@@ -1,0 +1,24 @@
+width,height,webaudio,browser,browser_version,mobile,os,fullscreen,vsync_rate,webcam,microphone,trial_type,time_elapsed,bonus,view_history,rt,load_time,stimulus,response,success,key_strokes,final_text,accuracy,question_order,wid
+,,,,,,,,,,,survey-multi-choice,7444,.50,,3477.0,,,{'askForCameraPermissionInAbstract': 'Yes'},,,,,[0],w873e593
+,,,,,,,,,,,survey-multi-choice,33968,.50,,10564.0,,,{'askForCameraPermissionInAbstract': 'Yes'},,,,,[0],w71c4994
+,,,,,,,,,,,survey-multi-choice,8715,.50,,2069.0,,,{'askForCameraPermissionInAbstract': 'Yes'},,,,,[0],wf3a3126
+,,,,,,,,,,,survey-multi-choice,32971,.25,,9051.0,,,{'askForCameraPermissionInAbstract': 'Yes'},,,,,[0],w88f1b11
+,,,,,,,,,,,survey-multi-choice,16549,.50,,12788.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wda754a5
+,,,,,,,,,,,survey-multi-choice,13777,.25,,6795.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w25aec1b
+,,,,,,,,,,,survey-multi-choice,7901,.25,,3393.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w5dd4e7f
+,,,,,,,,,,,survey-multi-choice,35750,.50,,5484.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w35b8034
+,,,,,,,,,,,survey-multi-choice,6498,.25,,3916.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w22e3f04
+,,,,,,,,,,,survey-multi-choice,6133,.50,,3501.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wf3c0714
+,,,,,,,,,,,survey-multi-choice,11070,.50,,6480.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",we3379d6
+,,,,,,,,,,,survey-multi-choice,13616,.25,,4108.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w0597382
+,,,,,,,,,,,survey-multi-choice,15761,.50,,5651.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wa5a8528
+,,,,,,,,,,,survey-multi-choice,7589,.50,,4486.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wa57de13
+,,,,,,,,,,,survey-multi-choice,8943,.25,,6438.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",we98a064
+,,,,,,,,,,,survey-multi-choice,25442,.25,,21310.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wcb7d58b
+,,,,,,,,,,,survey-multi-choice,10722,.50,,6230.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w3ccd836
+,,,,,,,,,,,survey-multi-choice,17783,.50,,6571.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w2c459ee
+,,,,,,,,,,,survey-multi-choice,12703,.50,,6518.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",waa2b5e3
+,,,,,,,,,,,survey-multi-choice,7373,.50,,4603.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wbd65b7f
+,,,,,,,,,,,survey-multi-choice,6883,.50,,4263.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wac47b86
+,,,,,,,,,,,survey-multi-choice,8616,.25,,5226.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",w0c50539
+,,,,,,,,,,,survey-multi-choice,6954,.25,,4303.0,,,"{'askForCameraPermissionInAbstract': 'Yes', 'askAboutHavingACamera': 'Yes'}",,,,,"[0, 1]",wcdfdd8e

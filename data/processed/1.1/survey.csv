@@ -1,0 +1,76 @@
+width,height,webaudio,browser,browser_version,mobile,os,fullscreen,vsync_rate,webcam,microphone,trial_type,time_elapsed,bonus,view_history,rt,load_time,stimulus,response,success,key_strokes,final_text,accuracy,question_order,wid
+,,,,,,,,,,,survey,293404,.25,,22069.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,w3715a84
+,,,,,,,,,,,survey,303394,.25,,9984.0,,,"{'P0_Q0': ""Random, either one it doesn't really matter.""}",,,,[],,w3715a84
+,,,,,,,,,,,survey,339251,.25,,6312.0,,,"{'P0_Q0': None, 'age': 32, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,w3715a84
+,,,,,,,,,,,survey,301945,.25,,52345.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether the amount you won/lost was 50 cents or 25 cents (but not whether you won/lost that amount)'}",,,,[],,wd429ae0
+,,,,,,,,,,,survey,326597,.25,,24640.0,,,{'P0_Q0': 'it may take a different choice'},,,,[],,wd429ae0
+,,,,,,,,,,,survey,436773,.25,,61294.0,,,"{'P0_Q0': None, 'age': 31, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,wd429ae0
+,,,,,,,,,,,survey,286281,.50,,17631.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,w873e593
+,,,,,,,,,,,survey,329141,.50,,42800.0,,,{'P0_Q0': 'I want to know now out of impatience. '},,,,[],,w873e593
+,,,,,,,,,,,survey,381448,.50,,7970.0,,,"{'P0_Q0': None, 'age': 38, 'gender': 'Male', 'P0_Q3': 'Yes'}",,,,[],,w873e593
+,,,,,,,,,,,survey,466689,.50,,69873.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,w71c4994
+,,,,,,,,,,,survey,527726,.50,,61027.0,,,{'P0_Q0': 'I like to know things right away. Avoid the surprises. Then I can focus on other things.'},,,,[],,w71c4994
+,,,,,,,,,,,survey,636211,.50,,17182.0,,,"{'P0_Q0': None, 'age': 70, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w71c4994
+,,,,,,,,,,,survey,284498,.50,,10429.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,wf3a3126
+,,,,,,,,,,,survey,301876,.50,,17363.0,,,{'P0_Q0': 'ok'},,,,[],,wf3a3126
+,,,,,,,,,,,survey,373113,.50,,27362.0,,,"{'P0_Q0': None, 'age': 50, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,wf3a3126
+,,,,,,,,,,,survey,422990,.25,,42896.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,w88f1b11
+,,,,,,,,,,,survey,468224,.25,,45217.0,,,{'P0_Q0': 'I wanted to find out the bonus after I am done with the work of eye calibrating. It helps in gauging my performance overall. '},,,,[],,w88f1b11
+,,,,,,,,,,,survey,527080,.25,,11962.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w88f1b11
+,,,,,,,,,,,survey,258071,.50,,10572.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether the amount you won/lost was 50 cents or 25 cents (but not whether you won/lost that amount)'}",,,,[],,wda754a5
+,,,,,,,,,,,survey,283921,.50,,25841.0,,,{'P0_Q0': 'understand the choises'},,,,[],,wda754a5
+,,,,,,,,,,,survey,347418,.50,,19194.0,,,"{'P0_Q0': None, 'age': 24, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,wda754a5
+,,,,,,,,,,,survey,376330,.25,,40319.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,w25aec1b
+,,,,,,,,,,,survey,404791,.25,,28450.0,,,{'P0_Q0': 'I was slightly indifferent but figured I would want some basic information.'},,,,[],,w25aec1b
+,,,,,,,,,,,survey,463303,.25,,7026.0,,,"{'P0_Q0': None, 'age': 54, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w25aec1b
+,,,,,,,,,,,survey,240963,.25,,16304.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,w5dd4e7f
+,,,,,,,,,,,survey,258977,.25,,18001.0,,,{'P0_Q0': 'decision thoughts'},,,,[],,w5dd4e7f
+,,,,,,,,,,,survey,332652,.25,,37944.0,,,"{'P0_Q0': None, 'age': 24, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,w5dd4e7f
+,,,,,,,,,,,survey,278178,.50,,6525.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,w35b8034
+,,,,,,,,,,,survey,291333,.50,,13145.0,,,{'P0_Q0': 'own decision'},,,,[],,w35b8034
+,,,,,,,,,,,survey,342876,.50,,15128.0,,,"{'P0_Q0': None, 'age': 24, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,w35b8034
+,,,,,,,,,,,survey,259682,.25,,7409.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether the amount you won/lost was 50 cents or 25 cents (but not whether you won/lost that amount)'}",,,,[],,w22e3f04
+,,,,,,,,,,,survey,268595,.25,,8902.0,,,{'P0_Q0': 'own decision'},,,,[],,w22e3f04
+,,,,,,,,,,,survey,318040,.25,,9515.0,,,"{'P0_Q0': None, 'age': 24, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,w22e3f04
+,,,,,,,,,,,survey,695183,.50,,191442.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,wf3c0714
+,,,,,,,,,,,survey,730841,.50,,35616.0,,,"{'P0_Q0': ""it's ok.""}",,,,[],,wf3c0714
+,,,,,,,,,,,survey,859338,.50,,23201.0,,,"{'P0_Q0': None, 'age': 34, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,wf3c0714
+,,,,,,,,,,,survey,448507,.50,,23870.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether the amount you won/lost was 50 cents or 25 cents (but not whether you won/lost that amount)'}",,,,[],,we3379d6
+,,,,,,,,,,,survey,475776,.50,,27242.0,,,{'P0_Q0': 'Yes '},,,,[],,we3379d6
+,,,,,,,,,,,survey,551986,.50,,14101.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,we3379d6
+,,,,,,,,,,,survey,555490,.25,,73132.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,w0597382
+,,,,,,,,,,,survey,585236,.25,,29700.0,,,{'P0_Q0': 'because i would like to know that'},,,,[],,w0597382
+,,,,,,,,,,,survey,746855,.25,,43736.0,,,"{'P0_Q0': None, 'age': 54, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w0597382
+,,,,,,,,,,,survey,266691,.50,,7749.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,wa5a8528
+,,,,,,,,,,,survey,271514,.50,,4782.0,,,{'P0_Q0': 'yes'},,,,[],,wa5a8528
+,,,,,,,,,,,survey,327060,.50,,11737.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,wa5a8528
+,,,,,,,,,,,survey,431673,.50,,22483.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,wa57de13
+,,,,,,,,,,,survey,451622,.50,,19920.0,,,{'P0_Q0': '1'},,,,[],,wa57de13
+,,,,,,,,,,,survey,576727,.50,,10186.0,,,"{'P0_Q0': None, 'age': 34, 'gender': 'female', 'P0_Q3': 'Yes'}",,,,[],,wa57de13
+,,,,,,,,,,,survey,284046,.25,,31047.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether the amount you won/lost was 50 cents or 25 cents (but not whether you won/lost that amount)'}",,,,[],,we98a064
+,,,,,,,,,,,survey,291800,.25,,7696.0,,,{'P0_Q0': 'yes'},,,,[],,we98a064
+,,,,,,,,,,,survey,372245,.25,,6753.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,we98a064
+,,,,,,,,,,,survey,345654,.25,,32421.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,wcb7d58b
+,,,,,,,,,,,survey,372945,.25,,27244.0,,,{'P0_Q0': 'Own Think to Decide'},,,,[],,wcb7d58b
+,,,,,,,,,,,survey,428441,.25,,11970.0,,,"{'P0_Q0': None, 'age': 51, 'gender': 'Male', 'P0_Q3': 'Yes'}",,,,[],,wcb7d58b
+,,,,,,,,,,,survey,323142,.50,,12166.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,w3ccd836
+,,,,,,,,,,,survey,327452,.50,,4271.0,,,{'P0_Q0': 'yes'},,,,[],,w3ccd836
+,,,,,,,,,,,survey,409425,.50,,12569.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w3ccd836
+,,,,,,,,,,,survey,289195,.50,,8747.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,w2c459ee
+,,,,,,,,,,,survey,293331,.50,,4085.0,,,{'P0_Q0': 'yes'},,,,[],,w2c459ee
+,,,,,,,,,,,survey,341618,.50,,6974.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w2c459ee
+,,,,,,,,,,,survey,306825,.50,,44147.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,waa2b5e3
+,,,,,,,,,,,survey,310733,.50,,3876.0,,,{'P0_Q0': 'yes'},,,,[],,waa2b5e3
+,,,,,,,,,,,survey,378035,.50,,5589.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,waa2b5e3
+,,,,,,,,,,,survey,238532,.50,,9997.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,wbd65b7f
+,,,,,,,,,,,survey,243397,.50,,4813.0,,,{'P0_Q0': 'yes'},,,,[],,wbd65b7f
+,,,,,,,,,,,survey,304764,.50,,6021.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,wbd65b7f
+,,,,,,,,,,,survey,271674,.50,,8057.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Now (before recalibration)'}",,,,[],,wac47b86
+,,,,,,,,,,,survey,275410,.50,,3681.0,,,{'P0_Q0': 'yes'},,,,[],,wac47b86
+,,,,,,,,,,,survey,334842,.50,,10007.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,wac47b86
+,,,,,,,,,,,survey,287512,.25,,11428.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'After recalibration'}",,,,[],,w0c50539
+,,,,,,,,,,,survey,291102,.25,,3569.0,,,{'P0_Q0': 'yes'},,,,[],,w0c50539
+,,,,,,,,,,,survey,355588,.25,,8721.0,,,"{'P0_Q0': None, 'age': 25, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,w0c50539
+,,,,,,,,,,,survey,393419,.25,,7947.0,,,"{'P0_Q0': None, 'P1_Q0': None, 'bonusChoice': 'Whether you won or lost money (but not how much)'}",,,,[],,wcdfdd8e
+,,,,,,,,,,,survey,413105,.25,,19646.0,,,{'P0_Q0': 'i want to know'},,,,[],,wcdfdd8e
+,,,,,,,,,,,survey,530723,.25,,17830.0,,,"{'P0_Q0': None, 'age': 45, 'gender': 'male', 'P0_Q3': 'Yes'}",,,,[],,wcdfdd8e

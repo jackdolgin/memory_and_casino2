@@ -1,0 +1,42 @@
+[HIT Configuration]
+title = Eyetracking While Writing Experiment
+description = Respond to a Free Response Prompt for a Few Minutes, Requires Web Camera
+amt_keywords = Psychology, Eyetracking, Science, Writing
+lifetime = 7
+us_only = true
+approve_requirement = 95
+contact_email_on_error = monosovlab.mturk@gmail.com
+ad_group = urwt
+organization_name = Washington University in St. Louis
+browser_exclude_rule = MSIE, mobile, tablet
+allow_repeats = false
+
+[Database Parameters]
+database_url = postgres://jppcboyoqxitbi:f95751263b7e9cb87f6d3bf427df29fe8a3b03e53b62d58f571814f56de6b973@ec2-44-213-151-75.compute-1.amazonaws.com:5432/d8fbt6iu0tqllg
+table_name = urwt_participants
+
+[Server Parameters]
+host = 0.0.0.0
+port = 5000
+cutoff_time = 30
+logfile = server.log
+loglevel = 2
+debug = true
+threads = 2
+ad_url_domain = https://urwt.herokuapp.com/
+enable_dashboard = True
+login_username = "lkmadfknalkf
+login_pw = "cmaklaidjokc
+secret_key = "nkorejnorjenojnre"
+
+[Task Parameters]
+experiment_code_version = 2.0
+num_conds = 2
+num_counters = 2
+
+[Shell Parameters]
+launch_in_sandbox_mode = true
+bonus_message = "Thanks for participating!"
+use_psiturk_ad_server = false
+ad_location = https://urwt.herokuapp.com/pub
+
