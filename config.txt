@@ -1,7 +1,7 @@
 [HIT Configuration]
-title = Eyetracking While Writing Experiment
-description = Respond to a Free Response Prompt for a Few Minutes, Requires Web Camera
-amt_keywords = Psychology, Eyetracking, Science, Writing
+title = Memory Tile Game
+description = View tiles and learn which images underneath those tiles match each other.
+amt_keywords = Psychology, Memory
 lifetime = 7
 us_only = true
 approve_requirement = 95
@@ -12,7 +12,7 @@ browser_exclude_rule = MSIE, mobile, tablet
 allow_repeats = false
 
 [Database Parameters]
-database_url = postgres://jppcboyoqxitbi:f95751263b7e9cb87f6d3bf427df29fe8a3b03e53b62d58f571814f56de6b973@ec2-44-213-151-75.compute-1.amazonaws.com:5432/d8fbt6iu0tqllg
+database_url = postgres://jzkgrnbmhlqhkf:23bb93f1976ea2e6cdf5554ba4005e105b6fb125ed50f661b6267de3dbb77448@ec2-44-206-204-65.compute-1.amazonaws.com:5432/d7d7ubhs3jc4iv
 table_name = urwt_participants
 
 [Server Parameters]
@@ -23,20 +23,20 @@ logfile = server.log
 loglevel = 2
 debug = true
 threads = 2
-ad_url_domain = https://urwt.herokuapp.com/
+ad_url_domain = https://urwtr.herokuapp.com/
 enable_dashboard = True
 login_username = "lkmadfknalkf
 login_pw = "cmaklaidjokc
 secret_key = "nkorejnorjenojnre"
 
 [Task Parameters]
-experiment_code_version = 2.0
+experiment_code_version = 1.0
 num_conds = 2
-num_counters = 2
+num_counters = 1
 
 [Shell Parameters]
 launch_in_sandbox_mode = true
 bonus_message = "Thanks for participating!"
 use_psiturk_ad_server = false
-ad_location = https://urwt.herokuapp.com/pub
+ad_location = https://urwtr.herokuapp.com/pub
 
