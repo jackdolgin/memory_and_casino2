@@ -1,4 +1,4 @@
-condition = 0;
+condition = 1;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -99,7 +99,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 18;
-let mainTrialsCompleted = 4;
+let mainTrialsCompleted = 0;
 const omission = "ball";
 
 /* ************************************ */
@@ -270,9 +270,11 @@ async function initializeExperiment() {
   // }
 
   let node = {
-    // timeline: [wheelSpin, memoryGame, wheelReveal],
+    // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
+    // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
-    timeline: [numberlineDisplay, wheelReveal],
+    timeline: [wheelSpin],
+    // timeline: [numberlineDisplay, wheelReveal],
     repetitions: trials
   }
 

@@ -211,6 +211,7 @@ var jsPsychRoulette = (function (jspsych) {
             var toppart = $("#toppart");
             var numberLoc = [];
             $.keyframe.debug = true;
+            let dest;
 
             // if (trial.specialTrial == "demo" || trial.spinOrReveal == "spin"){
 
@@ -391,14 +392,14 @@ var jsPsychRoulette = (function (jspsych) {
                 // let extraBallRotation = (wheelCondition == "confined_wheel") ? 30 : 0;
                 let extraBallRotation = 0;
                 var temptime = trial.rotationsTime + 's';
-                var dest = -360 * trial.ballSpinTime - (360 - deg) + extraBallRotation;
+                var ballDest = -360 * trial.ballSpinTime - (360 - deg) + extraBallRotation;
                 $.keyframe.define({
                     name: "rotate2",
                     from: {
                         transform: "rotate(0deg)"
                     },
                     to: {
-                        transform: "rotate(" + dest + "deg)"
+                        transform: "rotate(" + ballDest + "deg)"
                     }
                 });            
                 $(ballbg).playKeyframe({
@@ -407,16 +408,132 @@ var jsPsychRoulette = (function (jspsych) {
                     timingFunction: "ease-in-out", // [optional, default: ease] specifies the speed curve of the animation
 
                     complete: function() {
-                        setTimeout(function() {
-                            finishSpin(rndSpace, winningNum)
-                        }, timeoutDuration)
+
+                        // for (var i = 0; i < numOfWheelNumbers; i++) {
+                        //     let possiblePayout = wheelNumbers[i];
+
+                        //     numberLoc[possiblePayout] = [];
+                        //     numberLoc[possiblePayout][0] = i * temparc;
+                        //     numberLoc[possiblePayout][1] = i * temparc + temparc;
+                        // }
+
+                        wheelNumbers.map((x, index) => {
+
+                            console.log(dest)
+                            let numElement = $("#num" + x);
+                            
+                            let finalTop = 600;
+                            let finalLeft = 50 + ((index - 1) * 30);
+                            let initialOffset = numElement.offset();
+                            // numElement.animate({
+                            //     // top: finalTop + 'px',
+                            //     left: finalLeft + 'px',
+                            // }, 2000);
+
+                            let holdElement = $("#rSlice" + x);
+                            let newLeft = -8 + (index * 2) + "em"; // reduce the multiplier for closer numbers
+                            $(numElement).css("border-width", "0px")
+                            $(numElement).css("background-color", "transparent")
+                            $(numElement).addClass("dot");
+
+                            // setTimeout(function() {
+                            //     $(numElement).animate({
+                            //         borderWidth: "2px"
+                            //     }, 100);
+                            // }, 1)
+
+                            // $(numElement).animate({
+                            //     borderWidth: "2px"
+                            // }, 2000);
+
+
+                            $(".pie, .platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
+                                opacity: 0,
+                            }, 2000);
+
+                            // console.log(numberLoc[x][0])
+
+                            let rotationSoFar = numberLoc[x][0];
+                            console.log(numberLoc[x])
+                    
+                            // animate rotation to 0
+                            // (dest % 360)
+                            $({deg: numberLoc[x][0]}).animate({deg: 0 - (dest%360)}, {
+                                duration: 2000,
+                                step: function(now) {
+                                    holdElement.css({
+                                        transform: 'rotate(' + now + 'deg)'
+                                    });
+                                }
+                            });
+
+                            setTimeout(function() {
+                                $('.hold').css("clip", 'rect(0, 50em, 20em, -10em)')
+                                $(".spinner").css("boxShadow", "none")
+                            }, 1000)
+                    
+
+                            // animate rotation to 0 for numElement
+                            $({deg: 15}).animate({deg: 0}, {
+                                duration: 2000,
+                                step: function(now) {
+                                    numElement.css({
+                                        transform: 'rotate(' + now + 'deg)'
+                                    });
+                                }
+                            });
+
+                            // $(".spinner").animate({
+                            //     boxShadow: 'none',
+                            //     border: 'none'
+                            // }, 2000);
+
+
+                            $(".spinner").css("border-width", "2em").animate({
+                                borderWidth: 0
+                            }, 2000);
+                        
+                        
+                            // $(".pieBackground").animate({
+                            //     backgroundColor: 'transparent',
+                            //     boxShadow: 'none'
+                            // }, 2000);
+                    
+                            // // animate left property
+                            // numElement.animate({
+                            //     left: newLeft,
+                            // }, 2000);
+
+                            // animate opacity to 0
+                            // $(".platebg, .platetop, .topnodebox").animate({
+                            $(".pie, .platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
+                                opacity: 0,
+                            }, 2000);
+
+                            // animate color to black for numElement
+                            numElement.animate({
+                                color: '#000',
+                                left: newLeft,
+                                top: '5em',
+                                borderWidth: "2px",
+                                width:  "30px",
+                                height: "30px"
+                                // left: 0
+                            }, 2000);
+                        })
+
+
+                    //     setTimeout(function() {
+                    //         finishSpin(rndSpace, winningNum)
+                    //     // }, timeoutDuration)
+                    // }, 10000000000)
                     } //[optional]  Function fired after the animation is complete. If repeat is infinite, the function will be fired every time the animation is restarted.
                 });
             }
             
             function bgrotateTo(deg) {
 
-                var dest = 360 * trial.wheelSpinTime + deg;
+                dest = 360 * trial.wheelSpinTime + deg;
                 var temptime = (trial.rotationsTime * 1000 - 1000) / 1000 + 's';
             
                 $.keyframe.define({

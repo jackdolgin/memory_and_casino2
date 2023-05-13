@@ -130,6 +130,7 @@ p {
 .hold {
     position: absolute;
     clip: rect(0, 20em, 20em, 10em);
+    /* clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); */
     width: 20em;
     height: 20em;
     border-radius: 20em;
@@ -688,7 +689,7 @@ ul::-webkit-scrollbar-thumb:hover {
     align-items: center;
     position: relative;
     user-select: none;
-    cursor: pointer;
+    /* cursor: pointer; */
     /* margin: 20px; */
 }
 

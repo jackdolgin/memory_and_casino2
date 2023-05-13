@@ -31,6 +31,7 @@ var jsPsychNumberline = (function (jspsych) {
             const winningNum = winningNums[mainTrialsCompleted];
             const rememberNote = "<p>Remember, the winning number is already chosen, so your choice only affects what information you learn ahead of the memory game about the outcome; it does not affect the outcome itself.</p>";
 
+
             function createInstructionsEarlyTrials(){
 
                 beginningMessage.html(`<p>The balls represent the ${numOfWheelNumbers} numbers from the wheel. We\'re going to tell you now whether the winning number is one of the numbers on the top or bottom line. We\'ll then tell you exactly what the winning number was after the upcoming memory game.</p>`);
@@ -176,6 +177,7 @@ var jsPsychNumberline = (function (jspsych) {
                 const linePairAndBarWithWinningNum = createLinePair("only", wheelNumbersSplit, "bw");
                 let numsOnBarWithWinningNumber;
                 setupDotClicking(linePairAndBarWithWinningNum[0]);
+                $('.line-wrapper').css("cursor", "pointer");
 
                 // setTimeout(function() {
                     numberlineButton.off("click");
@@ -224,6 +226,7 @@ var jsPsychNumberline = (function (jspsych) {
                 const linePairAndBarWithWinningNumBottom = createLinePair("bottom", wheelNumbersSplit[1]);
                 setupPairClicking(linePairAndBarWithWinningNumTop[0]);
                 setupPairClicking(linePairAndBarWithWinningNumBottom[0]);
+                $('.line-wrapper').css("cursor", "pointer");
 
                 let topOrBottomSelected;
                 
@@ -285,7 +288,7 @@ var jsPsychNumberline = (function (jspsych) {
                             // console.log(pairPosition)
                             let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}`).length
         
-                            beginningMessage.html(`The winning number is one of the ${numsRemaining} numbers on the ${linePairAndBarWithWinningNum[1]} line.<br><br><br><br><br><br>`);
+                            beginningMessage.html(`The winning number is one of the ${numsRemaining} numbers on the ${linePairAndBarWithWinningNum[1]} line.<br><br><br><br><br><br><br><br><br>`);
                             numberlineButton.html("Continue to the memory game");
                             numberlineButton.on("click", secondClickFunction);
                             // end trial should go here
