@@ -72,7 +72,11 @@ var jsPsychRoulette = (function (jspsych) {
                     <div class="spinner" id="spinnerID">
                         <div class="ball"><span></span></div>
                         <div class="platebg"></div>
-                        <div class="platetop"></div>
+                        <div class="platetop">
+                            <div id="ballLandedNotification">
+                                <p>The ball has finished spinning and has landed on a number; the winning number is therefore now determined</p>
+                            </div>
+                        </div>
                         <div id="toppart" class="topnodebox">
                             <div class="silvernode"></div>
                             <div class="topnode silverbg"></div>
@@ -85,6 +89,22 @@ var jsPsychRoulette = (function (jspsych) {
                             <div class="pieBackground"></div>
                         </div>
                     </div>
+                    <div class="line-pair-container">                    
+                        <div id="line-pair-top" class="line-pair" style="border-color: white;">
+                            <div id="line-wrapper-top" class="line-wrapper">
+                                <div class="line line-top">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="line-pair-bottom" class="line-pair" style="border-color: white;">
+                            <div id="line-wrapper-top" class="line-wrapper">
+                                <div class="line line-top">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <div class="control">
                         <div id="btnSpin" class="button">Spin</div>
@@ -121,7 +141,7 @@ var jsPsychRoulette = (function (jspsych) {
             const chunk1Color = getCSSProperty('chunk-1-color');
             const chunk1ColorEnglish = "blue";
 
-            $(".jspsych-content-wrapper").css("display", "flex");
+            // $(".jspsych-content-wrapper").css("display", "flex");
 
             if (omission == "ball"){
                 $("#overlay-message").css("top", "43%");
@@ -316,6 +336,10 @@ var jsPsychRoulette = (function (jspsych) {
                 winningNum = winningNum.toString();
                 spinTo(winningNum);
                 btnSpin.off('click',onSpinPress);
+
+                $(".control").animate({
+                    opacity: 0,
+                }, 2000);
             }
 
             btnSpin.click(onSpinPress);
@@ -417,110 +441,148 @@ var jsPsychRoulette = (function (jspsych) {
                         //     numberLoc[possiblePayout][1] = i * temparc + temparc;
                         // }
 
-                        wheelNumbers.map((x, index) => {
 
-                            console.log(dest)
-                            let numElement = $("#num" + x);
+                        $(".topnodebox").animate({
+                            opacity: 0,
+                        }, 800)
+
+                        $("#ballLandedNotification").animate({
+                            opacity: .99,
+                        }, 800)
+                        
+                        
+                        setTimeout(() => {
+                            wheelNumbers.map((x, index) => {
+
+                                console.log(dest)
+                                let numElement = $("#num" + x);
+                                
+                                let finalTop = 600;
+                                let finalLeft = 50 + ((index - 1) * 30);
+                                let initialOffset = numElement.offset();
+                                // numElement.animate({
+                                //     // top: finalTop + 'px',
+                                //     left: finalLeft + 'px',
+                                // }, 2000);
+    
+                                let holdElement = $("#rSlice" + x);
+                                let newLeft = -10 + (index * 2) + "em"; // reduce the multiplier for closer numbers
+                                $(numElement).css("border-width", "0px")
+                                $(numElement).css("background-color", "transparent")
+                                $(numElement).addClass("dot");
+    
+                                // setTimeout(function() {
+                                //     $(numElement).animate({
+                                //         borderWidth: "2px"
+                                //     }, 100);
+                                // }, 1)
+    
+                                // $(numElement).animate({
+                                //     borderWidth: "2px"
+                                // }, 2000);
+    
+                                $(".pie").animate({
+                                    opacity: 0,
+                                }, 800)
+    
+    
+                                $(".platebg, .platetop, .topnodebox, .pieBackground").animate({
+                                    opacity: 0,
+                                }, 2000);
+    
+                                // console.log(numberLoc[x][0])
+    
+                                let rotationSoFar = numberLoc[x][0];
+                                console.log(numberLoc[x])
+                        
+                                // animate rotation to 0
+                                // (dest % 360)
+                                $({deg: numberLoc[x][0]}).animate({deg: 0 - (dest%360)}, {
+                                    duration: 2000,
+                                    step: function(now) {
+                                        holdElement.css({
+                                            transform: 'rotate(' + now + 'deg)'
+                                        });
+                                    }
+                                });
+    
+                                setTimeout(function() {
+                                    $('.hold').css("clip", 'rect(0, 50em, 20em, -10em)')
+                                    $(".spinner").css("boxShadow", "none")
+                                }, 1000)
+                        
+    
+                                // animate rotation to 0 for numElement
+                                $({deg: 15}).animate({deg: 0}, {
+                                    duration: 2000,
+                                    step: function(now) {
+                                        numElement.css({
+                                            transform: 'rotate(' + now + 'deg)'
+                                        });
+                                    }
+                                });
+    
+                                // $(".spinner").animate({
+                                //     boxShadow: 'none',
+                                //     border: 'none'
+                                // }, 2000);
+    
+    
+                                $(".spinner").css("border-width", "2em").animate({
+                                    borderWidth: 0
+                                }, 2000);
                             
-                            let finalTop = 600;
-                            let finalLeft = 50 + ((index - 1) * 30);
-                            let initialOffset = numElement.offset();
-                            // numElement.animate({
-                            //     // top: finalTop + 'px',
-                            //     left: finalLeft + 'px',
-                            // }, 2000);
-
-                            let holdElement = $("#rSlice" + x);
-                            let newLeft = -8 + (index * 2) + "em"; // reduce the multiplier for closer numbers
-                            $(numElement).css("border-width", "0px")
-                            $(numElement).css("background-color", "transparent")
-                            $(numElement).addClass("dot");
-
-                            // setTimeout(function() {
-                            //     $(numElement).animate({
-                            //         borderWidth: "2px"
-                            //     }, 100);
-                            // }, 1)
-
-                            // $(numElement).animate({
-                            //     borderWidth: "2px"
-                            // }, 2000);
-
-
-                            $(".pie, .platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
-                                opacity: 0,
-                            }, 2000);
-
-                            // console.log(numberLoc[x][0])
-
-                            let rotationSoFar = numberLoc[x][0];
-                            console.log(numberLoc[x])
-                    
-                            // animate rotation to 0
-                            // (dest % 360)
-                            $({deg: numberLoc[x][0]}).animate({deg: 0 - (dest%360)}, {
-                                duration: 2000,
-                                step: function(now) {
-                                    holdElement.css({
-                                        transform: 'rotate(' + now + 'deg)'
-                                    });
-                                }
-                            });
-
-                            setTimeout(function() {
-                                $('.hold').css("clip", 'rect(0, 50em, 20em, -10em)')
-                                $(".spinner").css("boxShadow", "none")
-                            }, 1000)
-                    
-
-                            // animate rotation to 0 for numElement
-                            $({deg: 15}).animate({deg: 0}, {
-                                duration: 2000,
-                                step: function(now) {
-                                    numElement.css({
-                                        transform: 'rotate(' + now + 'deg)'
-                                    });
-                                }
-                            });
-
-                            // $(".spinner").animate({
-                            //     boxShadow: 'none',
-                            //     border: 'none'
-                            // }, 2000);
-
-
-                            $(".spinner").css("border-width", "2em").animate({
-                                borderWidth: 0
-                            }, 2000);
+                            
+                                // $(".pieBackground").animate({
+                                //     backgroundColor: 'transparent',
+                                //     boxShadow: 'none'
+                                // }, 2000);
                         
-                        
-                            // $(".pieBackground").animate({
-                            //     backgroundColor: 'transparent',
-                            //     boxShadow: 'none'
-                            // }, 2000);
-                    
-                            // // animate left property
-                            // numElement.animate({
-                            //     left: newLeft,
-                            // }, 2000);
+                                // // animate left property
+                                // numElement.animate({
+                                //     left: newLeft,
+                                // }, 2000);
+    
+                                // animate opacity to 0
+                                // $(".platebg, .platetop, .topnodebox").animate({
+                                // $(".platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
+                                //     opacity: 0,
+                                // }, 2000);
+    
+                                // animate color to black for numElement
+    
+                                numElement.animate({
+                                    color: '#000',
+                                }, 400)
+                                
+                                numElement.animate({
+                                    // color: '#000',
+                                    left: newLeft,
+                                    // top: '14.3em',
+                                    // top: '6.8em',
+                                    borderWidth: "2px",
+                                    width:  "30px",
+                                    height: "30px"
+                                    // left: 0
+                                }, 2000);
 
-                            // animate opacity to 0
-                            // $(".platebg, .platetop, .topnodebox").animate({
-                            $(".pie, .platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
-                                opacity: 0,
-                            }, 2000);
+                                setTimeout(function() {
 
-                            // animate color to black for numElement
-                            numElement.animate({
-                                color: '#000',
-                                left: newLeft,
-                                top: '5em',
-                                borderWidth: "2px",
-                                width:  "30px",
-                                height: "30px"
-                                // left: 0
-                            }, 2000);
-                        })
+                                    let dotDivs = document.querySelectorAll('.dot');
+                                    let firstDotDiv = dotDivs[0];
+                                    let div1Position = firstDotDiv.getBoundingClientRect();
+                                    let div2 = document.getElementById('line-pair-top');
+                                    div2.style.top = ((div1Position.top + div1Position.bottom) / 2) + 'px';
+
+
+                                }, 2001)
+    
+    
+                            })
+                        // }, 9000);
+                        }, 3000);
+
+
 
 
                     //     setTimeout(function() {
@@ -560,42 +622,46 @@ var jsPsychRoulette = (function (jspsych) {
                     complete: function() {} //[optional]  Function fired after the animation is complete. If repeat is infinite, the function will be fired every time the animation is restarted.
                 });
             }
-            
-            function finishSpin(rndSpace, winningNum){
 
-                OverlayBtn.removeEventListener('click', removeOverlay);
-                document.querySelector('#btnSpin').style.display = 'none';
-
-                if (trial.specialTrial == "demo" || trial.spinOrReveal == "spin"){
-                    display_element.innerHTML = '<div id="jspsych-content"></div>';
-                    jsPsych.finishTrial()
-                } else if (trial.spinOrReveal == "reveal"){
-                    $(".spinner").css("top", "20px");
-                    $(".control").css("top", "20px");
-                    $(".control").css("position", "relative");
-    
-                    explainRemainingNumbers();
-                    function explainRemainingNumbers(){
-
-                        document.getElementById("selection-explained").innerHTML = "The winning number was " + winningNum + ". You will earn " + winningNum + " points for the trial.";
-                        document.querySelector('#selection-explained').style.display = 'block';
-                    }
-    
-    
-                    document.querySelector('#btnproceed').style.display = "inline-block";
-    
-                    document.querySelector('#btnproceed').addEventListener('click', () => {
-
-                        display_element.innerHTML = '<div id="jspsych-content"></div>';
-
-                        if (trial.specialTrial == "none") mainTrialsCompleted += 1;
-        
-                        jsPsych.finishTrial({
-                            winningNum: winningNum,
-                        })
-                    })
-                }
+            function finishSpin(){
+                
             }
+            
+            // function finishSpin(rndSpace, winningNum){
+
+            //     OverlayBtn.removeEventListener('click', removeOverlay);
+            //     document.querySelector('#btnSpin').style.display = 'none';
+
+            //     if (trial.specialTrial == "demo" || trial.spinOrReveal == "spin"){
+            //         display_element.innerHTML = '<div id="jspsych-content"></div>';
+            //         jsPsych.finishTrial()
+            //     } else if (trial.spinOrReveal == "reveal"){
+            //         $(".spinner").css("top", "20px");
+            //         $(".control").css("top", "20px");
+            //         $(".control").css("position", "relative");
+    
+            //         explainRemainingNumbers();
+            //         function explainRemainingNumbers(){
+
+            //             document.getElementById("selection-explained").innerHTML = "The winning number was " + winningNum + ". You will earn " + winningNum + " points for the trial.";
+            //             document.querySelector('#selection-explained').style.display = 'block';
+            //         }
+    
+    
+            //         document.querySelector('#btnproceed').style.display = "inline-block";
+    
+            //         document.querySelector('#btnproceed').addEventListener('click', () => {
+
+            //             display_element.innerHTML = '<div id="jspsych-content"></div>';
+
+            //             if (trial.specialTrial == "none") mainTrialsCompleted += 1;
+        
+            //             jsPsych.finishTrial({
+            //                 winningNum: winningNum,
+            //             })
+            //         })
+            //     }
+            // }
 
             function activateHighlighting(winningNum){
 

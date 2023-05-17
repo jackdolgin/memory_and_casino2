@@ -2,6 +2,8 @@
 
 body {
     height: 100%;
+    font-family: "Poppins", sans-serif;
+    margin: 0px;
 }
 
 html {
@@ -10,11 +12,13 @@ html {
 
 .jspsych-display-element {
     height: 100%;
+    margin: 0px auto;
 }
 
-/* #jspsych-content {
-    width: 60%;
-} */
+#jspsych-content {
+    /* width: 60%; */
+    /* margin: 25px auto 0px auto; */
+}
 
 .sv_main.sv_default_css .sv_container {
     color: black;
@@ -29,6 +33,7 @@ textarea {
 
 /* .jspsych-display-element{
     margin: auto;
+    
 } */
 
 .writing_class {
@@ -76,16 +81,18 @@ p {
 }
 
 .control {
-    margin: 30px auto;
+    /* margin: 30px auto; */
+    margin-top: 40px;
+    margin-bottom: 5px;
     text-align: center;
     color: #fff;
     background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/138980/308851c77ab4799373173c1c4e8e9e9e.jpg);
     background-size: contain;
     padding: 15px;
     border-radius: 5px;
-    width: 100%;
+    width: 40%;
     border-bottom: 2px solid #291906;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -149,7 +156,8 @@ p {
     transform: rotate(45deg);
     z-index: 60;
     text-align: center;
-    font-family: "Times New Roman", Times, serif;
+    /* font-family: "Times New Roman", Times, serif; */
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     -webkit-user-select:none;
     -khtml-user-select:none;
@@ -321,6 +329,16 @@ p {
     left: 5em;
     top: 5em;
     box-shadow: 0px 0px 0.6em rgba(0, 0, 0, 0.3), -1.5em -1.5em 4em rgba(90, 71, 17, 1) inset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ballLandedNotification {
+    max-width: 80%;
+    display: inline-flex;
+    text-align: center;
+    opacity: 0;
 }
 
 .spinner {
@@ -332,7 +350,9 @@ p {
     border-radius: 25em;
     border: solid 2em rgba(41, 25, 6, 1);
     box-shadow: 0 0 1em rgba(42, 40, 40, 1);
-    font-size: 1em;
+    font-size: 1.15em;
+    display: inline-flex;
+    top: 30px;
 }
 
 .ball {
@@ -588,9 +608,6 @@ li {
     }
 }
 
-body{
-    font-family: "Poppins", sans-serif;
-}
 
 /* width */
 ul::-webkit-scrollbar {
@@ -681,7 +698,7 @@ ul::-webkit-scrollbar-thumb:hover {
 
 
 .line-wrapper {
-    width: 83%;
+    width: 93%;
     height: 100px;
     /* Adjust the height as needed */
     display: flex;
@@ -705,6 +722,14 @@ ul::-webkit-scrollbar-thumb:hover {
     /* Offset the line by 5px to the left */
 }
 
+#content-underneath{
+    margin: 0px;
+}
+
+.jspsych-content-wrapper{
+    flex: 0px;
+    display: block;
+}
 
 .dot {
     width: 20px;
@@ -769,7 +794,33 @@ ul::-webkit-scrollbar-thumb:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* position: absolute;
+    width: 100%;
+    transform: translateY(-50%);
+    top: 50% */
+    width: 95%;
+    /* top: 50%; */
+    position: absolute;
+    /* right: -4px; */
+    /* right: -2em; */
+
 }
+
+/* #line-pair-top{
+    top: 50%;
+    transform: translateY(-217%);
+}
+
+#line-pair-bottom{
+    bottom: 50%;
+    transform: translateY(69%);
+}
+
+#line-pair-only{
+
+} */
+
+
 
 .line-pair.selected {
     border-color: black !important;

@@ -274,6 +274,7 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
     timeline: [wheelSpin],
+    // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
     repetitions: trials
   }
