@@ -704,7 +704,8 @@ ul::-webkit-scrollbar-thumb:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    /* position: relative; */
+    position: absolute;
     user-select: none;
     /* cursor: pointer; */
     /* margin: 20px; */
@@ -741,7 +742,8 @@ ul::-webkit-scrollbar-thumb:hover {
     top: 50%;
     transform: translateY(-50%);
     /* border-color: black; */
-    background-color: white
+    background-color: white;
+    z-index: 100;
         /* cursor: pointer; */
 }
 
@@ -794,13 +796,13 @@ ul::-webkit-scrollbar-thumb:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* position: absolute;
-    width: 100%;
+    position: absolute;
+    /* width: 100%;
     transform: translateY(-50%);
     top: 50% */
     width: 95%;
     /* top: 50%; */
-    position: absolute;
+    /* position: absolute; */
     /* right: -4px; */
     /* right: -2em; */
 
@@ -842,12 +844,14 @@ ul::-webkit-scrollbar-thumb:hover {
     cursor: pointer; */
         /* border: ridge; */
 
-        padding: 10px;
-border-radius: 20px;
-font-family: 'Montserrat', sans-serif;
-font-size: 14px;
-cursor: pointer;
-border: solid;
+    padding: 10px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    border: solid;
+    top: 200px;
+    position: absolute;
 
 /* 
 width: 5em;
@@ -867,16 +871,21 @@ border-bottom: solid .1em rgba(0, 0, 0, 1); */
 
 }
 .message-container {
-font-size: 16px;
-margin: 20px;
-/* font-family: 'Montserrat', sans-serif; */
+    font-size: 16px;
+    margin: 20px;
+    /* font-family: 'Montserrat', sans-serif; */
+    top: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
 }
 .button-message-container {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .message-container p {
