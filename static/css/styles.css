@@ -151,8 +151,8 @@ p {
 .num {
     position: absolute;
     color: var(--white-color);
-    left: 16em;
-    top: 3.5em;
+    /* left: 16em; */
+    /* top: 3.5em; */
     transform: rotate(45deg);
     z-index: 60;
     text-align: center;
@@ -165,6 +165,13 @@ p {
     -ms-user-select:none;
     -o-user-select:none;
     user-select:none;
+    z-index: 60;
+}
+
+.numOuter {
+    position: absolute;
+    width: 36px;
+    height: 36px;
 }
 
 .overlay {
@@ -732,17 +739,22 @@ ul::-webkit-scrollbar-thumb:hover {
     display: block;
 }
 
+/* {} */
+
 .dot {
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border: 2px solid black;
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border-width: 0px;
+    border-style: solid;
+    border-color: black;
+    /* border: 2px solid black; */
     border-radius: 50%;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    /* transform: translateY(-50%); */
     /* border-color: black; */
-    background-color: white;
+    /* background-color: white; */
     z-index: 100;
         /* cursor: pointer; */
 }
@@ -852,6 +864,7 @@ ul::-webkit-scrollbar-thumb:hover {
     border: solid;
     top: 200px;
     position: absolute;
+    z-index: 200;
 
 /* 
 width: 5em;
@@ -872,7 +885,7 @@ border-bottom: solid .1em rgba(0, 0, 0, 1); */
 }
 .message-container {
     font-size: 16px;
-    margin: 20px;
+    margin-top: 20px;
     /* font-family: 'Montserrat', sans-serif; */
     top: 20px;
     position: absolute;
