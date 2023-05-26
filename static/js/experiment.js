@@ -1,4 +1,4 @@
-condition = 1;
+condition = 0;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -71,6 +71,8 @@ if (choiceType == "multiple_choice"){
       for (let j = i + 1; j < arr.length; j++) {
         let combination = [arr[i], arr[j]];
         combination = jsPsych.randomization.shuffle(combination);
+        combination.push(arr[i], arr[i]);
+        combination.push(wheelNumbersSplits1[trialsWithoutChoice - 1]);
         combinations.push(combination);
       }
     }
@@ -80,8 +82,18 @@ if (choiceType == "multiple_choice"){
   wheelNumbersSplits2 = getCombinations(wheelNumbersSplits1);
 
 } else if (choiceType == "open_ended"){
-  wheelNumbersSplits2 = [[wheelNumbers, wheelNumbers]];
+  wheelNumbersSplits2 = [
+    [wheelNumbers, wheelNumbers],
+    [wheelNumbers, wheelNumbers],
+    [wheelNumbers, wheelNumbers],
+    [wheelNumbers, wheelNumbers],
+    wheelNumbersSplits1[trialsWithoutChoice][0]
+  ];
 }
+
+wheelNumbersSplits1.forEach(function (item, i){
+  wheelNumbersSplits1[i] = [item, item, item, item, item];
+})
 
 const trialsWithChoice = wheelNumbersSplits2.length;
 
@@ -99,7 +111,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 18;
-let mainTrialsCompleted = 0;
+let mainTrialsCompleted = 4;
 const omission = "ball";
 
 /* ************************************ */
@@ -156,6 +168,7 @@ async function grabJSONData() {
 let iconsToKeep = grabJSONData();
 
 console.log("iojoifs")
+console.log(expectedDuration)
 async function initializeExperiment() {
   LOG_DEBUG('initializeExperiment');
 
@@ -273,8 +286,8 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
-    timeline: [wheelSpin],
-    // timeline: [numberlineDisplay],
+    // timeline: [wheelSpin],
+    timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
     repetitions: trials
   }

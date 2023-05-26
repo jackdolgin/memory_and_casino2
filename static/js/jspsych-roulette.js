@@ -126,6 +126,7 @@ var jsPsychRoulette = (function (jspsych) {
             const chunk1ColorEnglish = "blue";
 
             // $(".jspsych-content-wrapper").css("display", "flex");
+            // $("#jspsych-content").css("height", "100%");
 
             if (omission == "ball"){
                 $("#overlay-message").css("top", "43%");
@@ -147,6 +148,14 @@ var jsPsychRoulette = (function (jspsych) {
             // }
 
             $("body").css("background-color", whiteColor);
+
+            const groupsOfThree = [
+                ["top", "color", "current"],
+                ["bottom", "color", "current"],
+                ["only", "color", "current"],
+                ["only", "bw", "current"],
+                ["only", "color", "prev"]
+            ]
 
 
             // let wheelNumbersSplitsAndMissings;
@@ -249,57 +258,16 @@ var jsPsychRoulette = (function (jspsych) {
                     let newHold = document.createElement("div");
                     $(newHold).addClass("pie");
                     $(newHold).attr('id', 'hold' + possiblePayout);
-                    let dotDiv = document.createElement("div");
-                    $(dotDiv).attr('id', 'dot' + possiblePayout);
-                    $(dotDiv).addClass("numOuter");
-                    
-                    let newNumber = document.createElement("div");
-                    $(newNumber).addClass("num");
-                    $(newNumber).attr('id', 'num' + possiblePayout);
-            
-                    newNumber.innerHTML = possiblePayout;
+
                     $(newSlice).attr("id", "rSlice" + possiblePayout);
                     $(newSlice).css(
                         "transform",
                         "rotate(" + numberLoc[possiblePayout][0] + "deg)"
                     );
                     
-                    if (trial.numbersFacing == "upright"){
-                        $(newNumber).css(
-                            "transform",
-                            "rotate("  + - numberLoc[possiblePayout][0] + "deg)"
-                        );
-                    } else if (numOfWheelNumbers == 6){
-                        $(newNumber).css("transform", "rotate(32deg)");
-                    } else if (numOfWheelNumbers == 20){
-                        $(newNumber).css("transform", "rotate(15deg)");
-                    }
 
                     $(newHold).css("transform", `rotate(${temparc}deg`);
                     $(newHold).css("-webkit-transform", `rotate(${temparc}deg)`);
-                    if (numOfWheelNumbers > 25){
-                        $(newHold).css("border", "solid .1em #FFF");
-                        if (numOfWheelNumbers == 36){
-                            $(dotDiv).css("top", "0.4em");
-                            $(dotDiv).css("left", "10.28em");
-                            // $(newNumber).css("top", "0.4em");
-                            // $(newNumber).css("left", "10.28em");
-                        }
-                    } else if (numOfWheelNumbers == 20){
-                        $(newHold).css("border", "solid .1em #FFF");
-                        $(dotDiv).css("top", "0.7em");
-                        $(dotDiv).css("left", "11.0em");
-                        // $(newNumber).css("top", "0.7em");
-                        // $(newNumber).css("left", "11.0em");
-                    } else {
-                        $(newHold).css("border", "solid .03em #FFF");
-                        if (numOfWheelNumbers == 6){
-                            $(dotDiv).css("top", "1.9em");
-                            $(dotDiv).css("left", "14.28em");
-                            // $(newNumber).css("top", "1.9em");
-                            // $(newNumber).css("left", "14.28em");
-                        }
-                    }
 
                     let numred = [];
                     let numblack = [];
@@ -317,15 +285,80 @@ var jsPsychRoulette = (function (jspsych) {
                     } else if ($.inArray(possiblePayout, numblack) > -1) {
                         $(newHold).addClass("greybg");
                     }
+                
+
+                    ["top", "bottom"].forEach(topOrBottom => {
+                        ["top", "only", "bottom"].forEach(position => {
+                            ["color", "bw"].forEach(ballColor => {
+                                ["prev", "current"].forEach(trialPresent => {
+                                    let dotDiv = document.createElement("div");
+                                    $(dotDiv).attr('id', `dot${possiblePayout}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                                    $(dotDiv).addClass("numOuter");
+                                    // $(dotDiv).addClass(`dot-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+            
+                                    let newNumber = document.createElement("div");
+                                    $(newNumber).addClass("num");
+                                    $(newNumber).attr('id', `num${possiblePayout}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                                    // $(newNumber).addClass(`num-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+            
+                                    newNumber.innerHTML = possiblePayout;                        
+            
+                                    if (trial.numbersFacing == "upright"){
+                                        $(newNumber).css(
+                                            "transform",
+                                            "rotate("  + - numberLoc[possiblePayout][0] + "deg)"
+                                        );
+                                    } else if (numOfWheelNumbers == 6){
+                                        $(newNumber).css("transform", "rotate(32deg)");
+                                    } else if (numOfWheelNumbers == 20){
+                                        $(newNumber).css("transform", "rotate(15deg)");
+                                    }
+            
+                                    if (numOfWheelNumbers > 25){
+                                        $(newHold).css("border", "solid .1em #FFF");
+                                        if (numOfWheelNumbers == 36){
+                                            $(dotDiv).css("top", "0.4em");
+                                            $(dotDiv).css("left", "10.28em");
+                                            // $(newNumber).css("top", "0.4em");
+                                            // $(newNumber).css("left", "10.28em");
+                                        }
+                                    } else if (numOfWheelNumbers == 20){
+                                        $(newHold).css("border", "solid .1em #FFF");
+                                        $(dotDiv).css("top", "0.7em");
+                                        $(dotDiv).css("left", "11.0em");
+                                        // $(newNumber).css("top", "0.7em");
+                                        // $(newNumber).css("left", "11.0em");
+                                    } else {
+                                        $(newHold).css("border", "solid .03em #FFF");
+                                        if (numOfWheelNumbers == 6){
+                                            $(dotDiv).css("top", "1.9em");
+                                            $(dotDiv).css("left", "14.28em");
+                                            // $(newNumber).css("top", "1.9em");
+                                            // $(newNumber).css("left", "14.28em");
+                                        }
+                                    }
+            
+                                    if (position != "only" || ballColor == "bw"){
+                                        $(dotDiv).css("opacity", "0");
+                                        $(newNumber).css("opacity", "0");
+                                    }
+            
+                                    $(dotDiv).appendTo(newSlice);
+                                    $(newNumber).appendTo(dotDiv);
+                                    // if (omission == "numbers") {$(newNumber).css("display", "none");}
+                                    if (omission == "numbers" && trial.specialTrial != "demo"){
+                                        ($(newNumber)[0]).style.display = "none";
+                                    }
+        
+                                })
+                            })
+                        })
+                    })
+            
+
             
                     $(newHold).appendTo(newSlice);
                     $(newSlice).appendTo( $("#rcircle"));
-                    $(dotDiv).appendTo(newSlice);
-                    $(newNumber).appendTo(dotDiv);
-                    // if (omission == "numbers") {$(newNumber).css("display", "none");}
-                    if (omission == "numbers" && trial.specialTrial != "demo"){
-                        ($(newNumber)[0]).style.display = "none";
-                    }
                 }
             }
 
@@ -477,8 +510,10 @@ var jsPsychRoulette = (function (jspsych) {
 
             async function createInstructionsEarlyTrials(){
 
-                const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
-                const linePairAndBarWithWinningNum = await createLinePair("moveDots", "only", wheelNumbersSplit);
+                // "only", "color", "present" should be made visible
+                // const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
+                await moveDots([2]);
+                const linePairAndBarWithWinningNum = createLinePair(2);
 
                 linePairAttributes.beginningMessage.html(`<p>The balls represent the ${numOfWheelNumbers} numbers from the wheel. We\'re going to tell you now whether the winning number is one of the numbers on the top or bottom line. We\'ll then tell you exactly what the winning number was after the upcoming memory game.</p>`);
                 linePairAttributes.numberlineButton.html("Reveal bar with winning number");
@@ -535,10 +570,11 @@ var jsPsychRoulette = (function (jspsych) {
 
             function createInstructionsForFirstChoice(nextStage){         
                 
-                const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted - 1];
-                let linePairAndBarWithWinningNum;
+                // const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted - 1];
+                // let linePairAndBarWithWinningNum;
 
                 linePairAttributes.beginningMessage.html(`<p>In previous trials, at this point we would show you a pair of horizontal lines, and you would see whether the winning number is on the top or bottom line. <span style='color: white'>You had no ability to choose which numbers were on which line, and hence, what you would learn about the winning number prior to playing the memory game.</span></p>`);
+                linePairAttributes.numberlineButton.css("opacity", "1");
                 linePairAttributes.numberlineButton.html("Continue");
 
                 if (choiceType == "multiple_choice"){
@@ -552,21 +588,46 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
                 }
 
-                function firstClickFunction(){
+                async function firstClickFunction(){
 
+                    console.log("first click function is running")
                     linePairAttributes.numberlineButton.off("click");
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
                     }, 1);
                     // }, 5000);
 
-                    linePairAndBarWithWinningNum = createLinePair("moveDots", "only", wheelNumbersSplit);
+                    // "only", "color", "previous" should be made visible
+                    await moveDots([4])
+                    // linePairAndBarWithWinningNum = createLinePair(4);
 
                 }
 
                 function secondClickFunction(){
 
+                    console.log("second click function is running")
                     linePairAttributes.numberlineButton.off("click");
+
+                    ["top", "bottom"].forEach(function(topOrBottom){
+                        // let wheelNumbers;
+
+                        // let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
+                        let position = groupsOfThree[4][0];
+                        let ballColor = groupsOfThree[4][1];
+                        let trialPresent = groupsOfThree[4][2];
+    
+                        wheelNumbers.forEach((wheelNumber, i) => {
+                                   
+                            let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                            let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+
+                            $(numElement).css("opacity", "0")
+                            $(dotElement).css("opacity", "0")
+
+
+                        })
+                    })
+
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", thirdClickFunction);
                     }, 1);
@@ -577,9 +638,11 @@ var jsPsychRoulette = (function (jspsych) {
                 }
 
                 function thirdClickFunction(){
+
+                    console.log("third click function is running")
                     linePairAttributes.numberlineButton.off("click");
-                    const oldLinePair = linePairAndBarWithWinningNum[0];
-                    oldLinePair.remove();
+                    // const oldLinePair = linePairAndBarWithWinningNum[0];
+                    // oldLinePair.remove();
                     linePairAttributes.beginningMessage.html(`<p>This time it\'ll work a little differently. Now, you can choose how the ${numOfWheelNumbers} numbers are split between the two lines.</p>`);
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", fourthClickFunction);
@@ -589,6 +652,7 @@ var jsPsychRoulette = (function (jspsych) {
 
                 function fourthClickFunction(){
 
+                    console.log("fourth click function is running")
                     linePairAttributes.numberlineButton.off("click");
                     linePairAttributes.beginningMessage.html(linePairAttributes.beginningMessage.specificallyNote);
                     setTimeout(function() {
@@ -601,11 +665,12 @@ var jsPsychRoulette = (function (jspsych) {
 
                 function fifthClickFunction(){
 
+                    console.log("fifth click function is running")
                     linePairAttributes.numberlineButton.off("click");
                     linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}<br>${linePairAttributes.rememberNote}`);
 
                     setTimeout(function() {
-                        linePairAttributes.numberlineButton.
+                        // linePairAttributes.numberlineButton.
                         linePairAttributes.numberlineButton.on("click", nextStage);
                     }, 1);
 
@@ -617,10 +682,15 @@ var jsPsychRoulette = (function (jspsych) {
                 // }, 7000)
             }
 
-            function openEndedQuestion(moveDotsOrCreatePair="createPair"){
+            function openEndedQuestion(){
 
-                const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
-                const linePairAndBarWithWinningNum = createLinePair(moveDotsOrCreatePair, "only", wheelNumbersSplit, "bw");
+                // if (){
+                    
+                // }
+                // only,bw, current should be made visible
+                // const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
+                console.log("aaaaaaa")
+                const linePairAndBarWithWinningNum = createLinePair(3);
                 let numsOnBarWithWinningNumber;
                 setupDotClicking(linePairAndBarWithWinningNum[0]);
                 $('.line-wrapper').css("cursor", "pointer");
@@ -660,16 +730,20 @@ var jsPsychRoulette = (function (jspsych) {
                 function secondClickFunction(){
                     jsPsych.finishTrial({
                         winningNum: winningNum,
-                        wheelNumbersSplit: wheelNumbersSplit,
+                        wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
                         selections: numsOnBarWithWinningNumber,
                     })
                 }
             }
 
-            function multipleChoiceQuestion(moveDotsOrCreatePair="createPair"){
+            function multipleChoiceQuestion(){
                 const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
-                const linePairAndBarWithWinningNumTop = createLinePair(moveDotsOrCreatePair, "top", wheelNumbersSplit[0]);
-                const linePairAndBarWithWinningNumBottom = createLinePair(moveDotsOrCreatePair, "bottom", wheelNumbersSplit[1]);
+                // createLinePair(0);
+                // createLinePair(1);
+                const linePairAndBarWithWinningNumTop = createLinePair(0);
+                console.log(linePairAndBarWithWinningNumTop)
+                const linePairAndBarWithWinningNumBottom = createLinePair(1);
+                console.log(linePairAndBarWithWinningNumBottom)
                 setupPairClicking(linePairAndBarWithWinningNumTop[0]);
                 setupPairClicking(linePairAndBarWithWinningNumBottom[0]);
                 $('.line-wrapper').css("cursor", "pointer");
@@ -678,15 +752,15 @@ var jsPsychRoulette = (function (jspsych) {
                 
                 linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`)
 
-                // setTimeout(function() {
-                    // if (document.querySelectorAll('.selected').length == 1){
-                        // console.log("tokyo")
+                // // setTimeout(function() {
+                //     // if (document.querySelectorAll('.selected').length == 1){
+                //         // console.log("tokyo")
                         linePairAttributes.numberlineButton.off("click");
                         linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                    // } else {
+                //     // } else {
 
-                    // }
-                // }, 5000);
+                //     // }
+                // // }, 5000);
 
                 function firstClickFunction(){
 
@@ -701,22 +775,39 @@ var jsPsychRoulette = (function (jspsych) {
                         $('#incomplete-message').html("");
 
                         let linePairID = $('.selected').first().attr('id');
+                        console.log(linePairID)
                         let linePairAndBarWithWinningNum;
                         let linePairAndBarNotWithWinningNum;
                         let pairPosition;
+                        let notPairPosition;
 
-                        if (linePairID == "line-pair-top"){
+                        if (linePairID.includes('top')){
                             pairPosition = "top"
+                            notPairPosition = "bottom"
                             linePairAndBarWithWinningNum = linePairAndBarWithWinningNumTop;
                             linePairAndBarNotWithWinningNum = linePairAndBarWithWinningNumBottom;
-                        } else if (linePairID == "line-pair-bottom"){
+                        } else if (linePairID.includes('bottom')){
                             pairPosition = "bottom"
+                            notPairPosition = "top"
                             linePairAndBarWithWinningNum = linePairAndBarWithWinningNumBottom;
                             linePairAndBarNotWithWinningNum = linePairAndBarWithWinningNumTop;
                         }
 
+                        console.log(linePairAndBarWithWinningNumTop)
+                        console.log(linePairAndBarWithWinningNumBottom)
+                        console.log(linePairAndBarNotWithWinningNum)
+
                         $(linePairAndBarNotWithWinningNum[0]).animate({opacity: 0}, 1000);
                         // $(`#${linePairAndBarNotWithWinningNum}`).animate({opacity: 0}, 1000);
+                        // linePairAndBarNotWithWinningNum[0]
+
+                        // dot-bottom-bottom-color-current
+                        // `dot${17}-${bottom}-${bottom}-color-current`
+
+                        // for ()
+                        // dot-${topOrBottom}-${position}-${ballColor}-${trialPresent}
+                        console.log(`.dot-${notPairPosition}-color-current`)
+                        $(`.dot-${notPairPosition}-color-current`).animate({opacity: 0}, 1000);
 
                         // console.log(winningNum)
 
@@ -774,208 +865,70 @@ var jsPsychRoulette = (function (jspsych) {
                     })
                 }
             }
-
-
-            // function anotherone(position, wheelNumbersSplit){
-            //     ["top", "bottom"].forEach(function(topOrBottom, index) {
-            //         const numbersOnLine = wheelNumbersSplit[index];
-            //         wheelNumbers.forEach((wheelNumber, i) => {
-            //             if (numbersOnLine.includes(wheelNumber)){
-
-
-    
-            //             }
-            //         });
-            //     })
-            // }
-
-
-            function createLinePair(moveDotsOrCreatePair, position, wheelNumbersSplit, ballColor="color"){
-
-                return new Promise((resolve) => {
-                    let linePair;
-                    let barWithWinningNumber;
-                    // let wrappersPositions;
-                    let topOfWrappers;
-                    let halfSizeOfWrapper;
-    
-                    if (moveDotsOrCreatePair == "createPair"){
-                        linePair = document.createElement("div");
-                        linePair.setAttribute("id", `line-pair-${position}`);
-                        linePair.classList.add("line-pair");
-    
-                        let dotDivsTop = document.querySelectorAll(`.dot-top-${position}`);
-                        let dotDivsBottom = document.querySelectorAll(`.dot-bottom-${position}`);
-                        let firstDotDivTop = dotDivsTop[0];
-                        let firstDotDivBottom = dotDivsBottom[0];
-                        let topDotPosition = firstDotDivTop.getBoundingClientRect();
-                        let bottomDotPosition = firstDotDivBottom.getBoundingClientRect();
-                        console.log(topDotPosition)
-                        console.log(bottomDotPosition)
-                        let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2;
-                        console.log(middleOfTop)
-                        let middleOfBottom = (bottomDotPosition.top + bottomDotPosition.bottom) / 2;
-                        let middleOfLinePair = (middleOfTop + middleOfBottom) / 2;
-                        halfSizeOfWrapper = middleOfTop - middleOfLinePair;
-                        console.log(halfSizeOfWrapper)
-                        topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair];
-                        // wrappersPositions = [
-                        //     {
-                        //         top: middleOfTop + halfSizeOfWrapper,
-                        //         // middle: middleOfTop,
-                        //         // bottom: middleOfLinePair
-                        //     },
-                        //     {
-                        //         top: middleOfLinePair,
-                        //         // middle: middleOfBottom,
-                        //         // bottom: middleOfBottom - halfSizeOfWrapper
-                        //     }
-                        // ];
-    
-                        linePair.style.top = topOfWrappers[0] + 'px'; // wrappersPositions[0].top + 'px';
-                        linePair.style.height = halfSizeOfWrapper * 4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
-    
-                        // topwrapper: topwrapper.style.top = linePair.style.top - wrapperPositions[index].top
-                        // bottomwrapper: bottomwrapper.style.bottom = linePair.style.top - middleOfLinePair
-                        // wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
-                        
-                        // line.style.top = wrapper.style.top - halfSizeOfWrapper + 'px';
-    
-                        // linePair.style.opacity = 0;
-    
-    
-                    }
-    
-                    ["top", "bottom"].forEach(function(topOrBottom, index){
-    
-                        let wrapper;
-                        let line;
-                        const numbersOnLine = wheelNumbersSplit[index];
-                        if (moveDotsOrCreatePair == "createPair"){
-                            wrapper = document.createElement("div");
-                            wrapper.setAttribute("id", `line-wrapper-${topOrBottom}`);
-                            // wrapper.style.top = wrappersPositions[index].top + 'px';
-                            // wrapper.style.bottom = wrappersPositions[index].bottom + 'px';
-                            console.log(topOfWrappers)
-                            console.log(topOfWrappers[index])
-                            console.log(linePair.style.top)
-                            // console.log(linePair.getBoundingClientRect())
-                            console.log(parseInt(linePair.style.top));
-                            console.log(linePair.getBoundingClientRect().top)
-                            console.log(parseInt(linePair.style.top) - topOfWrappers[index])
-                            // wrapper.style.top = (parseInt(linePair.style.top) - topOfWrappers[index]) + 'px';
-                            wrapper.style.top = (topOfWrappers[index] - parseInt(linePair.style.top)) + 'px';
-                            wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
-                            wrapper.classList.add("line-wrapper");
-                            line = document.createElement("div");
-                            line.classList.add("line", `line-${topOrBottom}`);
-                            // line.style.top = wrappersPositions[index].middle + 'px';
-                            console.log(wrapper.style.top)
-                            console.log(halfSizeOfWrapper)
-                            line.style.top = wrapper.style.top - halfSizeOfWrapper + 'px';
-                            wrapper.appendChild(line);
-                
-                            linePair.appendChild(wrapper);
-                        }
-    
-                        wheelNumbers.forEach((wheelNumber, i) => {
-                            console.log(wheelNumber)
-    
-                            if (numbersOnLine.includes(wheelNumber)){
-    
-                                let numElement = $("#num" + wheelNumber);
-                                let dotElement = $("#dot" + wheelNumber);
-    
-    
-                                if (moveDotsOrCreatePair == "createPair"){
-    
-                                    $('#spinnerID').css("z-index", "1");
-                                    $('#spinnerID').css("height", "0em");
-
-
-                                    if (ballColor == "color") {
-                                        // dotElement.animate({borderWidth: '0'}, 1000);
-                                        numElement.animate({color: 'white'}, 1000);
-                                        if (topOrBottom == "top"){
-                                            console.log("royalblue")
-                                            dotElement.animate({backgroundColor: '#4169e1'}, 1000);
-                                        } else if (topOrBottom == "bottom"){
-                                            console.log("coral")
-                                            dotElement.animate({backgroundColor: '#ff7f50'}, 1000);
-                                        }
-                                    }
-
-                                    // $(numElement).css("background-color", "white");
-    
-                                    // let dotDivs = document.querySelectorAll(`.dot-${topOrBottom}-${position}`);
-                                    // let firstDotDiv = dotDivs[0];
-                                    // let div1Position = firstDotDiv.getBoundingClientRect();
-                                    // let div2 = document.getElementById('line-pair-top');
-                                    // div2.style.top = ((div1Position.top + div1Position.bottom) / 2) + 'px';
-    
-    
-    
-    
-    
-                                    // const dot = document.createElement("div");
-                                    // dot.classList.add("dot", `dot-${topOrBottom}`, `dot-${topOrBottom}-${position}`);
-                                    // dot.style.left = `${((i + 1) * 100) / (numOfWheelNumbers + 2)}%`;
-            
-                                    // const nmbr = document.createElement("span");
-            
-                                    // let dotBackgroundColor;
-                                    // let dotTextColor;
-            
-                                    // if (ballColor == "color") {
-                                    //     dotTextColor = "white";
-                                    //     if (topOrBottom == "top"){
-                                    //         dotBackgroundColor = "royalblue";
-                                    //     } else if (topOrBottom == "bottom"){
-                                    //         dotBackgroundColor = "coral";
-                                    //     }    
-                                    // }
-            
-                                    // nmbr.style.color = dotTextColor;
-                                    // dot.style.backgroundColor = dotBackgroundColor;
-            
-                                    // nmbr.textContent = wheelNumber;
-                                    // dot.appendChild(nmbr);
-                                    
-                                    // dot.dataset.index = wheelNumber;
-    
-                                    
-            
-                                    if (wheelNumber == winningNum){
-                                        barWithWinningNumber = topOrBottom;
-                                    }
-                                    // line.appendChild(dot);
-    
-                                } else if (moveDotsOrCreatePair == "moveDots"){
-    
-                                    let setTop = {
-                                        top: {
-                                            top: 4,
-                                            bottom: 8,
-                                        },
-                                        only: {
-                                            top: 14,
-                                            bottom: 18,
-                                        },
-                                        bottom: {
-                                            top: 24,
-                                            bottom: 28,
-                                        },
-                                    }
         
-                                    // let numElement = $("#num" + wheelNumber);
+            function moveDots(indexesToShowNow){
+                return new Promise((resolve) => {
+                    console.log(wheelNumbersSplits[mainTrialsCompleted])
+                    groupsOfThree.forEach(function(groupOfThree, indexOuter){
+                        let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
+                        let position = groupOfThree[0];
+                        let ballColor = groupOfThree[1];
+                        let trialPresent = groupOfThree[2];
+
+
+                        ["top", "bottom"].forEach(function(topOrBottom, index){
+
+                            const numbersOnLine = wheelNumbersSplit[index];
+        
+                            // const numbersOnLine = wheelNumbersSplit[index];
+                            // let wrapper = document.createElement("div");
+                            // wrapper.setAttribute("id", `line-wrapper-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+
+                            // wrapper.style.top = (topOfWrappers[index] - parseInt(linePair.style.top)) + 'px';
+                            // wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
+                            // wrapper.classList.add("line-wrapper");
+                            // let line = document.createElement("div");
+                            // line.classList.add("line", `line-${topOrBottom}`);
+
+                            // line.style.top = wrapper.style.top - halfSizeOfWrapper + 'px';
+                            // wrapper.appendChild(line);
+                
+                            // linePair.appendChild(wrapper);
+
+                            console.log(indexOuter)
+                            wheelNumbers.forEach((wheelNumber, i) => {
+
+                                console.log(wheelNumber)
+                                console.log(numbersOnLine)
+        
+                                let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                                let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+
+                                if (numbersOnLine.includes(wheelNumber)){
+
+                                    // console.log(numElement)
+                                    // console.log(dotElement)
+                                    // console.log(indexesToShowNow)
+                                    // console.log(indexOuter)
+                                    if (indexesToShowNow.includes(indexOuter)){
+                                        console.log(numElement)
+                                        console.log(dotElement)
+                                        // console.log("hello")
+                                        $(numElement).css("opacity", "1")
+                                        $(dotElement).css("opacity", "1")
+                                    } else {
+                                        console.log("goodbye")
+                                        $(numElement).css("opacity", "0")
+                                        $(dotElement).css("opacity", "0")
+                                    }
+
                                     let holdElement = $("#rSlice" + wheelNumber);
                                     
                                     let newLeft = -10 + (i * 2) + "em"; // reduce the multiplier for closer numbers
-                                    // $(numElement).css("background-color", "transparent")
                                     
-                                    $(dotElement).addClass(`dot dot-${topOrBottom}-${position}`);
+                                    $(dotElement).addClass(`dot dot-${topOrBottom}-${position}-${ballColor}-${trialPresent} dot-${position}-${ballColor}-${trialPresent}`);
                                     $(dotElement).css("border-width", "0px")
-    
+
                                     $({deg: 15}).animate({deg: 0}, {
                                         duration: 2000,
                                         step: function(now) {
@@ -997,74 +950,463 @@ var jsPsychRoulette = (function (jspsych) {
                                     numElement.animate({
                                         color: '#000',
                                     }, 400)
-                                    
-                                    dotElement.animate({
-                                        left: newLeft,
-                                        top: setTop[position][topOrBottom] + "em",
-                                        borderWidth: "2px",
-                                        backgroundColor: "white",
-                                        // width:  "36px",
-                                        // height: "36px"
-                                    }, 2000, function(){
-                                        if (i == numOfWheelNumbers - 1){
-                                            resolve (createLinePair("createPair", position, wheelNumbersSplit, ballColor))
-                                        }
-                                    });
-    
+
                                     numElement.animate({
                                         // right: wheelNumber >= 10 ? "4px": "11px",
                                         right: wheelNumber >= 10 ? "6px": "12px",
                                         top: "4px",
                                         fontSize: "21px",
                                     }, 2000)
-    
-                                    // numElement.animate({
-                                    //     // color: '#000',
-                                    //     // left: newLeft,
-                                    //     // top: '14.3em',
-                                    //     // top: '6.8em',
-                                    //     // top: setTop[position][topOrBottom] + "em",
-                                    //     // borderWidth: "2px",
-                                    //     // width:  "30px",
-                                    //     // height: "30px"
-                                    //     // left: 0
-                                    // }, 2000, function(){
-                                    //     if (i == numOfWheelNumbers - 1){
-                                    //         console.log("ganoush")
-                                    //         createLinePair("createPair", position, wheelNumbersSplit, ballColor)
-                                    //     }
-                                    // });
+
+                                    let setTop = {
+                                        top: {
+                                            top: 293,
+                                            bottom: 399,
+                                        },
+                                        only: {
+                                            top: 14,
+                                            bottom: 18,
+                                        },
+                                        bottom: {
+                                            top: 530,
+                                            bottom: 627,
+                                        },
+                                    }
+
+                                    // console.log(position)
+                                    // console.log(topOrBottom)
+                                    
+                                    dotElement.animate({
+                                        left: newLeft,
+                                        top: setTop[position][topOrBottom] + "px",
+                                        borderWidth: "2px",
+                                        backgroundColor: "white",
+                                        // width:  "36px",
+                                        // height: "36px"
+                                    }, 2000, function(){
+                                        if (i == numOfWheelNumbers - 1 && topOrBottom == "bottom" && ballColor == "bw" && position == "bottom" && trialPresent == "current"){
+                                            // resolve (createLinePair("createPair", position, wheelNumbersSplit, ballColor))
+                                            resolve()
+                                        }
+                                    });
+        
+                                } else {
+                                    $(numElement).css("opacity", "0")
+                                    $(dotElement).css("opacity", "0")
                                 }
-    
-    
-    
-                            }
-                        });
-    
+                            });
+                            
+                        })
+                    })
+                })
+            }
+
+            function createLinePair(indexToShowNow){
+                console.log("createLinePair")
+
+                let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexToShowNow];
+                let position = groupsOfThree[indexToShowNow][0];
+                let ballColor = groupsOfThree[indexToShowNow][1];
+                let trialPresent = groupsOfThree[indexToShowNow][2];
+
+
+                let barWithWinningNumber;
+
+                let linePair = document.createElement("div");
+                linePair.setAttribute("id", `line-pair-${position}-${ballColor}-${trialPresent}`);
+                linePair.classList.add("line-pair");
+
+                let dotDivsTop = document.querySelectorAll(`.dot-top-${position}-${ballColor}-${trialPresent}`);
+                let dotDivsBottom = document.querySelectorAll(`.dot-bottom-${position}-${ballColor}-${trialPresent}`);
+                let firstDotDivTop = dotDivsTop[0];
+                let firstDotDivBottom = dotDivsBottom[0];
+                let topDotPosition = firstDotDivTop.getBoundingClientRect();
+                let bottomDotPosition = firstDotDivBottom.getBoundingClientRect();
+                console.log(bottomDotPosition)
+                
+                let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2;
+                
+                let middleOfBottom = (bottomDotPosition.top + bottomDotPosition.bottom) / 2;
+                let middleOfLinePair = (middleOfTop + middleOfBottom) / 2;
+                let halfSizeOfWrapper = middleOfTop - middleOfLinePair;
+                // let halfSizeOfWrapper = middleOfLinePair - middleOfTop;
+                console.log(middleOfTop)
+                console.log(middleOfLinePair)
+                
+                let topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair];
+
+                linePair.style.top = topOfWrappers[0] + 'px'; // wrappersPositions[0].top + 'px';
+                console.log(halfSizeOfWrapper)
+                console.log(linePair.style.height)
+                // linePair.style.height = halfSizeOfWrapper * 4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
+                linePair.style.height = halfSizeOfWrapper * -4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
+
+                // console.log("position");
+                // console.log(`${position}`)
+                console.log(`${position}-${ballColor}-${trialPresent}`);
+
+                // let boy = [2, 4];
+                // ["top", "bottom"].forEach(function(topOrBottom, index){
+                //     console.log(topOrBottom)
+                // });
+
+
+                ["top", "bottom"].forEach(function(topOrBottom, index){
+                    const numbersOnLine = wheelNumbersSplit[index];
+
+                    let wrapperWithLine = document.createElement("div");
+                    let wrapperClickable = document.createElement("div");
+                    
+                    wrapperWithLine.setAttribute("id", `line-wrapper-includes-line-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                    wrapperClickable.setAttribute("id", `line-wrapper-clickable-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                    
+                    [wrapperWithLine, wrapperClickable].forEach(wrapper => {
+                        console.log(topOfWrappers[index])
+                        console.log(linePair.style.top)
+                        console.log(parseFloat(linePair.style.top))
+                        wrapper.style.top = (topOfWrappers[index] - parseFloat(linePair.style.top)) + 'px';
+                        wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
+                        wrapper.classList.add("line-wrapper");
                     });
+
+                    let line = document.createElement("div");
+                    line.classList.add("line", `line-${topOrBottom}`);
+                    
+                    line.style.top = wrapperWithLine.style.top - halfSizeOfWrapper + 'px';
+                    wrapperWithLine.appendChild(line);
+
+                    $(wrapperClickable).css("z-index", "400");
         
-                    if (moveDotsOrCreatePair == "createPair"){
-                        linePairAttributes.linePairContainer.appendChild(linePair);
+                    linePair.appendChild(wrapperWithLine);
+                    linePair.appendChild(wrapperClickable);
+
+                    wheelNumbers.forEach((wheelNumber) => {
+                        if (numbersOnLine.includes(wheelNumber)){
+
+                            let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                            let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+
+                            $(numElement).css("opacity", "1");
+                            $(dotElement).css("opacity", "1");
+
+                                    
+                            $('#spinnerID').css("z-index", "1");
+                            $('#spinnerID').css("height", "0em");
+
+
+                            if (ballColor == "color") {
+                                numElement.animate({color: 'white'}, 1000);
+                                if (topOrBottom == "top"){
+                                    dotElement.animate({backgroundColor: '#4169e1'}, 1000); //royalblue
+                                } else if (topOrBottom == "bottom"){
+                                    dotElement.animate({backgroundColor: '#ff7f50'}, 1000); // coral
+                                }
+                            }
     
-                        if (position == "only"){
-                            $(".line-pair").not(".selected").css("border-color", "white")
-                        } else {
-                            $(".line-pair").not(".selected").css("border-color", "#dbdbdb85");
+                            if (wheelNumber == winningNum){
+                                barWithWinningNumber = topOrBottom;
+                            }
+
                         }
-        
-                        console.log(linePair)
-                        console.log(barWithWinningNumber)
-    
-                        resolve([linePair, barWithWinningNumber]);
-                        // return [linePair, barWithWinningNumber];
-                    }
-                    // } else if (moveDotsOrCreatePair == "moveDots"){
-                    //     return createLinePair("createPair", position, wheelNumbersSplit, ballColor)
+                    })
                 })
 
+                linePairAttributes.linePairContainer.appendChild(linePair);
 
-                // }
+                if (position == "only"){
+                    $(".line-pair").not(".selected").css("border-color", "white")
+                } else {
+                    $(".line-pair").not(".selected").css("border-color", "#dbdbdb85");
+                }
+
+                console.log(linePair)
+                return([linePair, barWithWinningNumber]);
+
             }
+
+            // function createLinePair(moveDotsOrCreatePair, position, wheelNumbersSplit, ballColor="color"){
+
+            //     return new Promise((resolve) => {
+                    
+            //         let linePair;
+            //         let barWithWinningNumber;
+            //         // let wrappersPositions;
+            //         let topOfWrappers;
+            //         let halfSizeOfWrapper;
+    
+            //         if (moveDotsOrCreatePair == "createPair"){
+            //             linePair = document.createElement("div");
+            //             linePair.setAttribute("id", `line-pair-${position}`);
+            //             linePair.classList.add("line-pair");
+    
+            //             let dotDivsTop = document.querySelectorAll(`.dot-top-${position}`);
+            //             let dotDivsBottom = document.querySelectorAll(`.dot-bottom-${position}`);
+            //             let firstDotDivTop = dotDivsTop[0];
+            //             let firstDotDivBottom = dotDivsBottom[0];
+            //             let topDotPosition = firstDotDivTop.getBoundingClientRect();
+            //             let bottomDotPosition = firstDotDivBottom.getBoundingClientRect();
+            //             console.log(topDotPosition)
+            //             console.log(bottomDotPosition)
+            //             let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2;
+            //             console.log(middleOfTop)
+            //             let middleOfBottom = (bottomDotPosition.top + bottomDotPosition.bottom) / 2;
+            //             let middleOfLinePair = (middleOfTop + middleOfBottom) / 2;
+            //             halfSizeOfWrapper = middleOfTop - middleOfLinePair;
+            //             console.log(halfSizeOfWrapper)
+            //             topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair];
+            //             // wrappersPositions = [
+            //             //     {
+            //             //         top: middleOfTop + halfSizeOfWrapper,
+            //             //         // middle: middleOfTop,
+            //             //         // bottom: middleOfLinePair
+            //             //     },
+            //             //     {
+            //             //         top: middleOfLinePair,
+            //             //         // middle: middleOfBottom,
+            //             //         // bottom: middleOfBottom - halfSizeOfWrapper
+            //             //     }
+            //             // ];
+    
+            //             linePair.style.top = topOfWrappers[0] + 'px'; // wrappersPositions[0].top + 'px';
+            //             linePair.style.height = halfSizeOfWrapper * 4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
+    
+            //             // topwrapper: topwrapper.style.top = linePair.style.top - wrapperPositions[index].top
+            //             // bottomwrapper: bottomwrapper.style.bottom = linePair.style.top - middleOfLinePair
+            //             // wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
+                        
+            //             // line.style.top = wrapper.style.top - halfSizeOfWrapper + 'px';
+    
+            //             // linePair.style.opacity = 0;
+    
+    
+            //         }
+    
+            //         ["top", "bottom"].forEach(function(topOrBottom, index){
+    
+            //             let wrapper;
+            //             let line;
+            //             const numbersOnLine = wheelNumbersSplit[index];
+            //             if (moveDotsOrCreatePair == "createPair"){
+            //                 wrapper = document.createElement("div");
+            //                 wrapper.setAttribute("id", `line-wrapper-${topOrBottom}`);
+            //                 // wrapper.style.top = wrappersPositions[index].top + 'px';
+            //                 // wrapper.style.bottom = wrappersPositions[index].bottom + 'px';
+            //                 console.log(topOfWrappers)
+            //                 console.log(topOfWrappers[index])
+            //                 console.log(linePair.style.top)
+            //                 // console.log(linePair.getBoundingClientRect())
+            //                 console.log(parseInt(linePair.style.top));
+            //                 console.log(linePair.getBoundingClientRect().top)
+            //                 console.log(parseInt(linePair.style.top) - topOfWrappers[index])
+            //                 // wrapper.style.top = (parseInt(linePair.style.top) - topOfWrappers[index]) + 'px';
+            //                 wrapper.style.top = (topOfWrappers[index] - parseInt(linePair.style.top)) + 'px';
+            //                 wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
+            //                 wrapper.classList.add("line-wrapper");
+            //                 line = document.createElement("div");
+            //                 line.classList.add("line", `line-${topOrBottom}`);
+            //                 // line.style.top = wrappersPositions[index].middle + 'px';
+            //                 console.log(wrapper.style.top)
+            //                 console.log(halfSizeOfWrapper)
+            //                 line.style.top = wrapper.style.top - halfSizeOfWrapper + 'px';
+            //                 wrapper.appendChild(line);
+                
+            //                 linePair.appendChild(wrapper);
+            //             }
+    
+            //             wheelNumbers.forEach((wheelNumber, i) => {
+            //                 console.log(wheelNumber)
+    
+            //                 if (numbersOnLine.includes(wheelNumber)){
+    
+            //                     let numElement = $("#num" + wheelNumber + '-' + position);
+            //                     let dotElement = $("#dot" + wheelNumber + '-' + position);
+    
+            //                     $(numElement).css("opacity", "1");
+            //                     $(dotElement).css("opacity", "1");
+
+            //                     if (position != "only"){
+            //                         $("#num" + wheelNumber + '-only').css("opacity", "0");
+            //                         $("#dot" + wheelNumber + '-only').css("opacity", "0");
+            //                     }
+    
+            //                     if (moveDotsOrCreatePair == "createPair"){
+    
+            //                         $('#spinnerID').css("z-index", "1");
+            //                         $('#spinnerID').css("height", "0em");
+
+
+            //                         if (ballColor == "color") {
+            //                             // dotElement.animate({borderWidth: '0'}, 1000);
+            //                             numElement.animate({color: 'white'}, 1000);
+            //                             if (topOrBottom == "top"){
+            //                                 console.log("royalblue")
+            //                                 dotElement.animate({backgroundColor: '#4169e1'}, 1000);
+            //                             } else if (topOrBottom == "bottom"){
+            //                                 console.log("coral")
+            //                                 dotElement.animate({backgroundColor: '#ff7f50'}, 1000);
+            //                             }
+            //                         }
+
+            //                         // $(numElement).css("background-color", "white");
+    
+            //                         // let dotDivs = document.querySelectorAll(`.dot-${topOrBottom}-${position}`);
+            //                         // let firstDotDiv = dotDivs[0];
+            //                         // let div1Position = firstDotDiv.getBoundingClientRect();
+            //                         // let div2 = document.getElementById('line-pair-top');
+            //                         // div2.style.top = ((div1Position.top + div1Position.bottom) / 2) + 'px';
+    
+    
+    
+    
+    
+            //                         // const dot = document.createElement("div");
+            //                         // dot.classList.add("dot", `dot-${topOrBottom}`, `dot-${topOrBottom}-${position}`);
+            //                         // dot.style.left = `${((i + 1) * 100) / (numOfWheelNumbers + 2)}%`;
+            
+            //                         // const nmbr = document.createElement("span");
+            
+            //                         // let dotBackgroundColor;
+            //                         // let dotTextColor;
+            
+            //                         // if (ballColor == "color") {
+            //                         //     dotTextColor = "white";
+            //                         //     if (topOrBottom == "top"){
+            //                         //         dotBackgroundColor = "royalblue";
+            //                         //     } else if (topOrBottom == "bottom"){
+            //                         //         dotBackgroundColor = "coral";
+            //                         //     }    
+            //                         // }
+            
+            //                         // nmbr.style.color = dotTextColor;
+            //                         // dot.style.backgroundColor = dotBackgroundColor;
+            
+            //                         // nmbr.textContent = wheelNumber;
+            //                         // dot.appendChild(nmbr);
+                                    
+            //                         // dot.dataset.index = wheelNumber;
+    
+                                    
+            
+            //                         if (wheelNumber == winningNum){
+            //                             barWithWinningNumber = topOrBottom;
+            //                         }
+            //                         // line.appendChild(dot);
+    
+            //                     } else if (moveDotsOrCreatePair == "moveDots"){
+    
+            //                         let setTop = {
+            //                             top: {
+            //                                 top: 4,
+            //                                 bottom: 8,
+            //                             },
+            //                             only: {
+            //                                 top: 14,
+            //                                 bottom: 18,
+            //                             },
+            //                             bottom: {
+            //                                 top: 24,
+            //                                 bottom: 28,
+            //                             },
+            //                         }
+        
+            //                         // let numElement = $("#num" + wheelNumber);
+            //                         let holdElement = $("#rSlice" + wheelNumber);
+                                    
+            //                         let newLeft = -10 + (i * 2) + "em"; // reduce the multiplier for closer numbers
+            //                         // $(numElement).css("background-color", "transparent")
+                                    
+            //                         $(dotElement).addClass(`dot dot-${topOrBottom}-${position}`);
+            //                         $(dotElement).css("border-width", "0px")
+    
+            //                         $({deg: 15}).animate({deg: 0}, {
+            //                             duration: 2000,
+            //                             step: function(now) {
+            //                                 numElement.css({
+            //                                     transform: 'rotate(' + now + 'deg)'
+            //                                 });
+            //                             }
+            //                         });
+        
+            //                         $({deg: numberLoc[wheelNumber][0]}).animate({deg: 0 - (dest%360)}, {
+            //                             duration: 2000,
+            //                             step: function(now) {
+            //                                 holdElement.css({
+            //                                     transform: 'rotate(' + now + 'deg)'
+            //                                 });
+            //                             }
+            //                         });
+                                    
+            //                         numElement.animate({
+            //                             color: '#000',
+            //                         }, 400)
+                                    
+            //                         dotElement.animate({
+            //                             left: newLeft,
+            //                             top: setTop[position][topOrBottom] + "em",
+            //                             borderWidth: "2px",
+            //                             backgroundColor: "white",
+            //                             // width:  "36px",
+            //                             // height: "36px"
+            //                         }, 2000, function(){
+            //                             if (i == numOfWheelNumbers - 1){
+            //                                 resolve (createLinePair("createPair", position, wheelNumbersSplit, ballColor))
+            //                             }
+            //                         });
+    
+            //                         numElement.animate({
+            //                             // right: wheelNumber >= 10 ? "4px": "11px",
+            //                             right: wheelNumber >= 10 ? "6px": "12px",
+            //                             top: "4px",
+            //                             fontSize: "21px",
+            //                         }, 2000)
+    
+            //                         // numElement.animate({
+            //                         //     // color: '#000',
+            //                         //     // left: newLeft,
+            //                         //     // top: '14.3em',
+            //                         //     // top: '6.8em',
+            //                         //     // top: setTop[position][topOrBottom] + "em",
+            //                         //     // borderWidth: "2px",
+            //                         //     // width:  "30px",
+            //                         //     // height: "30px"
+            //                         //     // left: 0
+            //                         // }, 2000, function(){
+            //                         //     if (i == numOfWheelNumbers - 1){
+            //                         //         console.log("ganoush")
+            //                         //         createLinePair("createPair", position, wheelNumbersSplit, ballColor)
+            //                         //     }
+            //                         // });
+            //                     }
+    
+    
+    
+            //                 }
+            //             });
+    
+            //         });
+        
+            //         if (moveDotsOrCreatePair == "createPair"){
+            //             linePairAttributes.linePairContainer.appendChild(linePair);
+    
+            //             if (position == "only"){
+            //                 $(".line-pair").not(".selected").css("border-color", "white")
+            //             } else {
+            //                 $(".line-pair").not(".selected").css("border-color", "#dbdbdb85");
+            //             }
+        
+            //             console.log(linePair)
+            //             console.log(barWithWinningNumber)
+    
+            //             resolve([linePair, barWithWinningNumber]);
+            //             // return [linePair, barWithWinningNumber];
+            //         }
+            //         // } else if (moveDotsOrCreatePair == "moveDots"){
+            //         //     return createLinePair("createPair", position, wheelNumbersSplit, ballColor)
+            //     })
+
+
+            //     // }
+            // }
 
             function setupDotClicking(linePair) {
 
@@ -1205,7 +1547,7 @@ var jsPsychRoulette = (function (jspsych) {
                     // }, 100000);
 
                     setTimeout(function(){
-                        $('.hold').css("clip", 'rect(0, 50em, 20em, -10em)')
+                        $('.hold').css("clip", 'rect(0, 50em, 200em, -10em)')
                         $(".spinner").css("boxShadow", "none")
                     }, 1000)
                     // }, 100000)
@@ -1352,6 +1694,7 @@ var jsPsychRoulette = (function (jspsych) {
                     createInstructionsForFirstChoice(multipleChoiceQuestion);
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.html(`Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.<br>${linePairAttributes.rememberNote}`);
+                    moveDots([0, 1]);
                     multipleChoiceQuestion("moveDots");
                 }
             }
