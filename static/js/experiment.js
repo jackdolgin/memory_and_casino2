@@ -1,4 +1,4 @@
-condition = 0;
+condition = 1;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -82,15 +82,15 @@ if (choiceType == "multiple_choice"){
   wheelNumbersSplits2 = getCombinations(wheelNumbersSplits1);
 
 } else if (choiceType == "open_ended"){
-  wheelNumbersSplits2 = [
+  wheelNumbersSplits2 = [[
     [wheelNumbers, wheelNumbers],
     [wheelNumbers, wheelNumbers],
     [wheelNumbers, wheelNumbers],
     [wheelNumbers, wheelNumbers],
-    wheelNumbersSplits1[trialsWithoutChoice][0]
-  ];
+    wheelNumbersSplits1[trialsWithoutChoice -1]
+  ]];
 }
-
+console.log(wheelNumbersSplits2)
 wheelNumbersSplits1.forEach(function (item, i){
   wheelNumbersSplits1[i] = [item, item, item, item, item];
 })
@@ -98,6 +98,7 @@ wheelNumbersSplits1.forEach(function (item, i){
 const trialsWithChoice = wheelNumbersSplits2.length;
 
 const wheelNumbersSplits = wheelNumbersSplits1.concat(wheelNumbersSplits2);
+console.log(wheelNumbersSplits)
 const trials = trialsWithoutChoice + trialsWithChoice;
 
 const expectedDuration = 30;
@@ -286,8 +287,8 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
-    // timeline: [wheelSpin],
-    timeline: [numberlineDisplay],
+    timeline: [wheelSpin],
+    // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
     repetitions: trials
   }

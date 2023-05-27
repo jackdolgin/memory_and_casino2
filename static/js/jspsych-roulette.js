@@ -820,10 +820,10 @@ var jsPsychRoulette = (function (jspsych) {
                             // console.log(linePairAndBarWithWinningNum)
                             // const barWithWinningNumber = linePairAndBarWithWinningNum[1];
                             const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![linePairAndBarWithWinningNum[1]].includes(x));
-                            $(`.dot-${barNotWithWinningNumber}-${pairPosition}`).animate({opacity: 0}, 1000);
+                            $(`.dot-${barNotWithWinningNumber}-${pairPosition}-color-current`).animate({opacity: 0}, 1000);
                             // console.log(linePairAndBarWithWinningNum)
                             // console.log(pairPosition)
-                            let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}`).length
+                            let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).length
         
                             linePairAttributes.beginningMessage.html(`The winning number is one of the ${numsRemaining} numbers on the ${linePairAndBarWithWinningNum[1]} line.<br><br><br><br><br><br><br><br><br>`);
                             linePairAttributes.numberlineButton.html("Continue to the memory game");
@@ -964,8 +964,8 @@ var jsPsychRoulette = (function (jspsych) {
                                             bottom: 399,
                                         },
                                         only: {
-                                            top: 14,
-                                            bottom: 18,
+                                            top: 350,
+                                            bottom: 500,
                                         },
                                         bottom: {
                                             top: 530,
