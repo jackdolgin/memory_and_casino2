@@ -514,7 +514,8 @@ var jsPsychRoulette = (function (jspsych) {
             async function createInstructionsEarlyTrials(){
 
                 // "only", "color", "present" should be made visible
-                // const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
+                const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][0];
+                console.log(wheelNumbersSplit)
                 await moveDots([2]);
                 const linePairAndBarWithWinningNum = createLinePair(2);
 
@@ -530,7 +531,7 @@ var jsPsychRoulette = (function (jspsych) {
 
                     // $("#line-wrapper-top").animate({opacity: 0}, 1000);
                     const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
-                    $(`.dot-${barNotWithWinningNumber}-only`).animate({opacity: 0}, 1000);
+                    $(`.dot-${barNotWithWinningNumber}-only-color-current`).animate({opacity: 0}, 1000);
 
                     let numsRemaining;
 
@@ -610,6 +611,10 @@ var jsPsychRoulette = (function (jspsych) {
                     await moveDots([4]);
                     console.log("tiger");
                     createLinePair(4);
+                    // await moveDots([0, 1]);
+                    // console.log("tiger");
+                    // createLinePair(0);
+                    // createLinePair(1)
                     // createLinePair(4);
                     // linePairAndBarWithWinningNum = createLinePair(4);
 
@@ -913,7 +918,9 @@ var jsPsychRoulette = (function (jspsych) {
             function moveDots(indexesToShowNow){
                 return new Promise((resolve) => {
                     // console.log(wheelNumbersSplits[mainTrialsCompleted])
-                    console.log(wheelNumbersSplits[mainTrialsCompleted])
+                    // console.log(wheelNumbersSplits[mainTrialsCompleted])
+                    let resolveOnThisIterationCounter = 0;
+                    // let resolveOnThisIteration = false;
                     groupsOfThree.forEach(function(groupOfThree, indexOuter){
                         let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
                         let position = groupOfThree[0];
@@ -1028,6 +1035,13 @@ var jsPsychRoulette = (function (jspsych) {
 
                                     // console.log(position)
                                     // console.log(topOrBottom)
+                                    let resolveOnThisIteration;
+                                    if (indexesToShowNow[0] == indexOuter && (i == (numOfWheelNumbers - 1))){
+                                        resolveOnThisIterationCounter += 1;
+                                        resolveOnThisIteration = true;
+                                    } else {
+                                        resolveOnThisIteration = false;
+                                    }
                                     
                                     dotElement.animate({
                                         left: newLeft,
@@ -1039,11 +1053,12 @@ var jsPsychRoulette = (function (jspsych) {
                                     }, 2000, function(){
                                         // console.log("not done")
                                         // console.log(i)
-                                        if (ballColor == "bw"){
+                                        // if (ballColor == "bw"){
                                             // console.log(i)
-                                        }
+                                        // }
+                                        if (resolveOnThisIterationCounter == 1 && resolveOnThisIteration){
                                         // if (i == numOfWheelNumbers - 1 && topOrBottom == "bottom" && ballColor == "bw" && position == "bottom" && trialPresent == "current"){
-                                            if (i == (numOfWheelNumbers - 1) && topOrBottom == "bottom" && ballColor == "bw"){
+                                            // if (i == (numOfWheelNumbers - 1) && topOrBottom == "bottom" && ballColor == "bw"){
                                             // if (i == (numOfWheelNumbers - 1) && topOrBottom == "bottom" && ballColor == "bw"){
                                                 console.log("done")
                                             // resolve (createLinePair("createPair", position, wheelNumbersSplit, ballColor))
@@ -1063,7 +1078,7 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function createLinePair(indexToShowNow){
-                console.log("createLinePair")
+                // console.log("createLinePair")
 
                 let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexToShowNow];
                 let position = groupsOfThree[indexToShowNow][0];
@@ -1083,8 +1098,8 @@ var jsPsychRoulette = (function (jspsych) {
                 let firstDotDivBottom = dotDivsBottom[0];
                 let topDotPosition = firstDotDivTop.getBoundingClientRect();
                 let bottomDotPosition = firstDotDivBottom.getBoundingClientRect();
-                console.log(topDotPosition)
-                console.log(bottomDotPosition)
+                // console.log(topDotPosition)
+                // console.log(bottomDotPosition)
                 
                 let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2; // (460 + 500) / 2 = 480
                 
@@ -1092,20 +1107,20 @@ var jsPsychRoulette = (function (jspsych) {
                 let middleOfLinePair = (middleOfTop + middleOfBottom) / 2; // 513.5
                 let halfSizeOfWrapper = middleOfTop - middleOfLinePair; //-33.5px
                 // let halfSizeOfWrapper = middleOfLinePair - middleOfTop;
-                console.log(middleOfTop)
-                console.log(middleOfLinePair)
+                // console.log(middleOfTop)
+                // console.log(middleOfLinePair)
                 
                 let topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair]; // [480 + -33.5 = 446.5, 513.5]
 
                 linePair.style.top = topOfWrappers[0] + 'px'; // wrappersPositions[0].top + 'px';
-                console.log(halfSizeOfWrapper)
-                console.log(linePair.style.height)
+                // console.log(halfSizeOfWrapper)
+                // console.log(linePair.style.height)
                 // linePair.style.height = halfSizeOfWrapper * 4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
                 linePair.style.height = halfSizeOfWrapper * -4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px'; 134px
 
                 // console.log("position");
                 // console.log(`${position}`)
-                console.log(`${position}-${ballColor}-${trialPresent}`);
+                // console.log(`${position}-${ballColor}-${trialPresent}`);
 
                 // let boy = [2, 4];
                 // ["top", "bottom"].forEach(function(topOrBottom, index){
@@ -1123,9 +1138,9 @@ var jsPsychRoulette = (function (jspsych) {
                     wrapperClickable.setAttribute("id", `line-wrapper-clickable-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
                     
                     [wrapperWithLine, wrapperClickable].forEach(wrapper => {
-                        console.log(topOfWrappers[index])
-                        console.log(linePair.style.top)
-                        console.log(parseFloat(linePair.style.top))
+                        // console.log(topOfWrappers[index])
+                        // console.log(linePair.style.top)
+                        // console.log(parseFloat(linePair.style.top))
                         wrapper.style.top = (topOfWrappers[index] - parseFloat(linePair.style.top)) + 'px'; // 446.5 -446.5 // 513.5 -446.5
                         wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
                         wrapper.classList.add("line-wrapper");
@@ -1181,7 +1196,7 @@ var jsPsychRoulette = (function (jspsych) {
                     $(".line-pair").not(".selected").css("border-color", "#dbdbdb85");
                 }
 
-                console.log(linePair)
+                // console.log(linePair)
                 return([linePair, barWithWinningNumber]);
 
             }
@@ -1830,7 +1845,7 @@ var jsPsychRoulette = (function (jspsych) {
             }
     
 
-            function generateLinePairs(){
+            async function generateLinePairs(){
 
                 if (mainTrialsCompleted < trialsWithoutChoice){
                     createInstructionsEarlyTrials();
@@ -1840,7 +1855,7 @@ var jsPsychRoulette = (function (jspsych) {
                     createInstructionsForFirstChoice(multipleChoiceQuestion);
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.html(`Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.<br>${linePairAttributes.rememberNote}`);
-                    moveDots([0, 1]);
+                    await moveDots([0, 1]);
                     multipleChoiceQuestion("moveDots");
                 }
             }
