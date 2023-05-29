@@ -293,7 +293,10 @@ var jsPsychRoulette = (function (jspsych) {
                                 ["prev", "current"].forEach(trialPresent => {
                                     let dotDiv = document.createElement("div");
                                     $(dotDiv).attr('id', `dot${possiblePayout}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                                    $(dotDiv).attr('data-index', possiblePayout);
+                                    $(dotDiv).attr('data-row', topOrBottom);
                                     $(dotDiv).addClass("numOuter");
+                                    
                                     // $(dotDiv).addClass(`dot-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
             
                                     let newNumber = document.createElement("div");
@@ -575,22 +578,27 @@ var jsPsychRoulette = (function (jspsych) {
 
                 linePairAttributes.beginningMessage.html(`<p>In previous trials, at this point we would show you a pair of horizontal lines, and you would see whether the winning number is on the top or bottom line. <span style='color: white'>You had no ability to choose which numbers were on which line, and hence, what you would learn about the winning number prior to playing the memory game.</span></p>`);
                 linePairAttributes.numberlineButton.css("opacity", "1");
+                linePairAttributes.numberlineButton.css("top", '200px');
                 linePairAttributes.numberlineButton.html("Continue");
+                let numberlineButtonLastHeight;
 
                 if (choiceType == "multiple_choice"){
                     // setTimeout(function() {
                     //     linePairAttributes.numberlineButton.on("click", secondClickFunction);
                     // }, 5000);
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
-                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top or bottom of that pair.</p>`
+                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top or bottom of that pair.</p>`;
+                    numberlineButtonLastHeight = '787px'
                 } else if (choiceType == "open_ended"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
+                    numberlineButtonLastHeight = '555px'
                 }
 
                 async function firstClickFunction(){
 
                     console.log("first click function is running")
+                    linePairAttributes.numberlineButton.css("top", '566');
                     linePairAttributes.numberlineButton.off("click");
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
@@ -598,7 +606,11 @@ var jsPsychRoulette = (function (jspsych) {
                     // }, 5000);
 
                     // "only", "color", "previous" should be made visible
-                    await moveDots([4])
+                    console.log("bogo");
+                    await moveDots([4]);
+                    console.log("tiger");
+                    createLinePair(4);
+                    // createLinePair(4);
                     // linePairAndBarWithWinningNum = createLinePair(4);
 
                 }
@@ -607,26 +619,6 @@ var jsPsychRoulette = (function (jspsych) {
 
                     console.log("second click function is running")
                     linePairAttributes.numberlineButton.off("click");
-
-                    ["top", "bottom"].forEach(function(topOrBottom){
-                        // let wheelNumbers;
-
-                        // let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
-                        let position = groupsOfThree[4][0];
-                        let ballColor = groupsOfThree[4][1];
-                        let trialPresent = groupsOfThree[4][2];
-    
-                        wheelNumbers.forEach((wheelNumber, i) => {
-                                   
-                            let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
-                            let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
-
-                            $(numElement).css("opacity", "0")
-                            $(dotElement).css("opacity", "0")
-
-
-                        })
-                    })
 
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", thirdClickFunction);
@@ -641,8 +633,31 @@ var jsPsychRoulette = (function (jspsych) {
 
                     console.log("third click function is running")
                     linePairAttributes.numberlineButton.off("click");
+                    $("#line-pair-only-color-prev").remove();
+
+                    ["top", "bottom"].forEach(function(topOrBottom){
+                        // let wheelNumbers;
+
+                        // let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
+                        let position = groupsOfThree[4][0];
+                        let ballColor = groupsOfThree[4][1];
+                        let trialPresent = groupsOfThree[4][2];
+    
+                        wheelNumbers.forEach((wheelNumber) => {
+                                   
+                            let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                            let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+
+                            $(numElement).css("opacity", "0")
+                            $(dotElement).css("opacity", "0")
+
+
+                        })
+                    })
+
                     // const oldLinePair = linePairAndBarWithWinningNum[0];
                     // oldLinePair.remove();
+                    linePairAttributes.numberlineButton.css("top", '176px');
                     linePairAttributes.beginningMessage.html(`<p>This time it\'ll work a little differently. Now, you can choose how the ${numOfWheelNumbers} numbers are split between the two lines.</p>`);
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", fourthClickFunction);
@@ -667,11 +682,15 @@ var jsPsychRoulette = (function (jspsych) {
 
                     console.log("fifth click function is running")
                     linePairAttributes.numberlineButton.off("click");
+                    linePairAttributes.numberlineButton.css("top", '233px');
                     linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}<br>${linePairAttributes.rememberNote}`);
 
                     setTimeout(function() {
                         // linePairAttributes.numberlineButton.
-                        linePairAttributes.numberlineButton.on("click", nextStage);
+                         linePairAttributes.numberlineButton.on("click", function(){
+                            linePairAttributes.numberlineButton.css("top", numberlineButtonLastHeight);
+                            nextStage()
+                        })
                     }, 1);
 
                 }
@@ -683,6 +702,8 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function openEndedQuestion(){
+                let falseClicks = 0;
+                console.log("openEndedQuestion")
 
                 // if (){
                     
@@ -692,7 +713,8 @@ var jsPsychRoulette = (function (jspsych) {
                 console.log("aaaaaaa")
                 const linePairAndBarWithWinningNum = createLinePair(3);
                 let numsOnBarWithWinningNumber;
-                setupDotClicking(linePairAndBarWithWinningNum[0]);
+                let container = $("#line-pair-only-bw-current");
+                setupDotClicking(container);
                 $('.line-wrapper').css("cursor", "pointer");
 
                 // setTimeout(function() {
@@ -702,28 +724,41 @@ var jsPsychRoulette = (function (jspsych) {
 
                 linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`)
 
+                // console.log(linePairAttributes.numberlineButton.style)
+                // console.log(linePairAttributes.numberlineButton)
+                // linePairAttributes.numberlineButton.css("top", '555px');
+                // console.log(linePairAttributes.numberlineButton.style.top)
+
                 function firstClickFunction(){
 
                     if (document.querySelectorAll('.selected').length == numOfWheelNumbers){
                         linePairAttributes.numberlineButton.off("click");
-                        $('.line-wrapper').off();
+                        container.off();
                         
                         $('#incomplete-message').html("");
     
     
                         const barWithWinningNumber = linePairAndBarWithWinningNum[1];
                         const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
-                        $(`.dot-${barNotWithWinningNumber}-only`).animate({opacity: 0}, 1000);
+                        $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
                         // $(`.dot-${barNotWithWinningNumber}-only.selected`).animate({opacity: 0}, 1000);
                         // $(`.select`).not(`.dot-${barNotWithWinningNumber}-only`)
-                        $(`.dot-${barWithWinningNumber}-only:not([class*="selected"])`).animate({opacity: 0}, 1000);
-                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only.selected`).length;
+                        $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
+                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`).length;
     
                         linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
                         linePairAttributes.numberlineButton.html("Continue to the memory game");
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
                     } else {
-                        $('#incomplete-message').html("Please select one of each number");
+
+                        falseClicks+=1;
+
+                        if (falseClicks==1){
+                            let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
+                            $('#incomplete-message').html("Please select one of each number");
+                            $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
+                            linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
+                        }
                     }
                 }
 
@@ -737,6 +772,7 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function multipleChoiceQuestion(){
+                let falseClicks = 0;
                 const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
                 // createLinePair(0);
                 // createLinePair(1);
@@ -835,7 +871,15 @@ var jsPsychRoulette = (function (jspsych) {
                     } else {
                         // linePairAttributes.numberlineButton.on("click", function(event){
                             // console.log("tomajo")
-                            $('#incomplete-message').html("Please make a selection");
+
+                            falseClicks+=1;
+
+                            if (falseClicks==1){
+                                let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
+                                $('#incomplete-message').html("Please make a selection");
+                                $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
+                                linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
+                            }
                         // });
                     }
 
@@ -868,6 +912,7 @@ var jsPsychRoulette = (function (jspsych) {
         
             function moveDots(indexesToShowNow){
                 return new Promise((resolve) => {
+                    // console.log(wheelNumbersSplits[mainTrialsCompleted])
                     console.log(wheelNumbersSplits[mainTrialsCompleted])
                     groupsOfThree.forEach(function(groupOfThree, indexOuter){
                         let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
@@ -895,11 +940,11 @@ var jsPsychRoulette = (function (jspsych) {
                 
                             // linePair.appendChild(wrapper);
 
-                            console.log(indexOuter)
+                            // console.log(indexOuter)
                             wheelNumbers.forEach((wheelNumber, i) => {
 
-                                console.log(wheelNumber)
-                                console.log(numbersOnLine)
+                                // console.log(wheelNumber)
+                                // console.log(numbersOnLine)
         
                                 let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
                                 let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
@@ -911,13 +956,13 @@ var jsPsychRoulette = (function (jspsych) {
                                     // console.log(indexesToShowNow)
                                     // console.log(indexOuter)
                                     if (indexesToShowNow.includes(indexOuter)){
-                                        console.log(numElement)
-                                        console.log(dotElement)
+                                        // console.log(numElement)
+                                        // console.log(dotElement)
                                         // console.log("hello")
                                         $(numElement).css("opacity", "1")
                                         $(dotElement).css("opacity", "1")
                                     } else {
-                                        console.log("goodbye")
+                                        // console.log("goodbye")
                                         $(numElement).css("opacity", "0")
                                         $(dotElement).css("opacity", "0")
                                     }
@@ -960,16 +1005,24 @@ var jsPsychRoulette = (function (jspsych) {
 
                                     let setTop = {
                                         top: {
-                                            top: 293,
-                                            bottom: 399,
+                                            // top: 293, // 368
+                                            // bottom: 399, // 468
+                                            top: 318,
+                                            bottom: 418
                                         },
                                         only: {
-                                            top: 350,
-                                            bottom: 500,
+                                            // top: 350, // 368px
+                                            // bottom: 500, // 468px
+                                            top: 318,
+                                            bottom: 418
                                         },
                                         bottom: {
-                                            top: 530,
-                                            bottom: 627,
+                                            // top: 530,
+                                            // bottom: 627,
+                                            // top: 430, // 601
+                                            // bottom: 497 // 701
+                                            top: 551,
+                                            bottom: 651
                                         },
                                     }
 
@@ -984,7 +1037,15 @@ var jsPsychRoulette = (function (jspsych) {
                                         // width:  "36px",
                                         // height: "36px"
                                     }, 2000, function(){
-                                        if (i == numOfWheelNumbers - 1 && topOrBottom == "bottom" && ballColor == "bw" && position == "bottom" && trialPresent == "current"){
+                                        // console.log("not done")
+                                        // console.log(i)
+                                        if (ballColor == "bw"){
+                                            // console.log(i)
+                                        }
+                                        // if (i == numOfWheelNumbers - 1 && topOrBottom == "bottom" && ballColor == "bw" && position == "bottom" && trialPresent == "current"){
+                                            if (i == (numOfWheelNumbers - 1) && topOrBottom == "bottom" && ballColor == "bw"){
+                                            // if (i == (numOfWheelNumbers - 1) && topOrBottom == "bottom" && ballColor == "bw"){
+                                                console.log("done")
                                             // resolve (createLinePair("createPair", position, wheelNumbersSplit, ballColor))
                                             resolve()
                                         }
@@ -1022,24 +1083,25 @@ var jsPsychRoulette = (function (jspsych) {
                 let firstDotDivBottom = dotDivsBottom[0];
                 let topDotPosition = firstDotDivTop.getBoundingClientRect();
                 let bottomDotPosition = firstDotDivBottom.getBoundingClientRect();
+                console.log(topDotPosition)
                 console.log(bottomDotPosition)
                 
-                let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2;
+                let middleOfTop = (topDotPosition.top + topDotPosition.bottom) / 2; // (460 + 500) / 2 = 480
                 
-                let middleOfBottom = (bottomDotPosition.top + bottomDotPosition.bottom) / 2;
-                let middleOfLinePair = (middleOfTop + middleOfBottom) / 2;
-                let halfSizeOfWrapper = middleOfTop - middleOfLinePair;
+                let middleOfBottom = (bottomDotPosition.top + bottomDotPosition.bottom) / 2; // (527 + 567) / 2 = 547
+                let middleOfLinePair = (middleOfTop + middleOfBottom) / 2; // 513.5
+                let halfSizeOfWrapper = middleOfTop - middleOfLinePair; //-33.5px
                 // let halfSizeOfWrapper = middleOfLinePair - middleOfTop;
                 console.log(middleOfTop)
                 console.log(middleOfLinePair)
                 
-                let topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair];
+                let topOfWrappers = [middleOfTop + halfSizeOfWrapper, middleOfLinePair]; // [480 + -33.5 = 446.5, 513.5]
 
                 linePair.style.top = topOfWrappers[0] + 'px'; // wrappersPositions[0].top + 'px';
                 console.log(halfSizeOfWrapper)
                 console.log(linePair.style.height)
                 // linePair.style.height = halfSizeOfWrapper * 4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
-                linePair.style.height = halfSizeOfWrapper * -4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px';
+                linePair.style.height = halfSizeOfWrapper * -4 + 'px'; //(wrappersPositions[0].top - wrappersPositions[1].bottom) + 'px'; 134px
 
                 // console.log("position");
                 // console.log(`${position}`)
@@ -1064,7 +1126,7 @@ var jsPsychRoulette = (function (jspsych) {
                         console.log(topOfWrappers[index])
                         console.log(linePair.style.top)
                         console.log(parseFloat(linePair.style.top))
-                        wrapper.style.top = (topOfWrappers[index] - parseFloat(linePair.style.top)) + 'px';
+                        wrapper.style.top = (topOfWrappers[index] - parseFloat(linePair.style.top)) + 'px'; // 446.5 -446.5 // 513.5 -446.5
                         wrapper.style.height = halfSizeOfWrapper * 2 + 'px';
                         wrapper.classList.add("line-wrapper");
                     });
@@ -1408,97 +1470,181 @@ var jsPsychRoulette = (function (jspsych) {
             //     // }
             // }
 
-            function setupDotClicking(linePair) {
+            function setupDotClicking(container){
+                // Create the dots
+                // const container = $("#line-pair-only-bw-current");
+                let mouseDown = false;
 
-                let isMouseDown = false;
-                let lastChangedDot = null;
+                // for (let i = 0; i < 40; i++) {
+                //     const dot = $("<div>", { "class": "dot", "data-index": i });
+                //     dot.css({
+                //         "left": `${(i % 20) * 30}px`,
+                //         "top": `${Math.floor(i / 20) * 30}px`
+                //     });
+                //     container.append(dot);
+                // }
 
-                function getClosestDot(line, x, y) {
+                // Function to calculate the distance between two points
+                function distance(x1, y1, x2, y2) {
+                    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+                }
 
+                function colorDot(event) {
+                    let minDistance = Infinity;
                     let closestDot = null;
-                    let minDistance = Number.MAX_VALUE;
+                    const containerOffset = container.offset();
 
-                    line.querySelectorAll(".dot").forEach(dot => {
-                        const dotRect = dot.getBoundingClientRect();
-                        const centerX = dotRect.x + dotRect.width / 2;
-                        const centerY = dotRect.y + dotRect.height / 2;
-                        const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-                        const threshold = 40;
+                    $(".dot-only-bw-current").each(function() {
+                        const dot = $(this);
+                        const dotOffset = dot.offset();
+                        const dotX = dotOffset.left - containerOffset.left + dot.width() / 2;
+                        const dotY = dotOffset.top - containerOffset.top + dot.height() / 2;
 
-                        if (distance < threshold && distance < minDistance) {
-                            minDistance = distance;
+                        const dist = distance(dotX, dotY, event.pageX - containerOffset.left, event.pageY - containerOffset.top);
+                        if (dist < minDistance) {
+                            minDistance = dist;
                             closestDot = dot;
                         }
                     });
 
-                    return closestDot;
-                }
-
-                function handleDotClick(dot, linePair) {
-                    if (!dot || dot === lastChangedDot) return;
-
-                    const index = dot.dataset.index;
-                    const topDot = linePair.querySelector(`.line-top .dot[data-index="${index}"]`);
-                    const bottomDot = linePair.querySelector(`.line-bottom .dot[data-index="${index}"]`);
-
-                    if (dot.parentElement.classList.contains("line-top")) {
-                        topDot.classList.add('selected');
-                        topDot.classList.remove('opaque');
-                        bottomDot.classList.remove('selected');
-                        bottomDot.classList.add('opaque');
-                        console.log(bottomDot)
-                    } else {
-                        bottomDot.classList.add('selected');
-                        bottomDot.classList.remove('opaque');
-                        topDot.classList.remove('selected');
-                        topDot.classList.add('opaque');
-                        console.log(bottomDot)
-                    }
-
-                    lastChangedDot = dot;
-                }
-
-                function handleMouseDown(e, linePair) {
-                    e.preventDefault();
-                    isMouseDown = true;
-                    lastChangedDot = null;
-                    const line = e.target.closest(".line-wrapper");
-                    const closestDot = getClosestDot(line, e.clientX, e.clientY);
+                    // Change the color of the closest dot and its corresponding dot
                     if (closestDot) {
-                        handleDotClick(closestDot, linePair);
+                        const index = closestDot.data('index');
+                        const row = closestDot.data('row');
+                        const correspondingRow = (row === "top") ? "bottom" : "top";
+                        const correspondingDot = $(`.dot[data-index=${index}][data-row=${correspondingRow}]`);
+                        
+                        const closestDotNumber = closestDot.find('*');
+                        const correspondingDotNumber = correspondingDot.find('*')
+
+                        // console.log(correspondingDot)
+                        closestDot.addClass("selected");
+                        closestDotNumber.css('color', 'white')
+                        if (closestDot.attr('id').includes('top')){
+                            closestDot.css("background-color", "#4169e1");
+                        } else {
+                            closestDot.css("background-color", "#ff7f50");
+                        }
+                        
+                        correspondingDot.removeClass("selected");
+                        correspondingDotNumber.css('color', 'black');
+                        correspondingDot.css("background-color", "white");
+
                     }
                 }
 
-                function handleMouseUp(e) {
-                    isMouseDown = false;
-                    lastChangedDot = null;
-                }
-
-                function handleMouseMove(e) {
-                    e.preventDefault();
-                    if (!isMouseDown) return;
-
-                    const line = e.target.closest(".line-wrapper");
-                    const closestDot = getClosestDot(line, e.clientX, e.clientY);
-                    if (closestDot) {
-                        handleDotClick(closestDot, linePair);
+                // Add the click and mousemove event to the container
+                container.on({
+                    'mousedown': function(event) {
+                        mouseDown = true;
+                        colorDot(event);
+                    },
+                    'mousemove': function(event) {
+                        if (mouseDown) colorDot(event);
+                    },
+                    'mouseleave': function() {
+                        mouseDown = false;
                     }
-                }
-
-                const lineWrappers = document.querySelectorAll('.line-wrapper');
-
-                lineWrappers.forEach(function(lineWrapper) {
-
-                    $(lineWrapper).on('mousedown', (e) => {
-                        handleMouseDown(e, linePair);
-                    })
-
-                    $(lineWrapper).on("mouseup", handleMouseUp);
-                    $(lineWrapper).on("mousemove", handleMouseMove);
                 });
 
-                return linePair;
+                $(document).on('mouseup', function() {
+                    mouseDown = false;
+                });
+
             }
+
+
+            // function setupDotClicking(linePair) {
+
+            //     let isMouseDown = false;
+            //     let lastChangedDot = null;
+
+            //     function getClosestDot(line, x, y) {
+
+            //         let closestDot = null;
+            //         let minDistance = Number.MAX_VALUE;
+
+            //         line.querySelectorAll(".dot").forEach(dot => {
+            //             const dotRect = dot.getBoundingClientRect();
+            //             const centerX = dotRect.x + dotRect.width / 2;
+            //             const centerY = dotRect.y + dotRect.height / 2;
+            //             const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+            //             const threshold = 40;
+
+            //             if (distance < threshold && distance < minDistance) {
+            //                 minDistance = distance;
+            //                 closestDot = dot;
+            //             }
+            //         });
+
+            //         return closestDot;
+            //     }
+
+            //     function handleDotClick(dot, linePair) {
+            //         if (!dot || dot === lastChangedDot) return;
+
+            //         const index = dot.dataset.index;
+            //         const topDot = linePair.querySelector(`.line-top .dot[data-index="${index}"]`);
+            //         const bottomDot = linePair.querySelector(`.line-bottom .dot[data-index="${index}"]`);
+
+            //         if (dot.parentElement.classList.contains("line-top")) {
+            //             topDot.classList.add('selected');
+            //             topDot.classList.remove('opaque');
+            //             bottomDot.classList.remove('selected');
+            //             bottomDot.classList.add('opaque');
+            //             console.log(bottomDot)
+            //         } else {
+            //             bottomDot.classList.add('selected');
+            //             bottomDot.classList.remove('opaque');
+            //             topDot.classList.remove('selected');
+            //             topDot.classList.add('opaque');
+            //             console.log(bottomDot)
+            //         }
+
+            //         lastChangedDot = dot;
+            //     }
+
+            //     function handleMouseDown(e, linePair) {
+            //         e.preventDefault();
+            //         isMouseDown = true;
+            //         lastChangedDot = null;
+            //         const line = e.target.closest(".line-wrapper");
+            //         const closestDot = getClosestDot(line, e.clientX, e.clientY);
+            //         if (closestDot) {
+            //             handleDotClick(closestDot, linePair);
+            //         }
+            //     }
+
+            //     function handleMouseUp(e) {
+            //         isMouseDown = false;
+            //         lastChangedDot = null;
+            //     }
+
+            //     function handleMouseMove(e) {
+            //         e.preventDefault();
+            //         if (!isMouseDown) return;
+
+            //         const line = e.target.closest(".line-wrapper");
+            //         const closestDot = getClosestDot(line, e.clientX, e.clientY);
+            //         if (closestDot) {
+            //             handleDotClick(closestDot, linePair);
+            //         }
+            //     }
+
+            //     const lineWrappers = document.querySelectorAll('.line-wrapper');
+
+            //     lineWrappers.forEach(function(lineWrapper) {
+
+            //         $(lineWrapper).on('mousedown', (e) => {
+            //             handleMouseDown(e, linePair);
+            //         })
+
+            //         $(lineWrapper).on("mouseup", handleMouseUp);
+            //         $(lineWrapper).on("mousemove", handleMouseMove);
+            //     });
+
+            //     return linePair;
+            // }
 
             function setupPairClicking(linePair){
                 $(linePair).on("click", function(){

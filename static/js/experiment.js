@@ -71,8 +71,12 @@ if (choiceType == "multiple_choice"){
       for (let j = i + 1; j < arr.length; j++) {
         let combination = [arr[i], arr[j]];
         combination = jsPsych.randomization.shuffle(combination);
-        combination.push(arr[i], arr[i]);
+        combination.push(arr[i]);
+        combination.push([wheelNumbers, wheelNumbers])
+        // console.log(wheelNumbersSplits1[trialsWithoutChoice - 1])
         combination.push(wheelNumbersSplits1[trialsWithoutChoice - 1]);
+        // console.log(wheelNumbersSplits1[trialsWithoutChoice - 1])
+        // console.log(combination)
         combinations.push(combination);
       }
     }
