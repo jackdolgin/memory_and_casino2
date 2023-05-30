@@ -1,4 +1,4 @@
-condition = 0;
+condition = 1;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -116,7 +116,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 18;
-let mainTrialsCompleted = 5;
+let mainTrialsCompleted = 0;
 const omission = "ball";
 
 /* ************************************ */

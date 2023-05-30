@@ -106,28 +106,6 @@ var jsPsychRoulette = (function (jspsych) {
                 return getComputedStyle(document.documentElement).getPropertyValue(`--${propertyName}`);
             }
 
-            const plateBGColor = $(".platebg").css("background-color");
-            const redGradient = getCSSProperty('red-gradient');
-            const blackGradient = getCSSProperty('black-gradient');
-            const whiteColor = getCSSProperty('white-color');
-            const blackColor = getCSSProperty('black-color');
-            const cardBarOkButtonWhiteColor = getCSSProperty('card-bar-ok-button-white');
-            const cardBarOkButtonBlackColor = getCSSProperty('card-bar-ok-button-black');
-            const wheelSelectedColor = "yellow";
-            const selectedCardBarColor = getCSSProperty('selected-card-color');
-            const selectedCardBarColorEnglish = "orange";
-            const unselectedCardBarColor = getCSSProperty('unselected-card-color');
-            const unselectedCardBarColorEnglish = "blue";
-            const chunkBorderSelectedColor = getCSSProperty('chunk-border-selected-color');
-            const chunkBorderUnselectedColor = getCSSProperty('chunk-border-unselected-color');
-            const chunk0Color = getCSSProperty('chunk-0-color');
-            const chunk0ColorEnglish = "green";
-            const chunk1Color = getCSSProperty('chunk-1-color');
-            const chunk1ColorEnglish = "blue";
-
-            // $(".jspsych-content-wrapper").css("display", "flex");
-            // $("#jspsych-content").css("height", "100%");
-
             if (omission == "ball"){
                 $("#overlay-message").css("top", "43%");
                 trial.numbersFacing = "inwards";
@@ -136,18 +114,8 @@ var jsPsychRoulette = (function (jspsych) {
                 trial.numbersFacing = "upright";
             }
 
-            // temporary line
-            // removeOverlay();
 
-            // if (trial.cardsAndOrBars == "onlyOne"){
-            //     if (wheelCondition == "confined_wheel"){
-            //         trial.cardsAndOrBars = "cards";
-            //     } else if (wheelCondition == "vast_wheel"){
-            //         trial.cardsAndOrBars = "bars";
-            //     }
-            // }
-
-            $("body").css("background-color", whiteColor);
+            $("body").css("background-color", 'white');
 
             const groupsOfThree = [
                 ["top", "color", "current"],
@@ -156,36 +124,6 @@ var jsPsychRoulette = (function (jspsych) {
                 ["only", "bw", "current"],
                 ["only", "color", "prev"]
             ]
-
-
-            // let wheelNumbersSplitsAndMissings;
-            // if (trial.specialTrial == "demo"){
-            //     wheelNumbersSplitsAndMissings = wheelNumbersDemo;
-            // } else if (trial.specialTrial == "practice1"){
-            //     wheelNumbersSplitsAndMissings = wheelNumbersPractice1;
-            // } else if (trial.specialTrial == "practice2"){
-            //     wheelNumbersSplitsAndMissings = wheelNumbersPractice2;
-            // } else {
-            //     wheelNumbersSplitsAndMissings = wheelNumbersMain[mainTrialsCompleted];
-            // }
-
-            // let numberLine = wheelNumbersSplitsAndMissings[0];
-            // let chunk1s = wheelNumbersSplitsAndMissings[1];
-            // chunk1s = jsPsych.randomization.shuffle(chunk1s);
-            // let topchunk0 = [];
-            // let topchunk1 = chunk1s[0];
-            // let bottomchunk0 = [];
-            // let bottomchunk1 = chunk1s[1];
-            // let numbersOnlyOnNumberLine = wheelNumbersSplitsAndMissings[2];
-            // let wheelNumbersAscending = []
-            
-            // numberLine.map(x => {
-            //     if (!numbersOnlyOnNumberLine.includes(x)){
-            //         wheelNumbersAscending.push(x);
-            //         if (!topchunk1.includes(x)) topchunk0.push(x);
-            //         if (!bottomchunk1.includes(x)) bottomchunk0.push(x);
-            //     }
-            // });
             
             const removeOverlay = () =>  overlay.style.display = 'none';
 
@@ -236,9 +174,6 @@ var jsPsychRoulette = (function (jspsych) {
 
             winningNum = winningNum.toString();
 
-            // if (trial.specialTrial == "demo" || trial.spinOrReveal == "spin"){
-
-            // }
             if (trial.spinOrReveal == "reveal"){
                 btnSpin.css("display", "none");
             }
@@ -539,17 +474,17 @@ var jsPsychRoulette = (function (jspsych) {
                         numsRemaining = wheelNumbersSplit[1]
                     }
 
-                    setTimeout(function() {
+                    // setTimeout(function() {
                         linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsRemaining.length} numbers on the ${barWithWinningNumber} line.</p><br><br><br>`);
                         // linePairAttributes.beginningMessage.html(`<p>The balls represent the ${numOfWheelNumbers} numbers from the wheel. We\'re going to tell you now whether the winning number is one of the numbers from the top or bottom. We\'ll then tell you exactly what the winning number was after the upcoming memory game.</p>`);
-                    }, 1);
+                    // }, 1);
                     //   }, 2000);
 
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
                         linePairAttributes.numberlineButton.html("Continue to memory game");
-                    }, 1)
-                    // }, 5000)
+                    // }, 1)
+                    }, 5000)
                 }
 
                 function secondClickFunction(){
@@ -563,8 +498,8 @@ var jsPsychRoulette = (function (jspsych) {
 
                 setTimeout(function() {
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                }, 1);
-                // }, 7000);
+                // }, 1);
+                }, 7000);
 
             }
 
@@ -582,8 +517,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.off("click");
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
-                    }, 1);
-                    // }, 5000);
+                    }, 5000);
 
                     await moveDots([4]);
                     createLinePair(4);
@@ -596,8 +530,7 @@ var jsPsychRoulette = (function (jspsych) {
 
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", thirdClickFunction);
-                    }, 1);
-                    // }, 5000);
+                    }, 5000);
 
                     linePairAttributes.beginningMessage.html(`<p>In previous trials, at this point we would show you a pair of horizontal lines, and you would see whether the winning number is on the top or bottom line. You had no ability to choose which numbers were on which line, and hence, what you would learn about the winning number prior to playing the memory game.</p>`);
 
@@ -630,8 +563,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.html(`<p>This time it\'ll work a little differently. Now, you can choose how the ${numOfWheelNumbers} numbers are split between the two lines.</p>`);
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", fourthClickFunction);
-                    }, 1);
-                    // }, 5000);
+                    }, 5000);
                 }
 
                 function fourthClickFunction(){
@@ -640,9 +572,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.html(linePairAttributes.beginningMessage.specificallyNote);
                     setTimeout(function(){
                         linePairAttributes.numberlineButton.on("click", fifthClickFunction);
-                    }, 1);
-                    // }, 5000);
-
+                    }, 5000);
                 }
 
                 function fifthClickFunction(){
@@ -677,10 +607,10 @@ var jsPsychRoulette = (function (jspsych) {
                 setupOpenEndedDotClicking(container);
                 $('.line-wrapper').css("cursor", "pointer");
 
-                // setTimeout(function() {
+                setTimeout(function() {
                     linePairAttributes.numberlineButton.off("click");
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                // }, 5000);
+                }, 5000);
 
                 function firstClickFunction(){
 
@@ -737,15 +667,10 @@ var jsPsychRoulette = (function (jspsych) {
 
                 let topOrBottomSelected;
                 
-                // // setTimeout(function() {
-                //     // if (document.querySelectorAll('.selected').length == 1){
-                //         // console.log("tokyo")
-                        linePairAttributes.numberlineButton.off("click");
-                        linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                //     // } else {
-
-                //     // }
-                // // }, 5000);
+                setTimeout(function() {
+                    linePairAttributes.numberlineButton.off("click");
+                    linePairAttributes.numberlineButton.on("click", firstClickFunction);
+                }, 4000);
 
                 function firstClickFunction(){
 
@@ -789,14 +714,13 @@ var jsPsychRoulette = (function (jspsych) {
         
                             linePairAttributes.beginningMessage.html(`The winning number is one of the ${numsRemaining} numbers on the ${linePairAndBarWithWinningNum[1]} line.<br><br><br><br><br><br><br><br><br>`);
                             linePairAttributes.numberlineButton.html("Continue to the memory game");
-                            linePairAttributes.numberlineButton.on("click", secondClickFunction);
-                            // end trial should go here
+                            setTimeout(function(){
+                                linePairAttributes.numberlineButton.on("click", secondClickFunction);
+                            }, 4000)
                         }, 3000)
 
 
                     } else {
-                        // linePairAttributes.numberlineButton.on("click", function(event){
-
                             falseClicks+=1;
 
                             if (falseClicks==1){
@@ -805,7 +729,6 @@ var jsPsychRoulette = (function (jspsych) {
                                 $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
                                 linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
                             }
-                        // });
                     }
                 }
 
@@ -879,10 +802,9 @@ var jsPsychRoulette = (function (jspsych) {
                                     }, 400)
 
                                     numElement.animate({
-                                        // right: wheelNumber >= 10 ? "4px": "11px",
-                                        right: wheelNumber >= 10 ? "6px": "12px",
-                                        top: "4px",
-                                        fontSize: "21px",
+                                        right: wheelNumber >= 10 ? linePairAttributes.dotRight1: linePairAttributes.dotRight2,
+                                        top: linePairAttributes.dotTop,
+                                        fontSize: linePairAttributes.dotFontSize,
                                     }, 2000)
 
                                     let setTop = {
@@ -913,8 +835,8 @@ var jsPsychRoulette = (function (jspsych) {
                                         top: setTop[position][topOrBottom] + "px",
                                         borderWidth: "2px",
                                         backgroundColor: "white",
-                                        // width:  "36px",
-                                        // height: "36px"
+                                        width:  linePairAttributes.dotHeightAndWidth,
+                                        height: linePairAttributes.dotHeightAndWidth
                                     }, 2000, function(){
                                         if (resolveOnThisIterationCounter == 1 && resolveOnThisIteration){
                                             resolve()
@@ -1191,11 +1113,11 @@ var jsPsychRoulette = (function (jspsych) {
                 } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "open_ended"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top line or bottom line of that pair.</p>`;
-                    createInstructionsForFirstChoice(openEndedQuestion, '787px');
+                    createInstructionsForFirstChoice(openEndedQuestion, '555px');
                 } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
-                    createInstructionsForFirstChoice(multipleChoiceQuestion, '555px');
+                    createInstructionsForFirstChoice(multipleChoiceQuestion, '787px');
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
                     await moveDots([0, 1]);
@@ -1222,6 +1144,22 @@ var jsPsychRoulette = (function (jspsych) {
                 linePairAttributes.rememberNote = "<p>Remember, the winning number is already chosen, so your choice only affects what information you learn ahead of the memory game about the outcome; it does not affect the outcome itself.</p>";
                 linePairAttributes.topColor = '#4169e1' // royalblue
                 linePairAttributes.bottomColor = '#ff7f50' // coral
+
+                let dotSize = 'big'
+
+                if (dotSize == "big"){
+                    linePairAttributes.dotHeightAndWidth = '36px';
+                    linePairAttributes.dotFontSize = '21px';
+                    linePairAttributes.dotRight1 = '6px';
+                    linePairAttributes.dotRight2 = '12px';
+                    linePairAttributes.dotTop = '4px';
+                } else if (dotSize == "small"){
+                    linePairAttributes.dotHeightAndWidth = '20px';
+                    linePairAttributes.dotFontSize = '12px';
+                    linePairAttributes.dotRight1 = '4px';
+                    linePairAttributes.dotRight2 = '6.5px';
+                    linePairAttributes.dotTop = '-3.5px';
+                }
 
                 ballLandedNotification();
             }
