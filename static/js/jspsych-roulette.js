@@ -588,7 +588,7 @@ var jsPsychRoulette = (function (jspsych) {
                     //     linePairAttributes.numberlineButton.on("click", secondClickFunction);
                     // }, 5000);
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
-                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top or bottom of that pair.</p>`;
+                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top line or bottom line of that pair.</p>`;
                     numberlineButtonLastHeight = '787px'
                 } else if (choiceType == "open_ended"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
@@ -694,6 +694,7 @@ var jsPsychRoulette = (function (jspsych) {
                         // linePairAttributes.numberlineButton.
                          linePairAttributes.numberlineButton.on("click", function(){
                             linePairAttributes.numberlineButton.css("top", numberlineButtonLastHeight);
+                            linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`);
                             nextStage()
                         })
                     }, 1);
@@ -707,15 +708,16 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function openEndedQuestion(){
+                linePairAttributes.numberlineButton.css("opacity", "1");
                 let falseClicks = 0;
-                console.log("openEndedQuestion")
+                // console.log("openEndedQuestion")
 
                 // if (){
                     
                 // }
                 // only,bw, current should be made visible
                 // const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
-                console.log("aaaaaaa")
+                // console.log("aaaaaaa")
                 const linePairAndBarWithWinningNum = createLinePair(3);
                 let numsOnBarWithWinningNumber;
                 let container = $("#line-pair-only-bw-current");
@@ -726,8 +728,6 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.off("click");
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
                 // }, 5000);
-
-                linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`)
 
                 // console.log(linePairAttributes.numberlineButton.style)
                 // console.log(linePairAttributes.numberlineButton)
@@ -777,6 +777,9 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function multipleChoiceQuestion(){
+                linePairAttributes.numberlineButton.css("opacity", "1");
+                linePairAttributes.numberlineButton.html("Reveal bar with winning number");
+                linePairAttributes.numberlineButton.css('top', '787px')
                 let falseClicks = 0;
                 const wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted];
                 // createLinePair(0);
@@ -789,10 +792,9 @@ var jsPsychRoulette = (function (jspsych) {
                 setupPairClicking(linePairAndBarWithWinningNumBottom[0]);
                 $('.line-wrapper').css("cursor", "pointer");
 
+
                 let topOrBottomSelected;
                 
-                linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`)
-
                 // // setTimeout(function() {
                 //     // if (document.querySelectorAll('.selected').length == 1){
                 //         // console.log("tokyo")
@@ -1854,7 +1856,7 @@ var jsPsychRoulette = (function (jspsych) {
                 } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "multiple_choice"){
                     createInstructionsForFirstChoice(multipleChoiceQuestion);
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
-                    linePairAttributes.beginningMessage.html(`Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.<br>${linePairAttributes.rememberNote}`);
+                    linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
                     await moveDots([0, 1]);
                     multipleChoiceQuestion("moveDots");
                 }
