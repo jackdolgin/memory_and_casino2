@@ -645,6 +645,8 @@ ul::-webkit-scrollbar-thumb:hover {
     padding: 16px;
     border-radius: 10px;
     box-shadow: 14px 14px 0 0 #000000;
+    position: relative;
+    top: 45px;
 }
 
 #mouse-card-instruction {
