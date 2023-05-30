@@ -74,7 +74,6 @@ var jsPsychRoulette = (function (jspsych) {
                         <div class="platebg"></div>
                         <div class="platetop">
                             <div id="ballLandedNotification">
-                                <p>The ball has finished spinning and has landed on a number; the winning number is therefore now determined</p>
                             </div>
                         </div>
                         <div id="toppart" class="topnodebox">
@@ -149,9 +148,9 @@ var jsPsychRoulette = (function (jspsych) {
                     document.querySelector('#content-underneath').style.opacity = 0;
                     onSpinPress();
 
-                    // setTimeout(function() {
+                    setTimeout(function() {
                         document.querySelector('#content-underneath').style.opacity = 1;
-                    // }, 2000);
+                    }, 1000);
                     // }, 2000);
                 }
             }
@@ -175,7 +174,7 @@ var jsPsychRoulette = (function (jspsych) {
             winningNum = winningNum.toString();
 
             if (trial.spinOrReveal == "reveal"){
-                btnSpin.css("display", "none");
+                $('.control').css("display", "none");
             }
             
             createWheel();
@@ -375,14 +374,6 @@ var jsPsychRoulette = (function (jspsych) {
             
             function ballrotateTo(deg, rndSpace, winningNum) {
 
-                let timeoutDuration;
-                if (trial.spinOrReveal == "spin"){
-                    timeoutDuration = 1000;;
-                } else if (trial.spinOrReveal == "reveal"){
-                    timeoutDuration = 0;
-                }
-
-                // let extraBallRotation = (wheelCondition == "confined_wheel") ? 30 : 0;
                 let extraBallRotation = 0;
                 var temptime = trial.rotationsTime + 's';
                 var ballDest = -360 * trial.ballSpinTime - (360 - deg) + extraBallRotation;
@@ -399,20 +390,7 @@ var jsPsychRoulette = (function (jspsych) {
                     name: "rotate2", // name of the keyframe you want to bind to the selected element
                     duration: temptime, // [optional, default: 0, in ms] how long you want it to last in milliseconds
                     timingFunction: "ease-in-out", // [optional, default: ease] specifies the speed curve of the animation
-
                     complete: finishSpin
-                    // complete: function() {
-
-
-
-
-
-
-                    //     setTimeout(function() {
-                    //         finishSpin(rndSpace, winningNum)
-                    //     // }, timeoutDuration)
-                    // }, 10000000000)
-                    // } //[optional]  Function fired after the animation is complete. If repeat is infinite, the function will be fired every time the animation is restarted.
                 });
             }
             
@@ -490,7 +468,7 @@ var jsPsychRoulette = (function (jspsych) {
                 function secondClickFunction(){
                     jsPsych.finishTrial({
                         // selectedNums: selectedNums,
-                        winningNum: winningNum,
+                        // winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplit,
                         // topOrBottom: topOrBottom,
                     })
@@ -506,7 +484,7 @@ var jsPsychRoulette = (function (jspsych) {
 
             function createInstructionsForFirstChoice(nextStage, numberlineButtonLastHeight){
 
-                linePairAttributes.beginningMessage.html(`<p>In previous trials, at this point we would show you a pair of horizontal lines, and you would see whether the winning number is on the top or bottom line. <span style='color: white'>You had no ability to choose which numbers were on which line, and hence, what you would learn about the winning number prior to playing the memory game.</span></p>`);
+                linePairAttributes.beginningMessage.html(`<p>In previous trials, at this point we would show you a pair of horizontal lines, and you would see whether the winning number is on the top or bottom line. <span style='opacity: 0'>You had no ability to choose which numbers were on which line, and hence, what you would learn about the winning number prior to playing the memory game.</span></p>`);
                 linePairAttributes.numberlineButton.css("opacity", "1");
                 linePairAttributes.numberlineButton.css("top", '200px');
                 linePairAttributes.numberlineButton.html("Continue");
@@ -645,7 +623,7 @@ var jsPsychRoulette = (function (jspsych) {
 
                 function secondClickFunction(){
                     jsPsych.finishTrial({
-                        winningNum: winningNum,
+                        // winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
                         selections: numsOnBarWithWinningNumber,
                     })
@@ -735,7 +713,7 @@ var jsPsychRoulette = (function (jspsych) {
                 function secondClickFunction(){
                     jsPsych.finishTrial({
                         // selectedNums: selectedNums,
-                        winningNum: winningNum,
+                        // winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplit,
                         selection: topOrBottomSelected
                         // topOrBottom: topOrBottom,
@@ -1040,17 +1018,13 @@ var jsPsychRoulette = (function (jspsych) {
 
             function ballLandedNotification(){
 
-                let fadeTime = 800;
-
-                $(".topnodebox").animate({
-                    opacity: 0,
-                }, fadeTime)
+                $("#ballLandedNotification").html("<p>The ball has finished spinning and has landed on a number; the winning number is therefore now determined</p>");
 
                 let timeoutTime = mainTrialsCompleted < 2 ? 9000 : 4000
 
                 $("#ballLandedNotification").animate({
                     opacity: .99,
-                }, fadeTime, function(){
+                }, 800, function(){
                     setTimeout(function(){
                         disappearWheel();
                         generateLinePairs();
@@ -1088,19 +1062,6 @@ var jsPsychRoulette = (function (jspsych) {
                         borderWidth: 0
                     }, 2000);
                     // }, 100000);
-                
-                
-                    // $(".pieBackground").animate({
-                    //     backgroundColor: 'transparent',
-                    //     boxShadow: 'none'
-                    // }, 2000);
-
-                    // animate opacity to 0
-                    // $(".platebg, .platetop, .topnodebox").animate({
-                    // $(".platebg, .platetop, .topnodebox, .pieBackground, .control").animate({
-                    //     opacity: 0,
-                    // }, 2000);
-
 
                 // }, 1000); 
                     // }, 1); 
@@ -1111,18 +1072,35 @@ var jsPsychRoulette = (function (jspsych) {
                 if (mainTrialsCompleted < trialsWithoutChoice){
                     createInstructionsEarlyTrials();
                 } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "open_ended"){
-                    linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
-                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top line or bottom line of that pair.</p>`;
-                    createInstructionsForFirstChoice(openEndedQuestion, '555px');
-                } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
+                    createInstructionsForFirstChoice(openEndedQuestion, '555px');
+                } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "multiple_choice"){
+                    linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
+                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top line or bottom line of that pair.</p>`;
                     createInstructionsForFirstChoice(multipleChoiceQuestion, '787px');
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
                     await moveDots([0, 1]);
                     multipleChoiceQuestion("moveDots");
                 }
+            }
+
+            function revealBallLocation(){
+                $("#ballLandedNotification").html(`<p>You have earned ${winningNum} points from this spin, since the ball landed on ${winningNum}.</p>`);
+                $("#ballLandedNotification").css("opacity", "1");
+                setTimeout(function(){
+                    console.log("sfda")
+                    linePairAttributes.numberlineButton.css("opacity", "1");
+                    linePairAttributes.numberlineButton.css("top", "700px");
+                    linePairAttributes.numberlineButton.html("Continue to next trial");
+
+                    linePairAttributes.numberlineButton.on("click", function(){
+                        jsPsych.finishTrial({
+                            winningNum: winningNum,
+                        })
+                    });
+                }, 2000)
             }
 
             function finishSpin(){
@@ -1161,7 +1139,15 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.dotTop = '-3.5px';
                 }
 
-                ballLandedNotification();
+                $(".topnodebox").animate({
+                    opacity: 0,
+                }, 800)
+
+                if (trial.spinOrReveal == "spin"){
+                    ballLandedNotification();
+                } else if (trial.spinOrReveal == "reveal"){
+                    revealBallLocation();
+                }
             }
 
             function endTrial(selectedNums, winningNum, topOrBottom){
