@@ -116,7 +116,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 18;
-let mainTrialsCompleted = 0;
+let mainTrialsCompleted = 4;
 const omission = "ball";
 
 /* ************************************ */
@@ -204,17 +204,17 @@ async function initializeExperiment() {
     type: jsPsychFullscreen,
     fullscreen_mode: true,
     message:
-        "<p>This experiment has to be conducted in <strong>full screen mode</strong>. It will end automatically at " +
+        "<p class='intro-instructions'>This experiment has to be conducted in <strong>full screen mode</strong>. It will end automatically at " +
         "the end of the study.</p><br>"
   }
 
   let introInstructions = {
     type: jsPsychInstructions,
     pages: [
-        '<p>Welcome to the experiment. It is expected to last around ' + expectedDuration+ ' minutes. You will be playing ' + trials + ' memory games, which are the sort of conventional game where you see many tiles and have to find out which images underneath those tiles match each other.</p>',
-        '<p>Along the way, you\'ll win or lose points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (basePayGuarantee + mostToGain) + '.</p>',
-        '<p>The points are earned by spinning a virtual roulette wheel before each memory game. The ball will land on one of the numbers at random, and that number is how many points you will win (or if it lands on a negative number, lose).</p>',
-        '<p>For example, on the following page spin the wheel, and watch it land on ' + demoWin + '.</p>',
+        '<p class="intro-instructions">Welcome to the experiment. It is expected to last around ' + expectedDuration+ ' minutes. You will be playing ' + trials + ' memory games, which are the sort of conventional game where you see many tiles and have to find out which images underneath those tiles match each other.</p>',
+        '<p class="intro-instructions">Along the way, you\'ll win or lose points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (basePayGuarantee + mostToGain) + '.</p>',
+        '<p class="intro-instructions">The points are earned by spinning a virtual roulette wheel before each memory game. The ball will land on one of the numbers at random, and that number is how many points you will win (or if it lands on a negative number, lose).</p>',
+        '<p class="intro-instructions">For example, on the following page spin the wheel, and watch it land on ' + demoWin + '.</p>',
     ],
     show_clickable_nav: true
   }
@@ -229,15 +229,15 @@ async function initializeExperiment() {
   let introToPartialInfoInstructions = {
     type: jsPsychInstructions,
     pages: [
-      '<p>In this case, you would have earned ' + demoWin + ' points, since the ball landed on ' + demoWin + '.</p>',
-      '<p>The only catch is that, during the spin, you won\'t be able to find out the exact number the ball landed on. The spins will never actually show ' + 'the ball' + '.</p>',
-      '<p>However, we\'ll split the wheel\'s numbers into two sets after the spin, and we will tell you which set the winning number is in.</p>',
-      '<p>You will then move on to a memory game. After the memory game, we will reveal exactly what number the ball landed on.</p>',
-      '<p>If you\'re ready, press the button below to start the begin.</p>'
-      // '<p>However, you\'ll be able to select a set of the wheel\'s numbers after the spin, and we will tell you whether the ball landed among that set of numbers.</p>',
-      // '<p>The only catch is that you won\'t be able to find out the exact number the ball landed on during the spin. The spins will never actually show [the ball/ where the numbers are], e.g. the image below. + '<br>' + '<img src="con2.png"></img>'</p>',
-      // '<p>Instead, you\'ll only be able to ask once about whether the number the ball landed on was among a set of numbers. We\'ll then tell you yes or no.</p>',
-      // '<p>Let\'s go through an example.</p>',
+      '<p class="intro-instructions">In this case, you would have earned ' + demoWin + ' points, since the ball landed on ' + demoWin + '.</p>',
+      '<p class="intro-instructions">The only catch is that, during the spin, you won\'t be able to find out the exact number the ball landed on. The spins will never actually show ' + 'the ball' + '.</p>',
+      '<p class="intro-instructions">However, we\'ll split the wheel\'s numbers into two sets after the spin, and we will tell you which set the winning number is in.</p>',
+      '<p class="intro-instructions">You will then move on to a memory game. After the memory game, we will reveal exactly what number the ball landed on.</p>',
+      '<p class="intro-instructions">If you\'re ready, press the button below to start the begin.</p>'
+      // '<p class="intro-instructions">However, you\'ll be able to select a set of the wheel\'s numbers after the spin, and we will tell you whether the ball landed among that set of numbers.</p>',
+      // '<p class="intro-instructions">The only catch is that you won\'t be able to find out the exact number the ball landed on during the spin. The spins will never actually show [the ball/ where the numbers are], e.g. the image below. + '<br>' + '<img src="con2.png"></img>'</p>',
+      // '<p class="intro-instructions">Instead, you\'ll only be able to ask once about whether the number the ball landed on was among a set of numbers. We\'ll then tell you yes or no.</p>',
+      // '<p class="intro-instructions">Let\'s go through an example.</p>',
     ],
     show_clickable_nav: true
   }
@@ -287,7 +287,8 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
-    timeline: [wheelSpin, memoryGame, wheelReveal],
+    timeline: [wheelSpin, wheelReveal],
+    // timeline: [wheelSpin, memoryGame, wheelReveal],
     // timeline: [memoryGame],
     // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
@@ -302,7 +303,7 @@ async function initializeExperiment() {
 
   /* create timeline */
   var timeline = [
-    preload,
+    // preload,
     // inclusionCheck,
     // enter_fullscreen,
     // introInstructions,

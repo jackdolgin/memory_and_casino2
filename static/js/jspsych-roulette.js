@@ -7,7 +7,7 @@ var jsPsychRoulette = (function (jspsych) {
             specialTrial: {
                 type: jspsych.ParameterType.STRING,
                 pretty_name: 'Special Trial',
-                default: "none",
+                default: "normal",
             },
             rotationsTime: {
                 type: jspsych.ParameterType.INT,
@@ -48,6 +48,11 @@ var jsPsychRoulette = (function (jspsych) {
                 type: jspsych.ParameterType.STRING,
                 pretty_name: 'Cards and/or Bars',
                 default: "onlyOne",
+            },
+            dotSize: {
+                type: jspsych.ParameterType.STRING,
+                pretty_name: 'Dot Size',
+                default: "small",
             }
         }
     }
@@ -335,7 +340,7 @@ var jsPsychRoulette = (function (jspsych) {
             function spinTo(winningNum) {
 
                 //set timer here
-                if (trial.spinOrReveal == "spin"){
+                if (trial.spinOrReveal == "spin" && trial.specialTrial != "demo"){
                     setTimeout(function() {
                         var ballDiv = document.getElementsByClassName("ball")[0];
                         if (omission == "ball"){
@@ -443,6 +448,8 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.off("click");
                     const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
                     $(`.dot-${barNotWithWinningNumber}-only-color-current`).animate({opacity: 0}, 1000);
+                    $(`.dot-${barWithWinningNumber}-only-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+
 
                     let numsRemaining;
 
@@ -603,6 +610,7 @@ var jsPsychRoulette = (function (jspsych) {
                         $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
 
                         $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
+                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
                         numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`).length;
     
                         linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
@@ -688,6 +696,8 @@ var jsPsychRoulette = (function (jspsych) {
 
                             const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![linePairAndBarWithWinningNum[1]].includes(x));
                             $(`.dot-${barNotWithWinningNumber}-${pairPosition}-color-current`).animate({opacity: 0}, 1000);
+                            $(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+
                             let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).length
         
                             linePairAttributes.beginningMessage.html(`The winning number is one of the ${numsRemaining} numbers on the ${linePairAndBarWithWinningNum[1]} line.<br><br><br><br><br><br><br><br><br>`);
@@ -1082,7 +1092,7 @@ var jsPsychRoulette = (function (jspsych) {
                 } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
                     linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
                     await moveDots([0, 1]);
-                    multipleChoiceQuestion("moveDots");
+                    multipleChoiceQuestion();
                 }
             }
 
@@ -1096,6 +1106,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.html("Continue to next trial");
 
                     linePairAttributes.numberlineButton.on("click", function(){
+                        mainTrialsCompleted += 1;
                         jsPsych.finishTrial({
                             winningNum: winningNum,
                         })
@@ -1103,16 +1114,23 @@ var jsPsychRoulette = (function (jspsych) {
                 }, 2000)
             }
 
-            function finishSpin(){
+            function finishSpinDemo(){
+                setTimeout(function(){
+                    jsPsych.finishTrial({
+                        winningNum: winningNum,
+                    })
+                }, 2000)
+            }
 
+            function finishSpinNormal(){
                 let dotContainer = document.getElementById('dotContainer');
                 dotContainer.innerHTML += `
-                <div id="beginning-message" class="message-container"></div>
-                <div class="line-pair-container"></div>
-                <div class="button-message-container">
-                    <div id="incomplete-message" class="message-container"></div>
-                    <button id="numberlineButton"></button>    
-                </div>
+                    <div id="beginning-message" class="message-container"></div>
+                    <div class="line-pair-container"></div>
+                    <div class="button-message-container">
+                        <div id="incomplete-message" class="message-container"></div>
+                        <button id="numberlineButton"></button>    
+                    </div>
                 `
 
                 linePairAttributes.linePairContainer  = document.querySelector(".line-pair-container");
@@ -1123,15 +1141,13 @@ var jsPsychRoulette = (function (jspsych) {
                 linePairAttributes.topColor = '#4169e1' // royalblue
                 linePairAttributes.bottomColor = '#ff7f50' // coral
 
-                let dotSize = 'big'
-
-                if (dotSize == "big"){
+                if (trial.dotSize == "big"){
                     linePairAttributes.dotHeightAndWidth = '36px';
                     linePairAttributes.dotFontSize = '21px';
                     linePairAttributes.dotRight1 = '6px';
                     linePairAttributes.dotRight2 = '12px';
                     linePairAttributes.dotTop = '4px';
-                } else if (dotSize == "small"){
+                } else if (trial.dotSize == "small"){
                     linePairAttributes.dotHeightAndWidth = '20px';
                     linePairAttributes.dotFontSize = '12px';
                     linePairAttributes.dotRight1 = '4px';
@@ -1150,16 +1166,12 @@ var jsPsychRoulette = (function (jspsych) {
                 }
             }
 
-            function endTrial(selectedNums, winningNum, topOrBottom){
-                display_element.innerHTML = '<div id="jspsych-content"></div>';
-
-                if (trial.spinOrReveal == "reveal") mainTrialsCompleted += 1;
-
-                jsPsych.finishTrial({
-                    // selectedNums: selectedNums,
-                    // winningNum: winningNum,
-                    // topOrBottom: topOrBottom,
-                })
+            function finishSpin(){
+                if (trial.specialTrial == "demo"){
+                    finishSpinDemo();
+                } else if (trial.specialTrial == "normal"){
+                    finishSpinNormal();
+                }
             }
 
             openingMessage();
