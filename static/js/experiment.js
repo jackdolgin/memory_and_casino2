@@ -1,4 +1,4 @@
-condition = 1;
+// condition = 2;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -23,17 +23,52 @@ const jsPsych = initJsPsych({
   }
 });
 
+let subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+
+jsPsych.data.addProperties({
+  subject_id: subject_id,
+});
+
 
 /* ************************************ */
 /* Define experimental variables */
 /* ************************************ */
 
+const choiceType = "both";
 
-let choiceType;
-if (condition == 0) {
-  choiceType = "multiple_choice";
-} else if (condition == 1) {
-  choiceType = "open_ended";
+// let choiceType;
+// if (condition == 0) {
+//   choiceType = "multiple_choice";
+// } else if (condition == 1) {
+//   choiceType = "open_ended";
+// } else if (condition == 2){
+//   choiceType = "both";
+// }
+
+let riskChoices;
+let riskTiming;
+let riskInstructions;
+
+let probsAndPayouts;
+
+if (condition == 0 || condition == 1){
+  probsAndPayouts = [["50", "50"], ["2.22", "0.22"]];
+} else if (condition == 2 || condition == 3){
+  probsAndPayouts = [["98", "2"], ["1.24", "0.22"]];
+}
+const guarateedRiskPayout = "1.02";
+
+// probsAndPayouts = jsPsych.randomization.shuffle(probsAndPayouts);
+
+riskChoices = [`${probsAndPayouts[0][0]}% chance of $${probsAndPayouts[1][0]} and a ${probsAndPayouts[0][1]}% chance of $${probsAndPayouts[1][1]}`, `Guaranteed $${guarateedRiskPayout}`];
+riskChoices = jsPsych.randomization.shuffle(riskChoices);
+
+if (condition == 0 || condition == 2){
+  riskTiming = "immediate";
+  riskInstructions = "Please note that we will tell you the outcome of the lottery immediately. However, we will pay you in exactly 7 days (unlike the rest of your winnings from today, which will be awarded immediately).";
+} else if (condition == 1 || condition == 3){
+  riskTiming = "delayed";
+  riskInstructions = "Please note that we will tell you the outcome of the lottery in 7 days. We will also pay you the outcome in exactly 7 days (unlike the rest of your winnings from today, which will be awarded immediately).";
 }
 
 const wheelNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -63,7 +98,15 @@ wheelNumbersSplits1 = jsPsych.randomization.shuffle(wheelNumbersSplits1);
 
 let wheelNumbersSplits2;
 
-if (choiceType == "multiple_choice"){
+let openEndedSplits = [[
+  [wheelNumbers, wheelNumbers],
+  [wheelNumbers, wheelNumbers],
+  [wheelNumbers, wheelNumbers],
+  [wheelNumbers, wheelNumbers],
+  wheelNumbersSplits1[trialsWithoutChoice - 1]
+]];
+
+if (choiceType == "multiple_choice" || choiceType == "both"){
 
   function getCombinations(arr) {
     let combinations = [];
@@ -86,18 +129,16 @@ if (choiceType == "multiple_choice"){
   wheelNumbersSplits2 = getCombinations(wheelNumbersSplits1);
 
 } else if (choiceType == "open_ended"){
-  wheelNumbersSplits2 = [[
-    [wheelNumbers, wheelNumbers],
-    [wheelNumbers, wheelNumbers],
-    [wheelNumbers, wheelNumbers],
-    [wheelNumbers, wheelNumbers],
-    wheelNumbersSplits1[trialsWithoutChoice -1]
-  ]];
+  wheelNumbersSplits2 = openEndedSplits
 }
 console.log(wheelNumbersSplits2)
 wheelNumbersSplits1.forEach(function (item, i){
   wheelNumbersSplits1[i] = [item, item, item, item, item];
 })
+
+if (choiceType == "both"){
+  wheelNumbersSplits2 = wheelNumbersSplits2.concat(openEndedSplits);
+}
 
 const trialsWithChoice = wheelNumbersSplits2.length;
 
@@ -106,7 +147,7 @@ console.log(wheelNumbersSplits)
 const trials = trialsWithoutChoice + trialsWithChoice;
 
 const expectedDuration = 30;
-const trialsOfActualSpinning = 10;
+const trialsOfActualSpinning = trials;
 const basePayGuarantee = 5
 const mostToGain = 4;
 const numOfWheelNumbers = wheelNumbers.length;
@@ -116,7 +157,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 18;
-let mainTrialsCompleted = 4;
+let mainTrialsCompleted = 0;
 const omission = "ball";
 
 /* ************************************ */
@@ -287,13 +328,183 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
-    timeline: [wheelSpin, wheelReveal],
-    // timeline: [wheelSpin, memoryGame, wheelReveal],
+    // timeline: [wheelSpin, wheelReveal],
+    timeline: [wheelSpin, memoryGame, wheelReveal],
     // timeline: [memoryGame],
     // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
-    repetitions: trials
+    // repetitions: trials,
+    // repetitions: 3,
   }
+
+  let bonusPayout;
+  let riskPayout;
+  let finalQsPreamble;
+
+  let riskQuestion = {
+    type: jsPsychSurveyMultiChoice,
+    on_start: () => {
+      $('#jspsych-content').css('display', 'table');
+    },
+    questions: [
+      {
+        // prompt: "Which of the following do you like the most?", 
+        prompt: `<p>On top of your winnings from today, which we will reveal shortly, you also have the opportunity to earn additional money. Make a choice between the two options below.</p><p>There is no correct answer and no time limit.</p><p><b>${riskInstructions}</b></p>`,
+        name: 'riskQ', 
+        options: riskChoices,
+        required: true,
+        // horizontal: true
+      }, 
+      // {
+      //   prompt: "Which of the following do you like the least?", 
+      //   name: 'FruitDislike', 
+      //   options: ['Apple', 'Banana', 'Orange', 'Grape', 'Strawberry'], 
+      //   required: false
+      // }
+    ],
+    on_finish: (data) => {
+
+      let allWinningNums = jsPsych.data.get().select('winningNum').values;
+      allWinningNums.shift();
+      const averageWinningNum = allWinningNums.reduce((a, b) => Number(a) + Number(b)) / allWinningNums.length;
+      bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
+      bonusPayout = Math.round(bonusPayout * 100) / 100;
+      
+      if (data.response.riskQ.includes("Guaranteed")){
+        riskPayout = guarateedRiskPayout;
+      } else {
+        riskPayout = jsPsych.randomization.sampleWithReplacement(probsAndPayouts[1], 1, probsAndPayouts[0].map(Number))[0];
+      }
+
+      psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
+      psiturk.recordUnstructuredData('riskPayout', riskPayout);
+
+      let detailsAboutRisk;
+
+      if (riskTiming == "immediate") {
+        detailsAboutRisk = `Your additional winnings from the gamble on the most recent trial were $${riskPayout}. You will receive that amount in 7 days.`
+      } else if (riskTiming == "delayed") {
+        detailsAboutRisk = `In addition, in 7 days we will inform you of and pay you for your winnings from the most recent trial.`
+      }
+
+      // console.log(riskPayout)
+      finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonusPayout}, resulting in a grand total earnings of $${basePayGuarantee + bonusPayout}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
+      // console.log(data);
+      // console.log(data.response.riskQ);
+      console.log(finalQsPreamble);
+    }
+  }
+  
+
+  let finalQs = {
+    type: jsPsychSurveyText,
+    data: () => {
+      return {riskPayout: riskPayout, bonusPayout: bonusPayout};
+    },
+    // preamble: finalQsPreamble,
+    preamble: () => {
+      return finalQsPreamble;
+    },
+    questions : [
+      {
+        prompt: "What is your age?",
+        name: 'age',
+        required: true,
+      },
+      {
+        prompt: 'What is your gender?',
+        name: 'gender',
+        required: true,
+      },
+      {
+        prompt: 'Would you be interested in being contacted for a follow-up study?',
+        name: 'followUp',
+        required: true,
+      },
+      {
+        prompt: 'Did you find anything confusing about the experiment?',
+        name: 'confusing',
+        required: true,
+        rows: 3,
+      }
+    ]
+  }
+
+
+  //   let postTaskStarterQs = {
+  //   type: jsPsychSurvey,
+  //   pages: [
+  //     [
+  //       {
+  //         type: 'html',
+  //           // prompt: `Great. Your bonus was ${winningNum} cents, resulting in a grand total earnings of $${startingTotalPlusMinPayment + (winningNum / 100)}. To get paid, please answer the questions on this page.`
+  //           prompt: 'Please answer the questions on this page.'
+  //       },
+  //       {
+  //         type: 'text',
+  //         name: 'age',
+  //         prompt: 'What is your age?',
+  //         input_type: 'number',
+  //         required: true,
+  //       },
+  //       {
+  //         type: 'text',
+  //         prompt: 'What is your gender?',
+  //         name: 'gender',
+  //         required: true,
+  //       },
+  //       // {
+  //       //   type: 'text',
+  //       //   prompt: `How did you make your choice about ${bonusQVar} the two possible bonuses that were still in play? Did you think at all about it, or did you choose hastily without any thought? (Your answer won\'t affect your payment or HIT rating. It\'s for us to better understand the data.)`,
+  //       //   required: true,
+  //       //   textbox_rows: 2,
+  //       //   textbow_columns: 25,
+  //       // },
+  //       {
+  //         type: 'multi-choice',
+  //         prompt: 'Would you be interested in being contacted for a follow-up study?',
+  //         options: ["Yes", "No"],
+  //         required: true
+  //       },
+  //     ],
+  //   ],
+  //   button_label_finish: 'Continue',
+  //   // on_start: function(trial) {
+  //   //   $("#jspsych-content").css("width", "60%");
+  //   // }
+  // }
+
+  // postQAboutWheel = {
+  //   type: jsPsychSurvey,
+  //   pages: [
+  //       [
+  //           {
+  //               type: 'html',
+  //                 prompt: "We\'d like to verify that we properly conveyed the instructions about the roulette wheel.",
+  //             },      
+
+  //           {
+  //               type: 'text',
+  //               prompt: `As you were making your choice about which roulette numbers to ${postQAboutWheelvars[0]}, did you find it confusing what the ${postQAboutWheelvars[1]} would do, or did you understand that it would leave you with a subset of values that we would subsequently reveal after recalibration?`,
+  //               required: true,
+  //               textbox_rows: 2,
+  //               textbow_columns: 25,
+  //           }
+  //       ],
+  //       [
+  //           {
+  //               type: 'text',
+  //               prompt: `How did you make your choice about the roulette numbers you ${postQAboutWheelvars[0]}? Did you think at all about it, or did you choose hastily without any thought? (Your answer won\'t affect your payment or HIT rating. It\'s for us to better understand the data.)`,
+  //               required: true,
+  //               textbox_rows: 2,
+  //               textbow_columns: 25,
+  //           }
+  //       ]
+  //   ],
+  // }
+  
+
+
 
   let exit_fullscreen = {
     type: jsPsychFullscreen,
@@ -303,13 +514,16 @@ async function initializeExperiment() {
 
   /* create timeline */
   var timeline = [
-    // preload,
-    // inclusionCheck,
-    // enter_fullscreen,
-    // introInstructions,
-    // wheelSpinDemo,
-    // introToPartialInfoInstructions,
+    preload,
+    inclusionCheck,
+    enter_fullscreen,
+    introInstructions,
+    wheelSpinDemo,
+    introToPartialInfoInstructions,
     node,
+    riskQuestion,
+    finalQs,
+    // finalQs,
     // trialsWithoutChoiceNode,
     // instructionsBeforeFirstTrialWithChoice,
     // firstTrialWithChoiceNode,

@@ -184,7 +184,7 @@ var jsPsychRoulette = (function (jspsych) {
             
             createWheel();
 
-            function createWheel() {
+            function createWheel(){
                 var temparc = 360 / numOfWheelNumbers;
                 for (var i = 0; i < numOfWheelNumbers; i++) {
                     let possiblePayout = wheelNumbers[i];
@@ -582,62 +582,6 @@ var jsPsychRoulette = (function (jspsych) {
                 // }, 7000)
             }
 
-            function openEndedQuestion(){
-                linePairAttributes.numberlineButton.css("opacity", "1");
-                let falseClicks = 0;
-
-                const linePairAndBarWithWinningNum = createLinePair(3);
-                let numsOnBarWithWinningNumber;
-                let container = $("#line-pair-only-bw-current");
-                setupOpenEndedDotClicking(container);
-                $('.line-wrapper').css("cursor", "pointer");
-
-                setTimeout(function() {
-                    linePairAttributes.numberlineButton.off("click");
-                    linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                }, 5000);
-
-                function firstClickFunction(){
-
-                    if (document.querySelectorAll('.selected').length == numOfWheelNumbers){
-                        linePairAttributes.numberlineButton.off("click");
-                        container.off();
-                        
-                        $('#incomplete-message').html("");
-    
-                        const barWithWinningNumber = linePairAndBarWithWinningNum[1];
-                        const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
-                        $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
-
-                        $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
-                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
-                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`).length;
-    
-                        linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
-                        linePairAttributes.numberlineButton.html("Continue to the memory game");
-                        linePairAttributes.numberlineButton.on("click", secondClickFunction);
-                    } else {
-
-                        falseClicks+=1;
-
-                        if (falseClicks==1){
-                            let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
-                            $('#incomplete-message').html("Please select one of each number");
-                            $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
-                            linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
-                        }
-                    }
-                }
-
-                function secondClickFunction(){
-                    jsPsych.finishTrial({
-                        // winningNum: winningNum,
-                        wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
-                        selections: numsOnBarWithWinningNumber,
-                    })
-                }
-            }
-
             function multipleChoiceQuestion(){
                 linePairAttributes.numberlineButton.css("opacity", "1");
                 linePairAttributes.numberlineButton.html("Reveal bar with winning number");
@@ -730,11 +674,135 @@ var jsPsychRoulette = (function (jspsych) {
                     })
                 }
             }
+
+            function openEndedQuestion(){
+
+                $('#rcircle').css('opacity', '1');
+                $('#line-pair-only-bw-current').css('opacity', '1');
+
+
+                console.log("bip")
+                linePairAttributes.numberlineButton.css("opacity", "1");
+                let falseClicks = 0;
+
+                const linePairAndBarWithWinningNum = createLinePair(3);
+                let numsOnBarWithWinningNumber;
+                let container = $("#line-pair-only-bw-current");
+                setupOpenEndedDotClicking(container);
+                $('.line-wrapper').css("cursor", "pointer");
+
+                setTimeout(function() {
+                    linePairAttributes.numberlineButton.off("click");
+                    linePairAttributes.numberlineButton.on("click", firstClickFunction);
+                }, 5000);
+
+                function firstClickFunction(){
+
+                    if (document.querySelectorAll('.selected').length == numOfWheelNumbers){
+                        linePairAttributes.numberlineButton.off("click");
+                        container.off();
+                        
+                        $('#incomplete-message').html("");
+    
+                        const barWithWinningNumber = linePairAndBarWithWinningNum[1];
+                        const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
+                        $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
+
+                        $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
+                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`).length;
+    
+                        linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
+                        linePairAttributes.numberlineButton.html("Continue to the memory game");
+                        linePairAttributes.numberlineButton.on("click", secondClickFunction);
+                    } else {
+
+                        falseClicks+=1;
+
+                        if (falseClicks==1){
+                            let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
+                            $('#incomplete-message').html("Please select one of each number");
+                            $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
+                            linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
+                        }
+                    }
+                }
+
+                function secondClickFunction(){
+                    jsPsych.finishTrial({
+                        // winningNum: winningNum,
+                        wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
+                        selections: numsOnBarWithWinningNumber,
+                    })
+                }
+            }
+
+            async function openEndedQuestionFinalTrial(){
+
+                
+                linePairAttributes.numberlineButton.css("opacity", "1");
+                
+                linePairAttributes.beginningMessage.html(`<p>This final trial will work slightly differently. Now, you can customize exactly how the ${numOfWheelNumbers} numbers are split between the two lines.</p>`);
+                linePairAttributes.numberlineButton.html("Continue");
+                linePairAttributes.numberlineButton.css("top", '566px');
+                // linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
+
+                let specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
+
+                $('#rcircle').css('opacity', '0');
+                await moveDots([3]);
+                // createLinePair(3);
+
+
+                $('#line-pair-only-bw-current').css('opacity', '0');
+
+
+                $("#line-pair-only-color-prev").remove();
+
+                function firstClickFunction(){
+                    console.log("first click function")
+                    linePairAttributes.numberlineButton.off("click");
+                    setTimeout(function() {
+                        linePairAttributes.numberlineButton.on("click", secondClickFunction);
+                        linePairAttributes.beginningMessage.html(`${specificallyNote}`);
+                        // linePairAttributes.numberlineButton.html("Continue to memory game");
+                    // }, 1)
+                    }, 1)
+                }
+
+                function secondClickFunction(){
+                    console.log("second click function")
+                    linePairAttributes.numberlineButton.off("click");
+                    // setTimeout(function() {
+                        // linePairAttributes.numberlineButton.on("click", thirdClickFunction);
+                        linePairAttributes.beginningMessage.html(`${specificallyNote}<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>${linePairAttributes.rememberNote }`);
+                    // }, 5000)
+                    // moveDots([3]);
+                    // await moveDots([3]);
+
+
+
+
+
+
+                    openEndedQuestion();
+                }
+
+                
+
+
+                setTimeout(function() {
+                    console.log("timeout")
+                    linePairAttributes.numberlineButton.on("click", firstClickFunction);
+                }, 2000);
+
+            }
         
             function moveDots(indexesToShowNow){
                 return new Promise((resolve) => {
 
                     let resolveOnThisIterationCounter = 0;
+                    console.log(groupsOfThree)
                     groupsOfThree.forEach(function(groupOfThree, indexOuter){
                         let wheelNumbersSplit = wheelNumbersSplits[mainTrialsCompleted][indexOuter];
                         let position = groupOfThree[0];
@@ -812,12 +880,18 @@ var jsPsychRoulette = (function (jspsych) {
 
                                     let resolveOnThisIteration;
                                     if (indexesToShowNow[0] == indexOuter && (i == (numOfWheelNumbers - 1))){
-                                        resolveOnThisIterationCounter += 1;
-                                        resolveOnThisIteration = true;
+                                        // console.log(indexOuter)
+                                        // console.log(i)
+                                        if (!(indexesToShowNow == 3 && topOrBottom == "top")){
+                                            // console.log(i)
+                                            resolveOnThisIterationCounter += 1;
+                                            resolveOnThisIteration = true;
+                                        }
                                     } else {
                                         resolveOnThisIteration = false;
                                     }
                                     
+                                    // console.log(resolveOnThisIterationCounter)
                                     dotElement.animate({
                                         left: newLeft,
                                         top: setTop[position][topOrBottom] + "px",
@@ -847,6 +921,10 @@ var jsPsychRoulette = (function (jspsych) {
                 let position = groupsOfThree[indexToShowNow][0];
                 let ballColor = groupsOfThree[indexToShowNow][1];
                 let trialPresent = groupsOfThree[indexToShowNow][2];
+
+                console.log(position)
+                console.log(ballColor)
+                console.log(trialPresent)
 
                 let barWithWinningNumber;
 
@@ -1085,11 +1163,13 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
                     createInstructionsForFirstChoice(openEndedQuestion, '555px');
-                } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "multiple_choice"){
+                } else if (mainTrialsCompleted == trialsWithoutChoice && (choiceType == "multiple_choice" || choiceType == "both")){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;
                     linePairAttributes.beginningMessage.beginNowInstructions = `<p>Click one of these two pairs now, and click the button below to submit your choice. We\'ll tell you whether the winning number is on the top line or bottom line of that pair.</p>`;
                     createInstructionsForFirstChoice(multipleChoiceQuestion, '787px');
-                } else if (mainTrialsCompleted > trialsWithoutChoice && choiceType == "multiple_choice"){
+                } else if (mainTrialsCompleted == trials - 1 && choiceType == "both"){
+                    openEndedQuestionFinalTrial();
+                } else if (mainTrialsCompleted > trialsWithoutChoice && (choiceType == "multiple_choice" || choiceType == "both")){
                     linePairAttributes.beginningMessage.html(`<p>Once again, choose which of the sets of pairs of numbers to work with. When you make your choice, we\'ll then tell you whether the winning number is on the top line or bottom line of the set you chose.</p>${linePairAttributes.rememberNote}`);
                     await moveDots([0, 1]);
                     multipleChoiceQuestion();
