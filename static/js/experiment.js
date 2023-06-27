@@ -253,8 +253,8 @@ async function initializeExperiment() {
     type: jsPsychInstructions,
     pages: [
         '<p class="intro-instructions">Welcome to the experiment. It is expected to last around ' + expectedDuration+ ' minutes. You will be playing ' + trials + ' memory games, which are the sort of conventional game where you see many tiles and have to find out which images underneath those tiles match each other.</p>',
-        '<p class="intro-instructions">Along the way, you\'ll win or lose points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (basePayGuarantee + mostToGain) + '.</p>',
-        '<p class="intro-instructions">The points are earned by spinning a virtual roulette wheel before each memory game. The ball will land on one of the numbers at random, and that number is how many points you will win (or if it lands on a negative number, lose).</p>',
+        '<p class="intro-instructions">Along the way, you\'ll win points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (basePayGuarantee + mostToGain) + '.</p>',
+        '<p class="intro-instructions">The points are earned by spinning a virtual roulette wheel before each memory game. The ball will land on one of the numbers at random, and that number is how many points you will win.</p>',
         '<p class="intro-instructions">For example, on the following page spin the wheel, and watch it land on ' + demoWin + '.</p>',
     ],
     show_clickable_nav: true
@@ -333,7 +333,7 @@ async function initializeExperiment() {
     // timeline: [memoryGame],
     // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
-    // repetitions: trials,
+    repetitions: trials,
     // repetitions: 3,
   }
 
