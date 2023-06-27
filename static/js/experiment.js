@@ -23,7 +23,7 @@ const jsPsych = initJsPsych({
   }
 });
 
-let subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+let subject_id = jsPsych.data.getURLVariable('workerId');
 
 jsPsych.data.addProperties({
   subject_id: subject_id,
