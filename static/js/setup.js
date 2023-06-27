@@ -4,7 +4,7 @@ var CONDITION, COUNTERBALANCE, DEBUG, LOCAL, PROLIFIC, LOG_DEBUG, handleError, p
 
 var searchParams = new URLSearchParams(location.search)
 
-const PROLIFIC_CODE = "CED97WSG";
+const PROLIFIC_CODE = "CW9M9CJ9";
 
 LOCAL = false;
 DEBUG = searchParams.get('debug') == 'true';
