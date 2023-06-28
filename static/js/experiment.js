@@ -11,6 +11,10 @@ const jsPsych = initJsPsych({
   display_element: 'jspsych-target',
   on_finish: function() {
     console.log('on_finish')
+
+    let interaction_data = jsPsych.data.getInteractionData();
+    jsPsych.data.get().addToLast({interactions: interaction_data.json()});
+
     if (DEBUG) {
       return jsPsych.data.displayData();
     } else {
@@ -24,10 +28,6 @@ const jsPsych = initJsPsych({
 });
 
 let subject_id = jsPsych.data.getURLVariable('workerId');
-
-jsPsych.data.addProperties({
-  subject_id: subject_id,
-});
 
 
 /* ************************************ */
@@ -156,7 +156,7 @@ const demoWin = jsPsych.randomization.sampleWithReplacement(wheelNumbers, 1)[0];
 const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, trials);
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
-const unique_memory_objects_per_trial = 18;
+const unique_memory_objects_per_trial = 14;
 let mainTrialsCompleted = 0;
 const omission = "ball";
 
@@ -212,6 +212,18 @@ async function grabJSONData() {
 }
 
 let iconsToKeep = grabJSONData();
+
+// $(document).ready(function() {
+//   var deckrows = 5; // set your x value
+//   var deckrowsy = ((deckrows * deckrows) - deckrows + 1); // calculate your y value
+//   console.log(deckrowsy)
+//   $('.deck .tile').each(function(i, el) {
+//     if ((i+1) % deckrows === 0) $(el).addClass('deckrows-class');
+//     if ((i+1) >= deckrowsy) $(el).addClass('deckrowsy-class');
+//     if ((i+1) >= deckrowsy && (i+1) % deckrows === 0) $(el).addClass('deckrowsdeckrowsy-class');
+//   });
+// });
+
 
 console.log("iojoifs")
 console.log(expectedDuration)
@@ -365,19 +377,19 @@ async function initializeExperiment() {
     on_finish: (data) => {
 
       let allWinningNums = jsPsych.data.get().select('winningNum').values;
+      let riskChoice;
       allWinningNums.shift();
       const averageWinningNum = allWinningNums.reduce((a, b) => Number(a) + Number(b)) / allWinningNums.length;
       bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
       bonusPayout = Math.round(bonusPayout * 100) / 100;
       
       if (data.response.riskQ.includes("Guaranteed")){
+        riskChoice = "certain";
         riskPayout = guarateedRiskPayout;
       } else {
+        riskChoice = "gamble";
         riskPayout = jsPsych.randomization.sampleWithReplacement(probsAndPayouts[1], 1, probsAndPayouts[0].map(Number))[0];
       }
-
-      psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
-      psiturk.recordUnstructuredData('riskPayout', riskPayout);
 
       let detailsAboutRisk;
 
@@ -391,7 +403,20 @@ async function initializeExperiment() {
       finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonusPayout}, resulting in a grand total earnings of $${basePayGuarantee + bonusPayout}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
       // console.log(data);
       // console.log(data.response.riskQ);
-      console.log(finalQsPreamble);
+      // console.log(finalQsPreamble);
+
+      jsPsych.data.addProperties({
+        subject_id: subject_id,
+        prob1: probsAndPayouts,
+        prob2: probsAndPayouts,
+        payout1: probsAndPayouts,
+        payout2: probsAndPayouts,
+        riskTiming: riskTiming,
+        riskChoice: riskChoice,
+      });
+
+      psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
+      psiturk.recordUnstructuredData('riskPayout', riskPayout);
     }
   }
   

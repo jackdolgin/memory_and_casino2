@@ -65,7 +65,7 @@ var jsPsychRoulette = (function (jspsych) {
         trial(display_element, trial) {
 
             display_element.innerHTML = `
-                <div id="overlay">
+                <div id="overlay"> 
                     <div id="overlay-message">
                         <p id="overlay-description"><p/>
                         <button id="overlay-button">OK</button>
@@ -437,7 +437,7 @@ var jsPsychRoulette = (function (jspsych) {
                 await moveDots([2]);
                 const linePairAndBarWithWinningNum = createLinePair(2);
 
-                linePairAttributes.beginningMessage.html(`<p>The balls represent the ${numOfWheelNumbers} numbers from the wheel. We\'re going to tell you now whether the winning number is one of the numbers on the top or bottom line. We\'ll then tell you exactly what the winning number was after the upcoming memory game.</p>`);
+                linePairAttributes.beginningMessage.html(`<p>The circles represent the ${numOfWheelNumbers} numbers from the wheel. We\'re going to tell you now whether the winning number is one of the numbers on the top or bottom line. We\'ll then tell you exactly what the winning number was after the upcoming memory game.</p>`);
                 linePairAttributes.numberlineButton.html("Reveal bar with winning number");
                 linePairAttributes.numberlineButton.css("opacity", "1");
                 console.log(linePairAndBarWithWinningNum)
@@ -475,9 +475,10 @@ var jsPsychRoulette = (function (jspsych) {
                 function secondClickFunction(){
                     jsPsych.finishTrial({
                         // selectedNums: selectedNums,
-                        // winningNum: winningNum,
+                        winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplit,
                         // topOrBottom: topOrBottom,
+                        barWithWinningNumber: barWithWinningNumber,
                     })
                 }
 
@@ -608,8 +609,10 @@ var jsPsychRoulette = (function (jspsych) {
                     if (document.querySelectorAll('.selected').length == 1){
 
                         const selectedID = document.querySelectorAll('.selected')[0].id
-                        const lastHyphenIndex = selectedID.lastIndexOf('-');
-                        topOrBottomSelected = selectedID.substring(lastHyphenIndex + 1);
+
+                        topOrBottomSelected = selectedID.match(/(top|bottom)/)[0];
+
+                        console.log(topOrBottomSelected)
                         
                         linePairAttributes.numberlineButton.off("click");
                         $('#incomplete-message').html("");
@@ -653,23 +656,25 @@ var jsPsychRoulette = (function (jspsych) {
 
 
                     } else {
-                            falseClicks+=1;
+                        falseClicks+=1;
 
-                            if (falseClicks==1){
-                                let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
-                                $('#incomplete-message').html("Please make a selection");
-                                $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
-                                linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
-                            }
+                        if (falseClicks==1){
+                            let topOfButton = document.getElementById('numberlineButton').getBoundingClientRect().top
+                            $('#incomplete-message').html("Please make a selection");
+                            $('#incomplete-message').css('top', (topOfButton - 35) + 'px');
+                            linePairAttributes.numberlineButton.css('top', (topOfButton + 30) + 'px')
+                        }
                     }
                 }
 
                 function secondClickFunction(){
                     jsPsych.finishTrial({
                         // selectedNums: selectedNums,
-                        // winningNum: winningNum,
-                        wheelNumbersSplit: wheelNumbersSplit,
-                        selection: topOrBottomSelected
+                        winningNum: winningNum,
+                        wheelNumbersSplitTop: wheelNumbersSplit[0],
+                        wheelNumbersSplitBottom: wheelNumbersSplit[1],
+                        selection: topOrBottomSelected,
+                        barWithWinningNumber: linePairAndBarWithWinningNum[1],
                         // topOrBottom: topOrBottom,
                     })
                 }
@@ -690,6 +695,7 @@ var jsPsychRoulette = (function (jspsych) {
                 let container = $("#line-pair-only-bw-current");
                 setupOpenEndedDotClicking(container);
                 $('.line-wrapper').css("cursor", "pointer");
+                let barWithWinningNumber;
 
                 setTimeout(function() {
                     linePairAttributes.numberlineButton.off("click");
@@ -704,15 +710,15 @@ var jsPsychRoulette = (function (jspsych) {
                         
                         $('#incomplete-message').html("");
     
-                        const barWithWinningNumber = linePairAndBarWithWinningNum[1];
+                        barWithWinningNumber = linePairAndBarWithWinningNum[1];
                         const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
                         $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
 
                         $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
                         $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
-                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`).length;
+                        numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`);
     
-                        linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
+                        linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber.length} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
                         linePairAttributes.numberlineButton.html("Continue to the memory game");
                         linePairAttributes.numberlineButton.on("click", secondClickFunction);
                     } else {
@@ -730,9 +736,10 @@ var jsPsychRoulette = (function (jspsych) {
 
                 function secondClickFunction(){
                     jsPsych.finishTrial({
-                        // winningNum: winningNum,
+                        winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
                         selections: numsOnBarWithWinningNumber,
+                        barWithWinningNumber: barWithWinningNumber
                     })
                 }
             }
@@ -775,7 +782,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.off("click");
                     // setTimeout(function() {
                         // linePairAttributes.numberlineButton.on("click", thirdClickFunction);
-                        linePairAttributes.beginningMessage.html(`${specificallyNote}<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>${linePairAttributes.rememberNote }`);
+                        linePairAttributes.beginningMessage.html(`${specificallyNote}<p>Now, click the circles to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>${linePairAttributes.rememberNote }`);
                     // }, 5000)
                     // moveDots([3]);
                     // await moveDots([3]);
@@ -1161,7 +1168,7 @@ var jsPsychRoulette = (function (jspsych) {
                     createInstructionsEarlyTrials();
                 } else if (mainTrialsCompleted == trialsWithoutChoice && choiceType == "open_ended"){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, you have to click which numbers you would like on each line. When you are finished, all ${numOfWheelNumbers} numbers should appear on one of the two lines.</p>`;
-                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the balls to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
+                    linePairAttributes.beginningMessage.beginNowInstructions = `<p>Now, click the circles to assign them to a line. You can also drag your mouse to select several more quickly than clicking one by one, if you prefer.</p>`
                     createInstructionsForFirstChoice(openEndedQuestion, '555px');
                 } else if (mainTrialsCompleted == trialsWithoutChoice && (choiceType == "multiple_choice" || choiceType == "both")){
                     linePairAttributes.beginningMessage.specificallyNote = `<p>Specifically, we\'ll present two pairs, instead of one pair, of horizontal lines. You can then choose whether you prefer the top split or the bottom split.</p>`;

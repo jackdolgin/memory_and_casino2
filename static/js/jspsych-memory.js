@@ -94,7 +94,7 @@ var jsPsychMemory = (function (jspsych) {
                 jsPsych.finishTrial({
                     tiles: tiles,
                     numMoves: moves,
-                    selections: allSelections
+                    tileselections: allSelections
                 })
             }
         }
