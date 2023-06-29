@@ -1224,7 +1224,7 @@ var jsPsychRoulette = (function (jspsych) {
                 linePairAttributes.beginningMessage = $('#beginning-message');
                 linePairAttributes.numberlineButton = $("#numberlineButton");
                 linePairAttributes.numberlineButton.css("opacity", "0");
-                linePairAttributes.rememberNote = "<p>Remember, the winning number is already chosen, so your choice only affects what information you learn ahead of the memory game about the outcome; it does not affect the outcome itself.</p>";
+                linePairAttributes.rememberNote = "<p>Remember, the greater the winning number, the more money you will receive. Also remember, the winning number is already chosen, so your choice only affects what information you learn ahead of the memory game about the outcome; it does not affect the outcome itself.</p>";
                 linePairAttributes.topColor = '#4169e1' // royalblue
                 linePairAttributes.bottomColor = '#ff7f50' // coral
 
