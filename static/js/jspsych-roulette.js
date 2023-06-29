@@ -594,6 +594,7 @@ var jsPsychRoulette = (function (jspsych) {
                 setupPairClicking(linePairAndBarWithWinningNumTop[0]);
                 setupPairClicking(linePairAndBarWithWinningNumBottom[0]);
                 $('.line-wrapper').css("cursor", "pointer");
+                let linePairAndBarWithWinningNum;
 
 
                 let topOrBottomSelected;
@@ -618,7 +619,6 @@ var jsPsychRoulette = (function (jspsych) {
                         $('#incomplete-message').html("");
 
                         let linePairID = $('.selected').first().attr('id');
-                        let linePairAndBarWithWinningNum;
                         let linePairAndBarNotWithWinningNum;
                         let pairPosition;
                         let notPairPosition;
