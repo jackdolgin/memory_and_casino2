@@ -146,9 +146,9 @@ const wheelNumbersSplits = wheelNumbersSplits1.concat(wheelNumbersSplits2);
 console.log(wheelNumbersSplits)
 const trials = trialsWithoutChoice + trialsWithChoice;
 
-const expectedDuration = 30;
+const expectedDuration = 35;
 const trialsOfActualSpinning = trials;
-const basePayGuarantee = 5
+const basePayGuarantee = '7.20';
 const mostToGain = 4;
 const numOfWheelNumbers = wheelNumbers.length;
 const demoWin = jsPsych.randomization.sampleWithReplacement(wheelNumbers, 1)[0];
@@ -258,14 +258,17 @@ async function initializeExperiment() {
     fullscreen_mode: true,
     message:
         "<p class='intro-instructions'>This experiment has to be conducted in <strong>full screen mode</strong>. It will end automatically at " +
-        "the end of the study.</p><br>"
+        "the end of the study.</p><br>",
+      on_finish: function() {
+        
+      }
   }
 
   let introInstructions = {
     type: jsPsychInstructions,
     pages: [
         '<p class="intro-instructions">Welcome to the experiment. It is expected to last around ' + expectedDuration+ ' minutes. You will be playing ' + trials + ' memory games, which are the sort of conventional game where you see many tiles and have to find out which images underneath those tiles match each other.</p>',
-        '<p class="intro-instructions">Along the way, you\'ll win points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (basePayGuarantee + mostToGain) + '.</p>',
+        '<p class="intro-instructions">Along the way, you\'ll win points. Those points will be added up at the end of the experiment, such that the more points you earn the more money you receive. You are guaranteed to earn at least $' + basePayGuarantee + ' for participating today. At most, you can earn $' + (Number(basePayGuarantee) + mostToGain) + '.</p>',
         '<p class="intro-instructions">The points are earned by spinning a virtual roulette wheel before each memory game. The ball will land on one of the numbers at random, and that number is how many points you will win.</p>',
         '<p class="intro-instructions">For example, on the following page spin the wheel, and watch it land on ' + demoWin + '.</p>',
     ],
@@ -341,7 +344,7 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
     // timeline: [wheelSpin, wheelReveal],
-    timeline: [wheelSpin, memoryGame, wheelReveal],
+    timeline: [wheelSpin, memoryGame, wheelReveal, inclusionCheck],
     // timeline: [memoryGame],
     // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],
@@ -400,17 +403,17 @@ async function initializeExperiment() {
       }
 
       // console.log(riskPayout)
-      finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonusPayout}, resulting in a grand total earnings of $${basePayGuarantee + bonusPayout}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
+      finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonusPayout}, resulting in a grand total earnings of $${Number(basePayGuarantee) + bonusPayout}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
       // console.log(data);
       // console.log(data.response.riskQ);
       // console.log(finalQsPreamble);
 
       jsPsych.data.addProperties({
         subject_id: subject_id,
-        prob1: probsAndPayouts,
-        prob2: probsAndPayouts,
-        payout1: probsAndPayouts,
-        payout2: probsAndPayouts,
+        prob1: probsAndPayouts[0][0],
+        prob2: probsAndPayouts[0][1],
+        payout1: probsAndPayouts[1][0],
+        payout2: probsAndPayouts[1][1],
         riskTiming: riskTiming,
         riskChoice: riskChoice,
       });
@@ -451,6 +454,12 @@ async function initializeExperiment() {
         name: 'confusing',
         required: true,
         rows: 3,
+      },
+      {
+        prompt: 'Did you play any multimedia (audio or video) in the background during the experiment? Your answer won\'t affect your payment or approval rate.',
+        name: 'attnMedia',
+        required: true,
+        rows: 1,
       }
     ]
   }
@@ -539,14 +548,14 @@ async function initializeExperiment() {
 
   /* create timeline */
   var timeline = [
-    preload,
-    inclusionCheck,
-    enter_fullscreen,
-    introInstructions,
-    wheelSpinDemo,
-    introToPartialInfoInstructions,
+    // preload,
+    // inclusionCheck,
+    // enter_fullscreen,
+    // introInstructions,
+    // wheelSpinDemo,
+    // introToPartialInfoInstructions,
     node,
-    riskQuestion,
+    // riskQuestion,
     finalQs,
     // finalQs,
     // trialsWithoutChoiceNode,

@@ -479,6 +479,8 @@ var jsPsychRoulette = (function (jspsych) {
                         wheelNumbersSplit: wheelNumbersSplit,
                         // topOrBottom: topOrBottom,
                         barWithWinningNumber: barWithWinningNumber,
+                        window_height: $(window).height(),
+                        window_width: $(window).width(),
                     })
                 }
 
@@ -675,6 +677,8 @@ var jsPsychRoulette = (function (jspsych) {
                         wheelNumbersSplitBottom: wheelNumbersSplit[1],
                         selection: topOrBottomSelected,
                         barWithWinningNumber: linePairAndBarWithWinningNum[1],
+                        window_height: $(window).height(),
+                        window_width: $(window).width(),
                         // topOrBottom: topOrBottom,
                     })
                 }
@@ -739,7 +743,9 @@ var jsPsychRoulette = (function (jspsych) {
                         winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
                         selections: numsOnBarWithWinningNumber,
-                        barWithWinningNumber: barWithWinningNumber
+                        barWithWinningNumber: barWithWinningNumber,
+                        window_height: $(window).height(),
+                        window_width: $(window).width(),
                     })
                 }
             }
@@ -1196,6 +1202,8 @@ var jsPsychRoulette = (function (jspsych) {
                         mainTrialsCompleted += 1;
                         jsPsych.finishTrial({
                             winningNum: winningNum,
+                            window_height: $(window).height(),
+                            window_width: $(window).width(),
                         })
                     });
                 }, 2000)
@@ -1205,6 +1213,8 @@ var jsPsychRoulette = (function (jspsych) {
                 setTimeout(function(){
                     jsPsych.finishTrial({
                         winningNum: winningNum,
+                        window_height: $(window).height(),
+                        window_width: $(window).width(),
                     })
                 }, 2000)
             }
