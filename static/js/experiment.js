@@ -303,12 +303,7 @@ async function initializeExperiment() {
     wheelSpinTime: wheelSpinTime,
     spinOrReveal: "spin",
   }
-
-  let memoryGame = {
-    type: jsPsychMemory,
-    numUniqueItems: unique_memory_objects_per_trial
-  }
-
+  
   let wheelReveal = {
     type: jsPsychRoulette,
     wheelSpinTime: 0,
@@ -344,7 +339,7 @@ async function initializeExperiment() {
     // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
     // timeline: [wheelReveal],
     // timeline: [wheelSpin, wheelReveal],
-    timeline: [wheelSpin, memoryGame, wheelReveal, inclusionCheck],
+    timeline: [wheelSpin, wheelReveal, inclusionCheck],
     // timeline: [memoryGame],
     // timeline: [numberlineDisplay],
     // timeline: [numberlineDisplay, wheelReveal],

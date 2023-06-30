@@ -1440,7 +1440,7 @@ var jsPsychRoulette = (function (jspsych) {
                         }
                         opened = [];
                         moves++;
-                        if (match == trial.numUniqueItems){
+                        if (match == unique_memory_objects_per_trial){
                             endTrial(tiles, moves, allSelections, dataToRecord)
                         }
                     }
