@@ -174,6 +174,9 @@ var jsPsychRoulette = (function (jspsych) {
             if (trial.specialTrial == "demo"){
                 winningNum = demoWin;
             } else {
+                if (trial.spinOrReveal == "spin"){
+                    mainTrialsCompleted += 1;
+                }
                 winningNum = winningNums[mainTrialsCompleted]
             }
 
@@ -1238,7 +1241,6 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.html("Continue to next trial");
 
                     linePairAttributes.numberlineButton.on("click", function(){
-                        mainTrialsCompleted += 1;
                         jsPsych.finishTrial({
                             winningNum: winningNum,
                             window_height: $(window).height(),
@@ -1340,7 +1342,8 @@ var jsPsychRoulette = (function (jspsych) {
                         width: '36px',
                         height: '36px',
                     }, 2000));
-
+                    a = arrayOfLines[barWithWinningNumberIndex];
+                    b = arrayOfDots[barWithWinningNumberIndex];
                     // $('.num').animate({
                     //     // right: wheelNumber >= 10 ? '6px' : '12px',
                     //     top: '4px',
@@ -1386,10 +1389,10 @@ var jsPsychRoulette = (function (jspsych) {
                 // b.map(dot => $(dot).css("top", `10px`));
                 // $('.deck').css('top', '120px')
 
-                memoryGame(dataToRecord);
+                memoryGame(linePairAndBarWithWinningNum, dataToRecord);
             }
 
-            async function memoryGame(dataToRecord){
+            async function memoryGame(linePairAndBarWithWinningNum, dataToRecord){
 
                 let resolvedIcons = await Promise.resolve(allAwesomeIcons);
                 let resolvedIconsToKeep = await Promise.resolve(iconsToKeep);
@@ -1441,17 +1444,71 @@ var jsPsychRoulette = (function (jspsych) {
                         opened = [];
                         moves++;
                         if (match == unique_memory_objects_per_trial){
-                            endTrial(tiles, moves, allSelections, dataToRecord)
+                            dataToRecord["tiles"] = tiles;
+                            dataToRecord["moves"] = moves;
+                            dataToRecord["allSelections"] = allSelections;
+                            // endTrial(dataToRecord);
+                            revealWinningDot(linePairAndBarWithWinningNum, dataToRecord);
                         }
                     }
                 
                 });
             } 
 
-            function endTrial(tiles, moves, allSelections, dataToRecord){
-                dataToRecord["tiles"] = tiles;
-                dataToRecord["moves"] = moves;
-                dataToRecord["allSelections"] = allSelections;
+            function revealWinningDot(linePairAndBarWithWinningNum, dataToRecord){
+                let [linePair, barWithWinningNumber, barWithWinningNumberIndex, arrayOfLines, arrayOfDots] = linePairAndBarWithWinningNum;
+                console.log("blue")
+                $("body").animate({
+                    backgroundColor: 'white',
+                }, 2000);
+                $('.deck').animate({opacity: 0}, 2000);
+                $('.deck').css('z-index', '-1');
+
+                // arrayOfDots[barWithWinningNumberIndex].map(dot => {
+                //        if (Number((dot[0]).getAttribute('data-index')) == winningNum){
+                //         $(dot).animate({
+                //             width: '36px',
+                //             height: '36px',
+                //             top: '371px',
+                //         }, 2000);
+                //        }
+                // })
+
+                $(arrayOfLines[barWithWinningNumberIndex]).animate({top: '419px'}, 2000);
+                arrayOfDots[barWithWinningNumberIndex].map(dot => dot.animate({ top: '371px'}, 2000));
+
+                arrayOfDots[barWithWinningNumberIndex].map(dot => {
+                    if (Number((dot[0]).getAttribute('data-index')) != winningNum){
+                     $(dot).animate({opacity: 0}, 2000);
+                    }
+                });
+                $(arrayOfLines[barWithWinningNumberIndex]).animate({opacity: 0}, 2000);
+                linePairAttributes.beginningMessage.html(`<p>You have earned ${winningNum} points from this trial, since the ball landed on ${winningNum} during the roulette spin.</p>`);
+                linePairAttributes.numberlineButton.html(`Continue`);
+
+                setTimeout(() => {
+                    linePairAttributes.beginningMessage.css("opacity", "1");
+                    linePairAttributes.beginningMessage.css("top", "260px");
+                    linePairAttributes.numberlineButton.css("opacity", "1");
+                    linePairAttributes.numberlineButton.css("top", "500px");
+                    linePairAttributes.numberlineButton.off("click");
+
+                    linePairAttributes.numberlineButton.on("click", () => {
+                        endTrial(dataToRecord);
+                    });
+                }, 4000);
+
+
+                // $(arrayOfLines[barWithWinningNumberIndex]).animate({
+                //     top: `${px1}px`
+                // }, 2000);
+                // arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).animate({
+                //     top: `${px2}px`,
+                //     width: '36px',
+                //     height: '36px',
+                // }, 2000));
+            }
+            function endTrial(dataToRecord){
                 dataToRecord["height"] = $(window).height();
                 dataToRecord["width"] = $(window).width();
                 dataToRecord["trialNum"] = mainTrialsCompleted;

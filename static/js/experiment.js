@@ -91,6 +91,7 @@ let wheelNumbersSplits1 = [
   ],
 ];
 const trialsWithoutChoice = wheelNumbersSplits1.length;
+let a, b;
 
 wheelNumbersSplits1 = wheelNumbersSplits1.map(jsPsych.randomization.shuffle);
 // wheelNumbersSplits1 = wheelNumbersSplits1.flat();
@@ -157,7 +158,7 @@ const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, tr
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
 const wheelSpinTime = 9;
 const unique_memory_objects_per_trial = 14;
-let mainTrialsCompleted = 0;
+let mainTrialsCompleted = -1;
 const omission = "ball";
 
 /* ************************************ */
@@ -303,7 +304,7 @@ async function initializeExperiment() {
     wheelSpinTime: wheelSpinTime,
     spinOrReveal: "spin",
   }
-  
+
   let wheelReveal = {
     type: jsPsychRoulette,
     wheelSpinTime: 0,
@@ -334,17 +335,27 @@ async function initializeExperiment() {
   //   repetitions: 1,
   // }
 
-  let node = {
-    // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
-    // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
-    // timeline: [wheelReveal],
-    // timeline: [wheelSpin, wheelReveal],
+  // let node = {
+  //   // timeline: [wheelSpin, numberlineDisplay, memoryGame, wheelReveal],
+  //   // timeline: [wheelSpin, numberlineDisplay, wheelReveal],
+  //   // timeline: [wheelReveal],
+  //   // timeline: [wheelSpin, wheelReveal],
+  //   timeline: [wheelSpin, wheelReveal, inclusionCheck],
+  //   // timeline: [memoryGame],
+  //   // timeline: [numberlineDisplay],
+  //   // timeline: [numberlineDisplay, wheelReveal],
+  //   repetitions: trials,
+  //   // repetitions: 3,
+  // }
+
+  let firstmainTrial = {
     timeline: [wheelSpin, wheelReveal, inclusionCheck],
-    // timeline: [memoryGame],
-    // timeline: [numberlineDisplay],
-    // timeline: [numberlineDisplay, wheelReveal],
-    repetitions: trials,
-    // repetitions: 3,
+    repetitions: 1,
+  }
+
+  let restOfMainTrials = {
+    timeline: [wheelSpin, inclusionCheck],
+    repetitions: trials - 1,
   }
 
   let bonusPayout;
@@ -374,10 +385,8 @@ async function initializeExperiment() {
     ],
     on_finish: (data) => {
 
-      let allWinningNums = jsPsych.data.get().select('winningNum').values;
       let riskChoice;
-      allWinningNums.shift();
-      const averageWinningNum = allWinningNums.reduce((a, b) => Number(a) + Number(b)) / allWinningNums.length;
+      const averageWinningNum = winningNums.reduce((a, b) => Number(a) + Number(b)) / winningNums.length;
       bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
       bonusPayout = Math.round(bonusPayout * 100) / 100;
       
@@ -543,14 +552,15 @@ async function initializeExperiment() {
 
   /* create timeline */
   var timeline = [
-    // preload,
-    // inclusionCheck,
-    // enter_fullscreen,
-    // introInstructions,
-    // wheelSpinDemo,
-    // introToPartialInfoInstructions,
-    node,
-    // riskQuestion,
+    preload,
+    inclusionCheck,
+    enter_fullscreen,
+    introInstructions,
+    wheelSpinDemo,
+    introToPartialInfoInstructions,
+    firstmainTrial,
+    restOfMainTrials,
+    riskQuestion,
     finalQs,
     // finalQs,
     // trialsWithoutChoiceNode,
