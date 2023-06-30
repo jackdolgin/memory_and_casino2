@@ -1237,7 +1237,7 @@ var jsPsychRoulette = (function (jspsych) {
             }
 
             function revealBallLocation(){
-                $("#ballLandedNotification").html(`<p>You have earned ${winningNum} points from this spin, since the ball landed on ${winningNum}.</p>`);
+                $("#ballLandedNotification").html(`<p>To reiterate, you have earned ${winningNum} points from this spin, since the ball landed on ${winningNum}.</p>`);
                 $("#ballLandedNotification").css("opacity", "1");
                 setTimeout(function(){
                     console.log("sfda")
