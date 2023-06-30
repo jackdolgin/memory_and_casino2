@@ -241,6 +241,11 @@ var jsPsychRoulette = (function (jspsych) {
             
                                     let newNumber = document.createElement("div");
                                     $(newNumber).addClass("num");
+                                    if (i < 9){
+                                        $(newNumber).addClass("singledigit");
+                                    } else if (i >= 0){
+                                        $(newNumber).addClass("doubledigit");
+                                    }
                                     $(newNumber).attr('id', `num${possiblePayout}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
                                     // $(newNumber).addClass(`num-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
             
@@ -450,8 +455,8 @@ var jsPsychRoulette = (function (jspsych) {
                     const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
                     $(`.dot-${barNotWithWinningNumber}-only-color-current`).animate({opacity: 0}, 1000);
 
-                    $(`.dot-${barWithWinningNumber}-only-color-current`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
-                    $(`.num`).animate({color: 'black'}, 1000);
+                    $(`.dot-${barWithWinningNumber}-only-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                    // $(`.num`).animate({color: 'black'}, 1000);
 
                     // $('.num').animate({
                     //     // right: wheelNumber >= 10 ? '6px' : '12px',
@@ -663,8 +668,8 @@ var jsPsychRoulette = (function (jspsych) {
 
                             const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![linePairAndBarWithWinningNum[1]].includes(x));
                             $(`.dot-${barNotWithWinningNumber}-${pairPosition}-color-current`).animate({opacity: 0}, 1000);
-                            $(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
-                            $(`.num`).animate({color: 'black'}, 1000);
+                            $(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                            // $(`.num`).animate({color: 'black'}, 1000);
 
                             let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).length
         
@@ -741,8 +746,8 @@ var jsPsychRoulette = (function (jspsych) {
                         $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
 
                         $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
-                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
-                        $(`.num`).animate({color: 'black'}, 1000);
+                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                        // $(`.num`).animate({color: 'black'}, 1000);
                         numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`);
     
                         linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber.length} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
@@ -1324,8 +1329,32 @@ var jsPsychRoulette = (function (jspsych) {
                 }, 2000);
                 
                 function positionStims(px1, px2, px3){
-                    $(arrayOfLines[barWithWinningNumberIndex]).animate({top: `${px1}px`}, 2000);
-                    arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).animate({top: `${px2}px`}, 2000));
+                    // $(arrayOfLines[barWithWinningNumberIndex]).animate({top: `${px1}px`}, 2000);
+                    // arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).animate({top: `${px2}px`}, 2000));
+
+                    $(arrayOfLines[barWithWinningNumberIndex]).animate({
+                        top: `${px1}px`
+                    }, 2000);
+                    arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).animate({
+                        top: `${px2}px`,
+                        width: '36px',
+                        height: '36px',
+                    }, 2000));
+
+                    // $('.num').animate({
+                    //     // right: wheelNumber >= 10 ? '6px' : '12px',
+                    //     top: '4px',
+                    //     fontSize: '21px',
+                    // }, 2000);
+
+                    $('.singledigit').animate({right: '12px', top: '4px', fontSize: '21px'});
+                    $('.doubledigit').animate({right: '7px', top: '4px', fontSize: '21px'});
+
+                    // $(`.dot-${barWithWinningNumber}-only-color-current`).animate({
+                    //     width: '36px',
+                    //     height: '36px',
+                    // })
+
                     $('.deck').animate({top: `${px3}px`}, 2000);
                     // $(arrayOfLines[barWithWinningNumberIndex]).css("top", `${px1}px`);
                     // arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).css("top", `${px2}px`));
@@ -1333,9 +1362,9 @@ var jsPsychRoulette = (function (jspsych) {
                 }
 
                 if (barWithWinningNumber == "top"){
-                    positionStims(50, 10, 120);
+                    positionStims(50, 2, 120);
                 } else if (barWithWinningNumber == "bottom"){
-                    positionStims(750, 710, 30);
+                    positionStims(750, 702, 30);
                 }
 
                 // // let distanceFromTop = 50;
@@ -1427,6 +1456,7 @@ var jsPsychRoulette = (function (jspsych) {
                 dataToRecord["width"] = $(window).width();
                 dataToRecord["trialNum"] = mainTrialsCompleted;
                 dataToRecord["winningNum"] = winningNum;
+                console.log(dataToRecord);
                 jsPsych.finishTrial(dataToRecord);
             }
 
