@@ -369,7 +369,12 @@ var jsPsychRoulette = (function (jspsych) {
                 var temp = numberLoc[winningNum][0] + 4;
             
                 //randomize
-                var rndSpace = randomSpaceArray[mainTrialsCompleted];
+                let rndSpace;
+                if (trial.specialTrial == "demo"){
+                    rndSpace = demoRandomSpace;
+                } else {
+                    rndSpace = randomSpaceArray[mainTrialsCompleted];
+                }
             
                 resetAni();
                 let timeoutDuration;

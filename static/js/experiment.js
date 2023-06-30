@@ -153,6 +153,7 @@ const basePayGuarantee = '7.20';
 const mostToGain = 4;
 const numOfWheelNumbers = wheelNumbers.length;
 const demoWin = jsPsych.randomization.sampleWithReplacement(wheelNumbers, 1)[0];
+const demoRandomSpace = Math.floor(Math.random() * 360 + 1);
 // const demoWin = 10;
 const winningNums = jsPsych.randomization.sampleWithReplacement(wheelNumbers, trials);
 const randomSpaceArray = Array.from({length: trials}, () => Math.floor(Math.random() * 360 + 1));
