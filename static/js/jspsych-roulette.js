@@ -102,6 +102,7 @@ var jsPsychRoulette = (function (jspsych) {
                         </div>
                         <div id="btnproceed" class="button">Proceed</div>
                     </div>
+                    <div id="deckwillgohere" style='position:inherit'></div>
 
                 </div>
             `;
@@ -448,15 +449,29 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.off("click");
                     const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![barWithWinningNumber].includes(x));
                     $(`.dot-${barNotWithWinningNumber}-only-color-current`).animate({opacity: 0}, 1000);
-                    $(`.dot-${barWithWinningNumber}-only-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+
+                    $(`.dot-${barWithWinningNumber}-only-color-current`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
+                    $(`.num`).animate({color: 'black'}, 1000);
+
+                    // $('.num').animate({
+                    //     // right: wheelNumber >= 10 ? '6px' : '12px',
+                    //     right: '10px',
+                    //     top: '4px',
+                    //     fontSize: '21px',
+                    // }, 2000);
+
+                    // $(`.dot-${barWithWinningNumber}-only-color-current`).animate({
+                    //     width: '36px',
+                    //     height: '36px',
+                    // })
 
 
                     let numsRemaining;
 
                     if (barWithWinningNumber == "top"){
-                        numsRemaining = wheelNumbersSplit[0]
+                        numsRemaining = wheelNumbersSplit[0];
                     } else if (barWithWinningNumber == "bottom"){
-                        numsRemaining = wheelNumbersSplit[1]
+                        numsRemaining = wheelNumbersSplit[1];
                     }
 
                     // setTimeout(function() {
@@ -473,15 +488,18 @@ var jsPsychRoulette = (function (jspsych) {
                 }
 
                 function secondClickFunction(){
-                    jsPsych.finishTrial({
+                    let dataToRecord = {
                         // selectedNums: selectedNums,
-                        winningNum: winningNum,
+                        // winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplit,
                         // topOrBottom: topOrBottom,
                         barWithWinningNumber: barWithWinningNumber,
-                        window_height: $(window).height(),
-                        window_width: $(window).width(),
-                    })
+                        // window_height: $(window).height(),
+                        // window_width: $(window).width(),
+                    }
+
+                    // memoryGame(linePairAndBarWithWinningNum[0], `.dot-${barNotWithWinningNumber}-only-color-current`, dataToRecord, linePairAndBarWithWinningNum);
+                    transitionToMemoryGame(linePairAndBarWithWinningNum, dataToRecord);
                 }
 
                 setTimeout(function() {
@@ -645,7 +663,8 @@ var jsPsychRoulette = (function (jspsych) {
 
                             const barNotWithWinningNumber = ["top", "bottom"].filter(x => ![linePairAndBarWithWinningNum[1]].includes(x));
                             $(`.dot-${barNotWithWinningNumber}-${pairPosition}-color-current`).animate({opacity: 0}, 1000);
-                            $(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                            $(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
+                            $(`.num`).animate({color: 'black'}, 1000);
 
                             let numsRemaining = document.querySelectorAll(`.dot-${linePairAndBarWithWinningNum[1]}-${pairPosition}-color-current`).length
         
@@ -670,17 +689,20 @@ var jsPsychRoulette = (function (jspsych) {
                 }
 
                 function secondClickFunction(){
-                    jsPsych.finishTrial({
+                    let dataToRecord = {
                         // selectedNums: selectedNums,
-                        winningNum: winningNum,
+                        // winningNum: winningNum,
                         wheelNumbersSplitTop: wheelNumbersSplit[0],
                         wheelNumbersSplitBottom: wheelNumbersSplit[1],
                         selection: topOrBottomSelected,
                         barWithWinningNumber: linePairAndBarWithWinningNum[1],
-                        window_height: $(window).height(),
-                        window_width: $(window).width(),
+                        // window_height: $(window).height(),
+                        // window_width: $(window).width(),
                         // topOrBottom: topOrBottom,
-                    })
+                    }
+
+                    linePairAndBarWithWinningNum
+                    transitionToMemoryGame(linePairAndBarWithWinningNum, dataToRecord)
                 }
             }
 
@@ -719,7 +741,8 @@ var jsPsychRoulette = (function (jspsych) {
                         $(`.dot-${barNotWithWinningNumber}-only-bw-current`).animate({opacity: 0}, 1000);
 
                         $(`.dot-${barWithWinningNumber}-only-bw-current:not([class*="selected"])`).animate({opacity: 0}, 1000);
-                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'black', borderColor: 'red'}, 1000);
+                        $(`.dot-${barWithWinningNumber}-only-bw-current.selected`).animate({backgroundColor: 'white', borderColor: 'red'}, 1000);
+                        $(`.num`).animate({color: 'black'}, 1000);
                         numsOnBarWithWinningNumber = document.querySelectorAll(`.dot-${barWithWinningNumber}-only-bw-current.selected`);
     
                         linePairAttributes.beginningMessage.html(`<p>The winning number is one of the ${numsOnBarWithWinningNumber.length} numbers on the ${barWithWinningNumber} line.</p><br><br><br><br><br><br><br><br>`);
@@ -739,14 +762,18 @@ var jsPsychRoulette = (function (jspsych) {
                 }
 
                 function secondClickFunction(){
-                    jsPsych.finishTrial({
-                        winningNum: winningNum,
+
+                    let dataToRecord = {
+                        // winningNum: winningNum,
                         wheelNumbersSplit: wheelNumbersSplits[mainTrialsCompleted][4],
                         selections: numsOnBarWithWinningNumber,
                         barWithWinningNumber: barWithWinningNumber,
-                        window_height: $(window).height(),
-                        window_width: $(window).width(),
-                    })
+                        // window_height: $(window).height(),
+                        // window_width: $(window).width(),
+                    }
+
+                    
+                    transitionToMemoryGame(linePairAndBarWithWinningNum, dataToRecord);
                 }
             }
 
@@ -940,6 +967,7 @@ var jsPsychRoulette = (function (jspsych) {
                 console.log(trialPresent)
 
                 let barWithWinningNumber;
+                let barWithWinningNumberIndex;
 
                 let linePair = document.createElement("div");
                 linePair.setAttribute("id", `line-pair-${position}-${ballColor}-${trialPresent}`);
@@ -963,6 +991,9 @@ var jsPsychRoulette = (function (jspsych) {
                 linePair.style.top = topOfWrappers[0] + 'px';
                 linePair.style.height = halfSizeOfWrapper * -4 + 'px';
 
+                let arrayOfLines = [];
+                let arrayOfDots = [[], []];
+
 
                 ["top", "bottom"].forEach(function(topOrBottom, index){
                     const numbersOnLine = wheelNumbersSplit[index];
@@ -983,6 +1014,7 @@ var jsPsychRoulette = (function (jspsych) {
                     line.classList.add("line", `line-${topOrBottom}`);
                     
                     line.style.top = wrapperWithLine.style.top - halfSizeOfWrapper + 'px';
+                    arrayOfLines.push(line);
                     wrapperWithLine.appendChild(line);
 
                     $(wrapperClickable).css("z-index", "400");
@@ -995,6 +1027,7 @@ var jsPsychRoulette = (function (jspsych) {
 
                             let numElement = $(`#num${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
                             let dotElement = $(`#dot${wheelNumber}-${topOrBottom}-${position}-${ballColor}-${trialPresent}`);
+                            arrayOfDots[index].push(dotElement);
 
                             $(numElement).css("opacity", "1");
                             $(dotElement).css("opacity", "1");
@@ -1015,6 +1048,7 @@ var jsPsychRoulette = (function (jspsych) {
     
                             if (wheelNumber == winningNum){
                                 barWithWinningNumber = topOrBottom;
+                                barWithWinningNumberIndex = index;
                             }
                         }
                     })
@@ -1028,7 +1062,7 @@ var jsPsychRoulette = (function (jspsych) {
                     $(".line-pair").not(".selected").css("border-color", "#dbdbdb85");
                 }
 
-                return([linePair, barWithWinningNumber]);
+                return([linePair, barWithWinningNumber, barWithWinningNumberIndex, arrayOfLines, arrayOfDots]);
 
             }
 
@@ -1271,7 +1305,135 @@ var jsPsychRoulette = (function (jspsych) {
                 }
             }
 
+            function transitionToMemoryGame(linePairAndBarWithWinningNum, dataToRecord){
+                let [linePair, barWithWinningNumber, barWithWinningNumberIndex, arrayOfLines, arrayOfDots] = linePairAndBarWithWinningNum;
+                    
+                $('#deckwillgohere').append($('<div class="deck"></div>'));
+
+                linePairAttributes.beginningMessage.css("opacity", "0");
+                linePairAttributes.numberlineButton.css("opacity", "0");
+                $(linePair).css("border-width", "0px");
+                $(arrayOfLines[1 - barWithWinningNumberIndex]).css("opacity", "0");
+                $('.line-pair').css('position', 'inherit');
+                $('.line-wrapper').css('position', 'inherit');
+                $('.line').css('position', 'absolute');
+                // $('.hold').css('left', '-40px'); // this just works, i think because hold is already rotated to the side
+
+                $("body").animate({
+                    backgroundColor: '#FF9090',
+                }, 2000);
+                
+                function positionStims(px1, px2, px3){
+                    $(arrayOfLines[barWithWinningNumberIndex]).animate({top: `${px1}px`}, 2000);
+                    arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).animate({top: `${px2}px`}, 2000));
+                    $('.deck').animate({top: `${px3}px`}, 2000);
+                    // $(arrayOfLines[barWithWinningNumberIndex]).css("top", `${px1}px`);
+                    // arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).css("top", `${px2}px`));
+                    // $('.deck').css('top', `${px3}px`);
+                }
+
+                if (barWithWinningNumber == "top"){
+                    positionStims(50, 10, 120);
+                } else if (barWithWinningNumber == "bottom"){
+                    positionStims(750, 710, 30);
+                }
+
+                // // let distanceFromTop = 50;
+                // $(arrayOfLines[barWithWinningNumberIndex]).css("top", `50px`);
+                // arrayOfDots[barWithWinningNumberIndex].map(dot => $(dot).css("top", `10px`));
+                // a = arrayOfLines[barWithWinningNumberIndex];
+                // b = arrayOfDots[barWithWinningNumberIndex];
+
+                // $(a).css('top', '50px')
+                // b.map(dot => $(dot).css("top", `0px`));
+                // $('.deck').css('top', '100px')
+
+
+                // $(a).css('top', '50px')
+                // b.map(dot => $(dot).css("top", `10px`));
+                // $('.deck').css('top', '120px')
+
+                // $(a).css('top', '50px')
+                // b.map(dot => $(dot).css("top", `10px`));
+                // $('.deck').css('top', '120px')
+
+                memoryGame(dataToRecord);
+            }
+
+            async function memoryGame(dataToRecord){
+
+                let resolvedIcons = await Promise.resolve(allAwesomeIcons);
+                let resolvedIconsToKeep = await Promise.resolve(iconsToKeep);
+
+                resolvedIcons = resolvedIcons.filter(item => !item.includes(':') && resolvedIconsToKeep.includes(item));
+
+                let tiles = jsPsych.randomization.sampleWithoutReplacement(resolvedIcons, unique_memory_objects_per_trial);
+                tiles = jsPsych.randomization.repeat(tiles, 2);
+
+                let opened = [],
+                match = 0,
+                moves = 0,
+                $deck = $('.deck'),
+                delay = 800,
+                allSelections = [];
+
+                $deck.empty();
+                for (var i = 0; i < tiles.length; i++) {
+                    $deck.append($('<li class="tile" id="tile' + i + '"><i class="fa ' + tiles[i] + '""></i></li>'));
+                }
+    
+                // tile flip
+                $deck.on('click', '.tile:not(".match, .open")', function () {
+                    if ($('.show').length > 1) {return true;}
+                
+                    var $this = $(this),
+                    tile = $this.context.innerHTML;
+                    $this.addClass('open show');
+                    opened.push(tile);
+                    allSelections.push(tile);
+                
+                    // Compare with opened tile
+                    if (opened.length > 1) {
+                        if (tile === opened[0]) {
+                            $deck.find('.open').addClass('match animated infinite rubberBand');
+                            setTimeout(function () {
+                            $deck.find('.match').removeClass('open show animated infinite rubberBand');
+                            }, delay);
+                            match++;
+                        } else {
+                            // $deck.find('.open').addClass('notmatch animated infinite wobble');
+                            setTimeout(function () {
+                            $deck.find('.open').removeClass('animated infinite wobble');
+                            }, delay / 1.5);
+                            setTimeout(function () {
+                            $deck.find('.open').removeClass('open show notmatch animated infinite wobble');
+                            }, delay);
+                        }
+                        opened = [];
+                        moves++;
+                        if (match == trial.numUniqueItems){
+                            endTrial(tiles, moves, allSelections, dataToRecord)
+                        }
+                    }
+                
+                });
+            } 
+
+            function endTrial(tiles, moves, allSelections, dataToRecord){
+                dataToRecord["tiles"] = tiles;
+                dataToRecord["moves"] = moves;
+                dataToRecord["allSelections"] = allSelections;
+                dataToRecord["height"] = $(window).height();
+                dataToRecord["width"] = $(window).width();
+                dataToRecord["trialNum"] = mainTrialsCompleted;
+                dataToRecord["winningNum"] = winningNum;
+                jsPsych.finishTrial(dataToRecord);
+            }
+
             openingMessage();
+
+
+
         }
     }
     RoulettePlugin.info = info;

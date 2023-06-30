@@ -655,8 +655,13 @@ ul::-webkit-scrollbar-thumb:hover {
     padding: 16px;
     border-radius: 10px;
     box-shadow: 14px 14px 0 0 #000000;
-    position: relative;
-    top: 45px;
+    position: absolute;
+    /* top: 45px; */
+    /* top: 30px; */
+    /* top: 100px; */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 600;
 }
 
 #mouse-card-instruction {
@@ -684,16 +689,15 @@ ul::-webkit-scrollbar-thumb:hover {
     /* font-family: FontAwesome; */
     line-height: 105px;
   }
-  .deck .tile.deckrows-class {
+  .deck .tile:nth-child(6n) {
     margin: 0 0 15px 0;
   }
-  .deck .tile.deckrowsy-class {
+  .deck .tile:nth-child(n+31) {
     margin: 0 15px 0 0;
   }
-  .deck .tile.deckrowsdeckrowsy-class {
+  .deck .tile:nth-child(n+31):nth-child(6n) {
     margin: 0;
   }
-  
   .deck .tile.open {
     transform: rotateY(0);
     background: #89C4FF;

@@ -20,15 +20,6 @@ var jsPsychMemory = (function (jspsych) {
 
             display_element.innerHTML = '<div class="deck"></div>';
 
-            let opened = [],
-            match = 0,
-            moves = 0,
-            $deck = $('.deck'),
-            delay = 800,
-            allSelections = [];
-
-            $("body").css("background-color", "#FF9090");
-
 
             async function initializeTrial() {
                 let resolvedIcons = await Promise.resolve(allAwesomeIcons);
@@ -39,9 +30,16 @@ var jsPsychMemory = (function (jspsych) {
                 let tiles = jsPsych.randomization.sampleWithoutReplacement(resolvedIcons, trial.numUniqueItems);
                 tiles = jsPsych.randomization.repeat(tiles, 2);
                 
+                let opened = [],
+                match = 0,
+                moves = 0,
+                $deck = $('.deck'),
+                delay = 800,
+                allSelections = [];
+    
+                $("body").css("background-color", "#FF9090");
+
                 $deck.empty();
-                match = 0;
-                moves = 0;
                 for (var i = 0; i < tiles.length; i++) {
                     $deck.append($('<li class="tile" id="tile' + i + '"><i class="fa ' + tiles[i] + '""></i></li>'));
                 }
