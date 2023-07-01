@@ -1,4 +1,4 @@
-condition = 3;
+// condition = 3;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
