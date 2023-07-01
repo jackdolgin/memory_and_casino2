@@ -1,4 +1,4 @@
-// condition = 2;
+condition = 3;
 const jsPsych = initJsPsych({
   // extensions: [
   //   {type: jsPsychExtensionWebgazer}
@@ -60,15 +60,15 @@ const guarateedRiskPayout = "1.02";
 
 // probsAndPayouts = jsPsych.randomization.shuffle(probsAndPayouts);
 
-riskChoices = [`${probsAndPayouts[0][0]}% chance of $${probsAndPayouts[1][0]} and a ${probsAndPayouts[0][1]}% chance of $${probsAndPayouts[1][1]}`, `Guaranteed $${guarateedRiskPayout}`];
+riskChoices = [`Lottery with ${probsAndPayouts[0][0]}% chance of $${probsAndPayouts[1][0]} and a ${probsAndPayouts[0][1]}% chance of $${probsAndPayouts[1][1]}`, `Guaranteed $${guarateedRiskPayout}`];
 riskChoices = jsPsych.randomization.shuffle(riskChoices);
 
 if (condition == 0 || condition == 2){
   riskTiming = "immediate";
-  riskInstructions = "Please note that we will tell you the outcome of the lottery immediately. However, we will pay you in exactly 7 days (unlike the rest of your winnings from today, which will be awarded immediately).";
+  riskInstructions = "Should you select the lottery, we\'ll promptly reveal the outcome. If you opt for the guaranteed amount, you will also immediately know the outcome, since it is fixed. Regardless of your choice, unlike today\'s other winnings, the resulting funds will be delivered to you in exactly 7 days.";
 } else if (condition == 1 || condition == 3){
   riskTiming = "delayed";
-  riskInstructions = "Please note that we will tell you the outcome of the lottery in 7 days. We will also pay you the outcome in exactly 7 days (unlike the rest of your winnings from today, which will be awarded immediately).";
+  riskInstructions = "Should you select the lottery, the outcome will be disclosed to you in exactly 7 days. Conversely, if you opt for the guaranteed amount, your earnings are certain and known upfront. Regardless of your choice, the payment from this decision, differing from today\'s other winnings, will be delivered in exactly 7 days.";
 }
 
 const wheelNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -277,11 +277,23 @@ async function initializeExperiment() {
     show_clickable_nav: true
   }
 
+  const dataPlaceholders = {
+    wheelNumbersSplit: 'N/A',
+    selections: 'N/A',
+    barWithWinningNumber: 'N/A',
+    wheelNumbersSplitTop: 'N/A',
+    wheelNumbersSplitBottom: 'N/A',
+    tiles: 'N/A',
+    moves: 'N/A',
+    allSelections: 'N/A',
+  }
+
   let wheelSpinDemo = {
     type: jsPsychRoulette,
     wheelSpinTime: wheelSpinTime,
     specialTrial: "demo",
     spinOrReveal: "spin",
+    data: dataPlaceholders,
   }
 
   let introToPartialInfoInstructions = {
@@ -352,11 +364,13 @@ async function initializeExperiment() {
   let firstmainTrial = {
     timeline: [wheelSpin, wheelReveal, inclusionCheck],
     repetitions: 1,
+    data: dataPlaceholders
   }
 
   let restOfMainTrials = {
     timeline: [wheelSpin, inclusionCheck],
     repetitions: trials - 1,
+    data: dataPlaceholders
   }
 
   let bonusPayout;
@@ -371,7 +385,7 @@ async function initializeExperiment() {
     questions: [
       {
         // prompt: "Which of the following do you like the most?", 
-        prompt: `<p>On top of your winnings from today, which we will reveal shortly, you also have the opportunity to earn additional money. Make a choice between the two options below.</p><p>There is no correct answer and no time limit.</p><p><b>${riskInstructions}</b></p>`,
+        prompt: `<p>In addition to the winnings you\'ve already accrued today (which will be disclosed shortly), you have the opportunity to earn extra money. Please choose between the two options below.</p><p>There\'s no correct answer and you may take as much time as you need.</p><p><b>${riskInstructions}</b></p>`,
         name: 'riskQ', 
         options: riskChoices,
         required: true,

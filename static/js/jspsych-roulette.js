@@ -1246,22 +1246,14 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.html("Continue to next trial");
 
                     linePairAttributes.numberlineButton.on("click", function(){
-                        jsPsych.finishTrial({
-                            winningNum: winningNum,
-                            window_height: $(window).height(),
-                            window_width: $(window).width(),
-                        })
+                        endTrial({});
                     });
                 }, 2000)
             }
 
             function finishSpinDemo(){
                 setTimeout(function(){
-                    jsPsych.finishTrial({
-                        winningNum: winningNum,
-                        window_height: $(window).height(),
-                        window_width: $(window).width(),
-                    })
+                    endTrial({});
                 }, 2000)
             }
 
@@ -1518,8 +1510,8 @@ var jsPsychRoulette = (function (jspsych) {
                 dataToRecord["width"] = $(window).width();
                 dataToRecord["trialNum"] = mainTrialsCompleted;
                 dataToRecord["winningNum"] = winningNum;
-                console.log(dataToRecord);
-                jsPsych.finishTrial(dataToRecord);
+                dataToRecord["normalOrSpecial"] = trial.specialTrial;
+                dataToRecord["spinOrReveal"] = trial.spinOrReveal;
             }
 
             openingMessage();
