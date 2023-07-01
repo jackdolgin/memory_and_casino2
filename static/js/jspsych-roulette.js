@@ -1512,6 +1512,7 @@ var jsPsychRoulette = (function (jspsych) {
                 dataToRecord["winningNum"] = winningNum;
                 dataToRecord["normalOrSpecial"] = trial.specialTrial;
                 dataToRecord["spinOrReveal"] = trial.spinOrReveal;
+                jsPsych.finishTrial(dataToRecord);
             }
 
             openingMessage();
