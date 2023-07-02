@@ -515,10 +515,11 @@ var jsPsychRoulette = (function (jspsych) {
                     transitionToMemoryGame(linePairAndBarWithWinningNum, dataToRecord);
                 }
 
+                const delayButtonClick = mainTrialsCompleted == 0 ? 7000 : 1;
                 setTimeout(function() {
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
                 // }, 1);
-                }, 7000);
+                }, delayButtonClick);
 
             }
 
@@ -582,7 +583,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.html(`<p>This time it\'ll work a little differently. Now, you can choose how the ${numOfWheelNumbers} numbers are split between the two lines.</p>`);
                     setTimeout(function() {
                         linePairAttributes.numberlineButton.on("click", fourthClickFunction);
-                    }, 5000);
+                    }, 3000);
                 }
 
                 function fourthClickFunction(){
@@ -591,7 +592,7 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.html(linePairAttributes.beginningMessage.specificallyNote);
                     setTimeout(function(){
                         linePairAttributes.numberlineButton.on("click", fifthClickFunction);
-                    }, 5000);
+                    }, 3000);
                 }
 
                 function fifthClickFunction(){
@@ -606,13 +607,13 @@ var jsPsychRoulette = (function (jspsych) {
                             linePairAttributes.beginningMessage.html(`${linePairAttributes.beginningMessage.specificallyNote}${linePairAttributes.rememberNote}${linePairAttributes.beginningMessage.beginNowInstructions}`);
                             nextStage()
                         })
-                    }, 1);
+                    }, 2000);
 
                 }
 
                 setTimeout(function() {
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
-                }, 1)
+                }, 3000)
                 // }, 7000)
             }
 
@@ -631,9 +632,9 @@ var jsPsychRoulette = (function (jspsych) {
 
 
                 let topOrBottomSelected;
-                
+                linePairAttributes.numberlineButton.off("click");
+
                 setTimeout(function() {
-                    linePairAttributes.numberlineButton.off("click");
                     linePairAttributes.numberlineButton.on("click", firstClickFunction);
                 }, 4000);
 
@@ -1490,7 +1491,6 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.numberlineButton.css("opacity", "1");
                     linePairAttributes.numberlineButton.css("top", "500px");
                     linePairAttributes.numberlineButton.on("click", () => {
-                        console.log("endTrialplz");
                         endTrial(dataToRecord);
                         linePairAttributes.numberlineButton.off("click");``
                     });
