@@ -1482,15 +1482,16 @@ var jsPsychRoulette = (function (jspsych) {
                 $(arrayOfLines[barWithWinningNumberIndex]).animate({opacity: 0}, 2000);
                 linePairAttributes.beginningMessage.html(`<p>You have earned ${winningNum} points from this trial, since the ball landed on ${winningNum} during the roulette spin.</p>`);
                 linePairAttributes.numberlineButton.html(`Continue`);
+                linePairAttributes.numberlineButton.off("click");``
 
                 setTimeout(() => {
                     linePairAttributes.beginningMessage.css("opacity", "1");
                     linePairAttributes.beginningMessage.css("top", "260px");
                     linePairAttributes.numberlineButton.css("opacity", "1");
                     linePairAttributes.numberlineButton.css("top", "500px");
-                    linePairAttributes.numberlineButton.off("click");
 
                     linePairAttributes.numberlineButton.on("click", () => {
+                        console.log("endTrialplz")
                         endTrial(dataToRecord);
                     });
                 }, 4000);
