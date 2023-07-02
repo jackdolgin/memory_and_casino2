@@ -162,6 +162,7 @@ const unique_memory_objects_per_trial = 14;
 let mainTrialsCompleted = -1;
 const omission = "ball";
 
+let bonus;
 const averageWinningNum = winningNums.reduce((a, b) => Number(a) + Number(b)) / winningNums.length;
 bonus = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
 bonus = Math.round(bonus * 100) / 100;
@@ -358,10 +359,9 @@ async function initializeExperiment() {
 
   let restOfMainTrials = {
     timeline: [wheelSpin, inclusionCheck],
-    repetitions: 1,
+    repetitions: trials - 1,
   }
 
-  let bonus;
   let riskPayout;
   let finalQsPreamble;
 
