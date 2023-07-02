@@ -565,7 +565,7 @@ async function initializeExperiment() {
   } else {
     return jsPsych.run([{
       type: jsPsychInstructions,
-      pages: ['<p>Google Chrome is required to complete the experiment</p>'],
+      pages: ['<p>Google Chrome is required to participate in the experiment</p>'],
       allow_keys: false
     }])
   }
