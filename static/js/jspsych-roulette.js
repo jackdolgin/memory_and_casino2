@@ -1489,12 +1489,12 @@ var jsPsychRoulette = (function (jspsych) {
                     linePairAttributes.beginningMessage.css("top", "260px");
                     linePairAttributes.numberlineButton.css("opacity", "1");
                     linePairAttributes.numberlineButton.css("top", "500px");
-
-                    linePairAttributes.numberlineButton.on("click", () => {
-                        console.log("endTrialplz")
-                        endTrial(dataToRecord);
-                    });
                 }, 4000);
+
+                linePairAttributes.numberlineButton.on("click", () => {
+                    console.log("endTrialplz")
+                    endTrial(dataToRecord);
+                });
 
 
                 // $(arrayOfLines[barWithWinningNumberIndex]).animate({
