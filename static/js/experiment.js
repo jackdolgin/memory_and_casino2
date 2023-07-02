@@ -163,9 +163,9 @@ let mainTrialsCompleted = -1;
 const omission = "ball";
 
 const averageWinningNum = winningNums.reduce((a, b) => Number(a) + Number(b)) / winningNums.length;
-bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
-bonusPayout = Math.round(bonusPayout * 100) / 100;
-psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
+bonus = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
+bonus = Math.round(bonus * 100) / 100;
+psiturk.recordUnstructuredData('bonus', bonus);
 
 /* ************************************ */
 /* Load Awesome Icons */
@@ -361,7 +361,7 @@ async function initializeExperiment() {
     repetitions: 1,
   }
 
-  let bonusPayout;
+  let bonus;
   let riskPayout;
   let finalQsPreamble;
 
@@ -399,13 +399,13 @@ async function initializeExperiment() {
       let detailsAboutRisk;
 
       if (riskTiming == "immediate") {
-        detailsAboutRisk = `Your additional winnings from the gamble on the most recent trial were $${riskPayout}. You will receive that amount in 7 days.`
+        detailsAboutRisk = `Your additional winnings from the most recent trial were $${riskPayout}. You will receive that amount in 7 days.`
       } else if (riskTiming == "delayed") {
         detailsAboutRisk = `In addition, in 7 days we will inform you of and pay you for your winnings from the most recent trial.`
       }
 
       // console.log(riskPayout)
-      finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonusPayout}, resulting in a grand total earnings of $${Number(basePayGuarantee) + bonusPayout}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
+      finalQsPreamble = `<p>Great. Your bonus from the the roulette spinning was $${bonus}, resulting in a grand total earnings of $${Number(basePayGuarantee) + bonus}. ${detailsAboutRisk} To get paid, please answer the questions on this page.</p>`
       // console.log(data);
       // console.log(data.response.riskQ);
       // console.log(finalQsPreamble);
@@ -428,7 +428,7 @@ async function initializeExperiment() {
   let finalQs = {
     type: jsPsychSurveyText,
     data: () => {
-      return {riskPayout: riskPayout, bonus: bonusPayout};
+      return {riskPayout: riskPayout, bonus: bonus};
     },
     // preamble: finalQsPreamble,
     preamble: () => {
@@ -454,7 +454,7 @@ async function initializeExperiment() {
         prompt: 'Did you find anything confusing about the experiment?',
         name: 'confusing',
         required: true,
-        rows: 3,
+        rows: 2,
       },
       {
         prompt: 'Did you play any multimedia (audio or video) in the background during the experiment? Your answer won\'t affect your payment or approval rate.',
