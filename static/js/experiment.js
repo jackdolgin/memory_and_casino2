@@ -358,7 +358,7 @@ async function initializeExperiment() {
 
   let restOfMainTrials = {
     timeline: [wheelSpin, inclusionCheck],
-    repetitions: trials - 1,
+    repetitions: 1,
   }
 
   let bonusPayout;
