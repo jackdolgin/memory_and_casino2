@@ -279,23 +279,11 @@ async function initializeExperiment() {
     show_clickable_nav: true
   }
 
-  const dataPlaceholders = {
-    wheelNumbersSplit: 'N/A',
-    selections: 'N/A',
-    barWithWinningNumber: 'N/A',
-    wheelNumbersSplitTop: 'N/A',
-    wheelNumbersSplitBottom: 'N/A',
-    tiles: 'N/A',
-    moves: 'N/A',
-    allSelections: 'N/A',
-  }
-
   let wheelSpinDemo = {
     type: jsPsychRoulette,
     wheelSpinTime: wheelSpinTime,
     specialTrial: "demo",
     spinOrReveal: "spin",
-    data: dataPlaceholders,
   }
 
   let introToPartialInfoInstructions = {
@@ -366,13 +354,11 @@ async function initializeExperiment() {
   let firstmainTrial = {
     timeline: [wheelSpin, wheelReveal, inclusionCheck],
     repetitions: 1,
-    data: dataPlaceholders
   }
 
   let restOfMainTrials = {
     timeline: [wheelSpin, inclusionCheck],
     repetitions: trials - 1,
-    data: dataPlaceholders
   }
 
   let bonusPayout;
