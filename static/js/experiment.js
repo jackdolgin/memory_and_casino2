@@ -162,6 +162,11 @@ const unique_memory_objects_per_trial = 14;
 let mainTrialsCompleted = -1;
 const omission = "ball";
 
+const averageWinningNum = winningNums.reduce((a, b) => Number(a) + Number(b)) / winningNums.length;
+bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
+bonusPayout = Math.round(bonusPayout * 100) / 100;
+psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
+
 /* ************************************ */
 /* Load Awesome Icons */
 /* ************************************ */
@@ -261,9 +266,6 @@ async function initializeExperiment() {
     message:
         "<p class='intro-instructions'>This experiment has to be conducted in <strong>full screen mode</strong>. It will end automatically at " +
         "the end of the study.</p><br>",
-      on_finish: function() {
-        
-      }
   }
 
   let introInstructions = {
@@ -399,12 +401,7 @@ async function initializeExperiment() {
       // }
     ],
     on_finish: (data) => {
-
       let riskChoice;
-      const averageWinningNum = winningNums.reduce((a, b) => Number(a) + Number(b)) / winningNums.length;
-      bonusPayout = mostToGain * averageWinningNum / Math.max.apply(Math, wheelNumbers);
-      bonusPayout = Math.round(bonusPayout * 100) / 100;
-      
       if (data.response.riskQ.includes("Guaranteed")){
         riskChoice = "certain";
         riskPayout = guarateedRiskPayout;
@@ -437,7 +434,6 @@ async function initializeExperiment() {
         riskChoice: riskChoice,
       });
 
-      psiturk.recordUnstructuredData('bonusPayout', bonusPayout);
       psiturk.recordUnstructuredData('riskPayout', riskPayout);
     }
   }
@@ -446,7 +442,7 @@ async function initializeExperiment() {
   let finalQs = {
     type: jsPsychSurveyText,
     data: () => {
-      return {riskPayout: riskPayout, bonusPayout: bonusPayout};
+      return {riskPayout: riskPayout, bonus: bonusPayout};
     },
     // preamble: finalQsPreamble,
     preamble: () => {
