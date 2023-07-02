@@ -233,8 +233,6 @@ let iconsToKeep = grabJSONData();
 // });
 
 
-console.log("iojoifs")
-console.log(expectedDuration)
 async function initializeExperiment() {
   LOG_DEBUG('initializeExperiment');
 
@@ -251,15 +249,10 @@ async function initializeExperiment() {
 
   let inclusionCheck = {
     type: jsPsychBrowserCheck,
-    inclusion_function: (data) => {
-      return ['chrome'].includes(data.browser);
-    },
-    exclusion_message: (data) => {
-      return `<p>You must use Chrome to complete this experiment.</p>`
-    },
     minimum_height: 600,
     minimum_width: 800
   };
+
 
   let enter_fullscreen = {
     type: jsPsychFullscreen,
@@ -566,8 +559,17 @@ async function initializeExperiment() {
     exit_fullscreen,
   ]
 
-  /* start the experiment */
-  return jsPsych.run(timeline);
+/* start the experiment */
+  if (navigator.userAgent.indexOf("Chrome") > -1){
+    return jsPsych.run(timeline);
+  } else {
+    return jsPsych.run([{
+      type: jsPsychInstructions,
+      pages: ['<p>Google Chrome is required to complete the experiment</p>'],
+      allow_keys: false
+    }])
+  }
+  
 
 }
 
